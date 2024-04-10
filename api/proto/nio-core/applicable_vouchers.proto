@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package applicable_vouchers;
+
+option go_package = "./applicable_vouchers";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+// Applicable Vouchers Service
+service ApplicableVouchersService {
+  // Get all the vouchers that can be applied in NIO
+  rpc GetApplicableVouchers(GetApplicableVouchersRequest) returns (GetApplicableVouchersResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/applicable-vouchers"
+    };
+  }
+  // Get an applicable voucher by voucher code in NIO
+  rpc GetApplicableVoucher(GetApplicableVoucherRequest) returns (GetApplicableVoucherResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/applicable-vouchers/{voucher_code}"
+    };
+  }
+}
+
+message GetApplicableVouchersRequest {
+}
+
+message GetApplicableVouchersResponse {
+  int32 code = 1 [json_name = "code"];
+  string message = 2 [json_name = "message"];
+  GetApplicableVouchersResponseData data = 3 [json_name = "data"];
+}
+
+message GetApplicableVouchersResponseData {
+  repeated ApplicableVoucher applicable_vouchers = 1 [json_name = "applicableVouchers"];
+}
+
+message GetApplicableVoucherRequest {
+  string voucher_code = 1 [json_name = "voucherCode"];
+}
+
+message GetApplicableVoucherResponse {
+  int32 code = 1 [json_name = "code"];
+  string message = 2 [json_name = "message"];
+  GetApplicableVoucherResponseData data = 3 [json_name = "data"];
+}
+
+message GetApplicableVoucherResponseData {
+  ApplicableVoucher applicable_voucher = 1 [json_name = "applicableVoucher"];
+}
+
+message ApplicableVoucher {
+  string voucher_code = 1 [json_name = "voucherCode"];
+  string voucher_source = 2 [json_name = "voucherSource"];
+  string voucher_type = 3 [json_name = "voucherType"];
+  string summary = 4 [json_name = "summary"];
+  google.protobuf.Timestamp start_time = 5 [json_name = "startTime"];
+  google.protobuf.Timestamp end_time = 6 [json_name = "endTime"];
+}
