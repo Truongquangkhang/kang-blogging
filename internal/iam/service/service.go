@@ -1,43 +1,62 @@
 package service
 
-// import (
-// 	"context"
+import (
+	"context"
+	"kang-edu/common/db"
+	metrics "kang-edu/common/metric"
+	adapters "kang-edu/iam/adapter"
+	"kang-edu/iam/app"
+	"kang-edu/iam/app/command"
+	"kang-edu/iam/app/query"
+	"os"
+	"strconv"
+	"time"
 
-// 	"github.com/sirupsen/logrus"
-// )
+	"github.com/sirupsen/logrus"
+)
 
-// func NewApplication(ctx context.Context) (app.Application, func()) {
-// }
+func NewApplication(ctx context.Context) (app.Application, func()) {
+	return newApplication(ctx),
+		func() {}
+}
 
-// func newApplication(
-// 	ctx context.Context,
-// 	nioCoreClient applicable_vouchers.ApplicableVouchersServiceClient,
-// 	qrsearchClient qrsearch.ClientWithResponses,
-// 	mktClient mktportal.ClientWithResponses,
-// ) app.Application {
-// 	logrus.Info(ctx)
+func newApplication(ctx context.Context) app.Application {
+	logrus.Info(ctx)
 
-// 	nioCoreService := niocore.NewNioCoreGrpc(nioCoreClient)
-// 	mktPortalService := mktportalsvc.NewMktPortalHttp(mktClient)
-// 	qrsearchsvc := qrsearchsvc.NewQrSearchHttp(qrsearchClient)
-// 	voucherRepository := adapters.NewVoucherRepositoryImpl(
-// 		nioCoreService,
-// 		qrsearchsvc,
-// 		mktPortalService,
-// 	)
-// 	bannerRepository := adapters.NewBannerRepositoryImpl()
+	connCount, _ := strconv.Atoi(os.Getenv("DB_CONN_COUNT"))
+	connIdleTimeSec, _ := strconv.Atoi(os.Getenv("DB_CONN_IDLE_TIME_SEC"))
+	connLifeTimeSec, _ := strconv.Atoi(os.Getenv("DB_CONN_LIFE_TIME_SEC"))
 
-// 	logger := logrus.NewEntry(logrus.StandardLogger())
+	dbConfig := db.MysqlConfig{
+		Host: os.Getenv("DB_HOST"),
+		Port: os.Getenv("DB_PORT"),
+		User: os.Getenv("DB_USER"),
+		Pass: os.Getenv("DB_PASS"),
+		Name: os.Getenv("DB_NAME"),
 
-// 	metricsClient := metrics.NoOp{}
+		MaxOpenConns:       connCount,
+		MaxIdleConns:       connCount,
+		ConnMaxIdleTimeSec: time.Duration(connIdleTimeSec),
+		ConnMaxLifetimeSec: time.Duration(connLifeTimeSec),
+	}
 
-// 	return app.Application{
-// 		Usecases: app.Usecases{
-// 			GetVouchersForShop:  usecase.NewGetVoucherForShopsHandler(voucherRepository, logger, metricsClient),
-// 			GetAvailableVoucher: usecase.NewGetAvailableVoucherHandler(voucherRepository, logger, metricsClient),
-// 			GetBreakingNews:     usecase.NewGetBreakingNewsHandler(bannerRepository, logger, metricsClient),
-// 			ExtractQr:           usecase.NewExtractQrHandler(logger, metricsClient),
-// 			UseVoucher:          usecase.NewUseVoucherHandler(voucherRepository, logger, metricsClient),
-// 		},
-// 	}
-// }
+	mysqlDb, err := db.NewMySQLConnection(dbConfig)
+	if err != nil {
+		panic(err)
+	}
+	voucherRepository := adapters.NewMySQLVoucherRepository(mysqlDb)
+
+	logger := logrus.NewEntry(logrus.StandardLogger())
+
+	metricsClient := metrics.NoOp{}
+
+	return app.Application{
+		Commands: app.Commands{
+			DoSomething: command.NewDoSomethingHandler(voucherRepository, logger, metricsClient),
+		},
+		Queries: app.Queries{
+			AllApplicableVouchers:   query.NewAllApplicableVouchersHandler(voucherRepository, logger, metricsClient),
+			ApplicableVoucherByCode: query.NewApplicableVoucherByCodeHandler(voucherRepository, logger, metricsClient),
+		},
+	}
+}

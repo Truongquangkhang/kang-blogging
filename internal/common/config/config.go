@@ -14,7 +14,7 @@ var globalAppConfig = appConfig{}
 
 func init() {
 
-	fmt.Printf("os: %v\n", os.Getenv("NAMESPACE"))
+	fmt.Printf("osss: %v\n", os.Getenv("NAMESPACE"))
 
 	globalAppConfig.Namespace = os.Getenv("NAMESPACE")
 	globalAppConfig.ServiceName = os.Getenv("SERVICE")

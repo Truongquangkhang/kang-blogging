@@ -2,43 +2,39 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"kang-edu/common/logs"
 	"kang-edu/common/server"
 	"kang-edu/common/tracing"
-	"net/http"
+	"kang-edu/iam/infra"
+	"kang-edu/iam/infra/genproto/applicable_vouchers"
+	"kang-edu/iam/service"
 
-	"github.com/go-chi/chi/v5"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
 )
 
 func main() {
 	logs.Init()
-	tracingCleanup := tracing.Init()
-	defer tracingCleanup()
+	tracingCleanUp := tracing.Init()
+	defer tracingCleanUp()
 
 	ctx := context.Background()
 
-	// application, appCleanUp := service.NewApplication(ctx)
-	// defer appCleanUp()
+	application, appCleanUp := service.NewApplication(ctx)
+	defer appCleanUp()
 
-	server.RunHTTPServer(
-		func(router chi.Router) http.Handler {
-			fmt.Printf("%v", ctx)
-			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				fmt.Println("Hello World")
-			})
+	server.RunGRPCServer(
+		ctx,
+		func(server *grpc.Server) {
+			svc := infra.NewGrpcServer(application)
+			applicable_vouchers.RegisterApplicableVouchersServiceServer(server, svc)
+		},
+		func(mux *runtime.ServeMux, conn *grpc.ClientConn) {
+			err := applicable_vouchers.RegisterApplicableVouchersServiceHandler(ctx, mux, conn)
+			if err != nil {
+				logrus.Fatal(err)
+			}
 		},
 	)
-
-	// server.RunHTTPServer(
-	// 	func(router chi.Router) http.Handler {
-	// 		return infra.HandlerWithOptionsWrapper(
-	// 			infra.NewHttpServer(application),
-	// 			voucherhub.ChiServerOptions{
-	// 				BaseRouter:       router,
-	// 				ErrorHandlerFunc: httperr.ChiErrorHandler(),
-	// 			},
-	// 		)
-	// 	},
-	// )
 }
