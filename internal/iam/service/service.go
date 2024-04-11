@@ -2,12 +2,12 @@ package service
 
 import (
 	"context"
-	"kang-edu/common/db"
-	metrics "kang-edu/common/metric"
-	adapters "kang-edu/iam/adapter"
-	"kang-edu/iam/app"
-	"kang-edu/iam/app/command"
-	"kang-edu/iam/app/query"
+	"kang-blogging/common/db"
+	metrics "kang-blogging/common/metric"
+	adapters "kang-blogging/iam/adapter"
+	"kang-blogging/iam/app"
+	"kang-blogging/iam/app/command"
+	"kang-blogging/iam/app/query"
 	"os"
 	"strconv"
 	"time"

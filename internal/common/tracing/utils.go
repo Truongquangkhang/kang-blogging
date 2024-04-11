@@ -2,8 +2,6 @@ package tracing
 
 import (
 	"context"
-	"kang-edu/common/errors"
-	"kang-edu/common/utils"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/codes"

@@ -1,7 +1,6 @@
 package server
 
 import (
-	"kang-edu/common/logs"
 	"net/http"
 	"os"
 	"time"

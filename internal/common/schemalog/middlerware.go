@@ -2,9 +2,6 @@ package schemalog
 
 import (
 	"fmt"
-	"kang-edu/common/server/httpheader"
-	"kang-edu/common/server/httpresp"
-	"kang-edu/common/utils"
 	"net/http"
 	"strings"
 
