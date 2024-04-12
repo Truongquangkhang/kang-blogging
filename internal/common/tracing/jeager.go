@@ -3,7 +3,7 @@ package tracing
 import (
 	"context"
 	"fmt"
-	"kang-edu/common/config"
+	"kang-blogging/internal/common/config"
 	"os"
 
 	"go.opentelemetry.io/otel"

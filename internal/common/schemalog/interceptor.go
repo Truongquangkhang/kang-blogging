@@ -3,9 +3,9 @@ package schemalog
 import (
 	"context"
 	"fmt"
-	"kang-edu/common/errors"
-	"kang-edu/common/server/grpcheader"
-	"kang-edu/common/utils"
+	"kang-blogging/internal/common/errors"
+	"kang-blogging/internal/common/server/grpcheader"
+	"kang-blogging/internal/common/utils"
 	"reflect"
 
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
