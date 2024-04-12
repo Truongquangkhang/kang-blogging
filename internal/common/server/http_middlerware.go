@@ -1,8 +1,8 @@
 package server
 
 import (
-	"kang-edu/common/schemalog"
-	"kang-edu/common/tracing"
+	"kang-blogging/internal/common/schemalog"
+	"kang-blogging/internal/common/tracing"
 	"net/http"
 )
 

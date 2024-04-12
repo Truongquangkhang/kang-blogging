@@ -2,12 +2,11 @@ package main
 
 import (
 	"context"
-	"kang-edu/common/logs"
-	"kang-edu/common/server"
-	"kang-edu/common/tracing"
-	"kang-edu/iam/infra"
-	"kang-edu/iam/infra/genproto/applicable_vouchers"
-	"kang-edu/iam/service"
+	"kang-blogging/internal/common/logs"
+	"kang-blogging/internal/common/server"
+	"kang-blogging/internal/iam/infra"
+	"kang-blogging/internal/iam/infra/genproto/applicable_vouchers"
+	"kang-blogging/internal/iam/service"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/sirupsen/logrus"
@@ -16,8 +15,8 @@ import (
 
 func main() {
 	logs.Init()
-	tracingCleanUp := tracing.Init()
-	defer tracingCleanUp()
+	//tracingCleanUp := tracing.Init()
+	//defer tracingCleanUp()
 
 	ctx := context.Background()
 

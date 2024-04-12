@@ -2,11 +2,10 @@ package command
 
 import (
 	"context"
+	"github.com/sirupsen/logrus"
+	repository "kang-blogging/internal/blogging/domain"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/logs"
-	voucher "kang-blogging/internal/iam/domain"
-
-	"github.com/sirupsen/logrus"
 )
 
 type DoSomething struct{}
@@ -14,21 +13,21 @@ type DoSomething struct{}
 type DoSomethingHandler decorator.CommandHandler[DoSomething]
 
 type doSomethingHandler struct {
-	voucherRepo voucher.Repository
+	repositoryRepo repository.Repository
 }
 
 func NewDoSomethingHandler(
-	voucherRepo voucher.Repository,
+	repositoryRepo repository.Repository,
 	logger *logrus.Entry,
 	metricsClient decorator.MetricsClient,
 ) decorator.CommandHandler[DoSomething] {
-	if voucherRepo == nil {
-		panic("nil voucherRepo")
+	if repositoryRepo == nil {
+		panic("nil repositoryRepo")
 	}
 
 	return decorator.ApplyCommandDecorators[DoSomething](
 		doSomethingHandler{
-			voucherRepo: voucherRepo,
+			repositoryRepo: repositoryRepo,
 		},
 		logger,
 		metricsClient,

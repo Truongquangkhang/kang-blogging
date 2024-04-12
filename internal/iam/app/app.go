@@ -1,8 +1,8 @@
 package app
 
 import (
-	"kang-blogging/iam/app/command"
-	"kang-blogging/iam/app/query"
+	"kang-blogging/internal/iam/app/command"
+	"kang-blogging/internal/iam/app/query"
 )
 
 type Application struct {

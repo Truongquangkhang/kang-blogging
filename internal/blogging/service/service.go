@@ -2,25 +2,24 @@ package service
 
 import (
 	"context"
+	"github.com/sirupsen/logrus"
+	adapters "kang-blogging/internal/blogging/adapter"
+	"kang-blogging/internal/blogging/app"
+	"kang-blogging/internal/blogging/app/command"
 	"kang-blogging/internal/common/db"
 	metrics "kang-blogging/internal/common/metric"
-	adapters "kang-blogging/internal/iam/adapter"
-	"kang-blogging/internal/iam/app"
-	"kang-blogging/internal/iam/app/command"
-	"kang-blogging/internal/iam/app/query"
 	"os"
 	"strconv"
 	"time"
-
-	"github.com/sirupsen/logrus"
 )
 
 func NewApplication(ctx context.Context) (app.Application, func()) {
-	return newApplication(ctx),
-		func() {}
+	return newService(ctx), func() {
+
+	}
 }
 
-func newApplication(ctx context.Context) app.Application {
+func newService(ctx context.Context) app.Application {
 	logrus.Info(ctx)
 
 	connCount, _ := strconv.Atoi(os.Getenv("DB_CONN_COUNT"))
@@ -44,19 +43,18 @@ func newApplication(ctx context.Context) app.Application {
 	if err != nil {
 		panic(err)
 	}
-	voucherRepository := adapters.NewMySQLVoucherRepository(mysqlDb)
 
+	repository := adapters.NewMySQLVoucherRepository(mysqlDb)
 	logger := logrus.NewEntry(logrus.StandardLogger())
-
 	metricsClient := metrics.NoOp{}
 
 	return app.Application{
-		Commands: app.Commands{
-			DoSomething: command.NewDoSomethingHandler(voucherRepository, logger, metricsClient),
+		Command: app.Command{
+			DoSomething: command.NewDoSomethingHandler(repository, logger, metricsClient),
 		},
-		Queries: app.Queries{
-			AllApplicableVouchers:   query.NewAllApplicableVouchersHandler(voucherRepository, logger, metricsClient),
-			ApplicableVoucherByCode: query.NewApplicableVoucherByCodeHandler(voucherRepository, logger, metricsClient),
-		},
+		//Queries: app.Queries{
+		//	AllApplicableVouchers:   query.NewAllApplicableVouchersHandler(repository, logger, metricsClient),
+		//	ApplicableVoucherByCode: query.NewApplicableVoucherByCodeHandler(repository, logger, metricsClient),
+		//},
 	}
 }
