@@ -18,7 +18,7 @@ Each Service will have a package to store DB schema and DB migrations
 
 Current Directories:
 
-- [nio-core](nio-core/) DB schema and DB migration for NIO Core service
+- [nio-core](blogging/) DB schema and DB migration for NIO Core service
 
 ### To create a migration
 
