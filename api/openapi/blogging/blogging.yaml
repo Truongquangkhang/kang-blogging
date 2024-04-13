@@ -1,15 +1,19 @@
 openapi: 3.0.1
 info:
-  description: Blogging services
-  title: Blogging services APIs
+  title: Kang-Blogging APIs
+  description: blogging management
   version: v1.0.0
 servers:
-  - description: dev
-    url: https://localhost:10080
+  - url: 'https://localhost:10080'
+    description: local
 paths:
-  /blogging/login:
+  /api/v1/login:
     post:
-      description: Using for login
+      tags:
+        - IAM
+      summary: '[IAM] Login with username and password'
+      description: |-
+        - Login with username and password
       operationId: login
       requestBody:
         content:
@@ -18,40 +22,128 @@ paths:
               required:
                 - username
                 - password
+              properties:
+                username:
+                  type: string
+                  description: login via username (email, phonen number,...)
+                  example: test@123
+                password:
+                  type: string
+                  description: password
+                  example: hehehe
       responses:
-        "200":
+        '200':
+          description: Success
+        '400':
+          description: |-
+            400001: `Invalid username or password`: Invalid params
+          content:
+            application/json:
+              examples:
+                400_001 - Invalid params:
+                  summary: 400_001 - Invalid params
+                  description: Invalid params
+                  value:
+                    code: '400_001'
+                    message: Invalid params
+        '500':
+          description: |-
+            500000: `Internal Server Error`: Internal Server Error
+          content:
+            application/json:
+              examples:
+                500_000 - Server error:
+                  summary: 500_000 - Server error (Server AirDrop Error)
+                  description: internal error
+                  value:
+                    code: '500_000'
+                    message: Internal Server Error
+  /api/v1/register:
+    post:
+      tags:
+        - IAM
+      summary: '[IAM] Register services'
+      description: |-
+        - Register api
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  description: login via username (email, phonen number,...)
+                  example: test@123
+                password:
+                  type: string
+                  description: password
+                  example: hehehe
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: |-
+            400001: `Invalid username or password`: Invalid params
+          content:
+            application/json:
+              examples:
+                400_001 - Invalid params:
+                  summary: 400_001 - Invalid params
+                  description: Invalid params
+                  value:
+                    code: '400_001'
+                    message: Invalid params
+        '500':
+          description: |-
+            500000: `Internal Server Error`: Internal Server Error
+          content:
+            application/json:
+              examples:
+                500_000 - Server error:
+                  summary: 500_000 - Server error (Server AirDrop Error)
+                  description: internal error
+                  value:
+                    code: '500_000'
+                    message: Internal Server Error
+  /api/v1/get-user-info:
+    get:
+      tags:
+        - User
+      description: |-
+        - get user by params.
+      summary: 'Get list users'
+      operationId: getUsers
+      responses:
+        '200':
+          description: Success
           content:
             application/json:
               schema:
-                items:
-                type: array
-          description: Thành công
-        "400":
-          content:
-            application/json:
-              examples:
-                bad request:
-                  description: bad request
-                  summary: Request không hợp lệ
-                  value:
-                    code: 400
-                    message: Thông tin chi tiết lỗi ở đây
-          description: Request không hợp lệ
-        "500":
-          content:
-            application/json:
-              examples:
-                internal error:
-                  description: internal error
-                  summary: Lỗi hệ thống
-                  value:
-                    code: 500
-                    message: Có lỗi xảy ra vui lòng liên hệ với chúng tôi để được
-                      hỗ trợ
-          description: Lỗi hệ thống
-      summary: Voucher available for user by phone
-      tags:
-        - voucher-info-controller
-
-
-
+                allOf:
+                  - $ref: '#/components/schemas/UserInfor'
+components:
+  schemas:
+    BaseAPIResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          example: 0
+        message:
+          type: string
+          description: response message
+          example: success
+    UserInfor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1          # Property example
+        name:
+          type: string
+          example: New order  # Property example
