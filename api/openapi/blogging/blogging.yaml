@@ -34,6 +34,28 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          access_token:
+                            type: string
+                            description: access token (jwt)
+                          refresh_token:
+                            type: string
+                            description: refresh token (jwt)
+                          user_infor:
+                            type: array
+                            description: List campaigns
+                            items:
+                              $ref: '#/components/schemas/UserInfo'
+
         '400':
           description: |-
             400001: `Invalid username or password`: Invalid params
@@ -124,7 +146,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/UserInfor'
+                  - $ref: '#/components/schemas/UserInfo'
 components:
   schemas:
     BaseAPIResponse:
@@ -137,13 +159,16 @@ components:
           type: string
           description: response message
           example: success
-    UserInfor:
+    UserInfo:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
-          example: 1          # Property example
+          type: string
+          example: uuid
         name:
           type: string
-          example: New order  # Property example
+          example: DUT
+        avatar:
+          type: string
+        total_blog:
+          type: integer

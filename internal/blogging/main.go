@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/infra"
+	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/blogging/service"
 	"kang-blogging/internal/common/logs"
 	"kang-blogging/internal/common/server"
@@ -26,13 +27,13 @@ func main() {
 		ctx,
 		func(server *grpc.Server) {
 			svc := infra.NewGrpcServer(application)
-			fmt.Println(svc)
+			blogging.RegisterBloggingServiceServer(server, svc)
 		},
 		func(mux *runtime.ServeMux, conn *grpc.ClientConn) {
-			//err := applicable_vouchers.RegisterApplicableVouchersServiceHandler(ctx, mux, conn)
-			//if err != nil {
-			//	logrus.Fatal(err)
-			//}
+			err := blogging.RegisterBloggingServiceHandler(ctx, mux, conn)
+			if err != nil {
+				logrus.Fatal(err)
+			}
 		},
 	)
 }

@@ -12,10 +12,10 @@ prepare-go-tools:
 generate: generate-proto generate-openapi
 
 generate-proto:
-	@./scripts/proto.sh iam internal/blogging/infra/genproto
+	@./scripts/proto.sh blogging internal/blogging/infra/genproto
 
 generate-openapi:
-	@./scripts/openapi.sh iam internal/blogging/infra/genoapi blogging server
+	@./scripts/openapi.sh blogging internal/blogging/infra/genoapi blogging server
 	@./scripts/openapi.sh iam internal/common/adapters/genoapi/iam iam client
 
 .PHONY: migrate
