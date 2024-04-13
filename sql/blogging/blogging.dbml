@@ -1,0 +1,88 @@
+Table "accounts" {
+  "id" bigint [pk, increment]
+  "username" varchar(255) [not null]
+  "password" varchar(255) [not null, note: "hash password"]
+  "created_at" datetime [not null, default: `CURRENT_TIMESTAMP`, note: '']
+  "updated_at" datetime [not null, default: `CURRENT_TIMESTAMP`, note: '']
+}
+
+Table "roles" {
+  "id" bigint [pk, increment]
+  "name" varchar(255) [not null]
+}
+
+Table "users" {
+  "id" bigint [pk, increment]
+  "account_id" bigint [not null]
+  "role_id" bigint [not null]
+  "name" varchar(255) [not null]
+  "email" varchar(255) [not null]
+  "phone_number" varchar(255) [not null]
+  "created_at" datetime [not null, default: `CURRENT_TIMESTAMP`, note: '']
+  "updated_at" datetime [not null, default: `CURRENT_TIMESTAMP`, note: '']
+  "deleted_at" datetime
+}
+
+Table "categories" {
+  "id" bigint [pk, increment]
+  "name" varchar(255) [not null]
+}
+
+Table "blogs" {
+  "id" bigint [pk, increment]
+  "author_id" bigint [not null]
+  "title" varchar(255) [not null]
+  "thumbnail" text
+  "summary" varchar(255)
+  "content" text
+  "created_at" datetime [not null, default: `CURRENT_TIMESTAMP`, note: '']
+  "updated_at" datetime [not null, default: `CURRENT_TIMESTAMP`, note: '']
+  "deleted_at" datetime
+}
+
+Table "blog_categories" {
+  "id" bigint [pk, increment]
+  "blog_id" bigint [not null]
+  "category_id" bigint [not null]
+}
+
+Table "comments" {
+  "id" bigint [pk, increment]
+  "user_id" bigint [not null]
+  "content" text [not null]
+  "is_toxicity" bool
+  "created_at" datetime [not null, default: `CURRENT_TIMESTAMP`, note: '']
+  "updated_at" datetime [not null, default: `CURRENT_TIMESTAMP`, note: '']
+  "deleted_at" datetime
+}
+
+Table blog_comments {
+  "id" bigint [pk, increment]
+  "blog_id" bigint [not null]
+  "comment_id" bigint [not null]
+}
+
+Table "rattings" {
+  "id" bigint [pk, increment]
+  "user_id" bigint [not null]
+  "level" int [not null]
+}
+
+Table "blog_rattings" {
+  "id" bigint [pk, increment]
+  "blog_id" bigint [not null]
+  "ratting_id" bigint [not null]
+}
+
+Ref: accounts.id - users.account_id
+Ref: roles.id - users.role_id
+Ref: blog_categories.category_id > categories.id
+Ref: blog_categories.blog_id > blogs.id
+Ref: comments.user_id > users.id
+Ref: blog_comments.blog_id > blogs.id
+Ref: blog_comments.comment_id > comments.id
+Ref: blog_rattings.blog_id > blogs.id
+Ref: rattings.user_id > users.id
+Ref: blog_rattings.ratting_id > rattings.id
+
+

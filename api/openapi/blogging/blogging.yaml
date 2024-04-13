@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  description: Blogging services
+  title: Blogging services APIs
+  version: v1.0.0
+servers:
+  - description: dev
+    url: https://localhost:10080
+paths:
+  /blogging/login:
+    post:
+      description: Using for login
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+                - password
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                type: array
+          description: Thành công
+        "400":
+          content:
+            application/json:
+              examples:
+                bad request:
+                  description: bad request
+                  summary: Request không hợp lệ
+                  value:
+                    code: 400
+                    message: Thông tin chi tiết lỗi ở đây
+          description: Request không hợp lệ
+        "500":
+          content:
+            application/json:
+              examples:
+                internal error:
+                  description: internal error
+                  summary: Lỗi hệ thống
+                  value:
+                    code: 500
+                    message: Có lỗi xảy ra vui lòng liên hệ với chúng tôi để được
+                      hỗ trợ
+          description: Lỗi hệ thống
+      summary: Voucher available for user by phone
+      tags:
+        - voucher-info-controller
+
+
+
