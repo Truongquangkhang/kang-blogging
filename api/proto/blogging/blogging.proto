@@ -6,6 +6,7 @@ option go_package = "./blogging";
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "blogging/common.proto";
 
 // Applicable Vouchers Service
@@ -43,9 +44,22 @@ message LoginResponse {
 }
 
 message RegisterRequest {
-
+  string username = 1;
+  string password = 2;
+  string name = 3;
+  string display_name = 4;
+  string email = 5;
+  google.protobuf.StringValue phone_numbers = 6;
+  google.protobuf.BoolValue gender = 7;
+  google.protobuf.Int64Value birth_of_day = 8;
+  google.protobuf.StringValue avatar = 9;
 }
 
 message RegisterResponse {
-
+  message Data {
+    UserInfo user_info = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
 }
