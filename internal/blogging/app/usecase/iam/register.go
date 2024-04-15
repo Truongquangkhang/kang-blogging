@@ -7,6 +7,7 @@ import (
 	"kang-blogging/internal/blogging/domain/user"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
+	"kang-blogging/internal/common/utils"
 )
 
 type RegisterParams struct {
@@ -55,6 +56,11 @@ func NewRegisterHandler(
 
 func (r registerHandler) Handle(ctx context.Context, param RegisterParams) (RegisterResult, error) {
 	err := param.Validate()
+	if err != nil {
+		return RegisterResult{}, err
+	}
+	id := utils.GenUUID()
+	_, err = r.accountRepo.InsertAccount(ctx, id, param.Username, param.Password)
 	if err != nil {
 		return RegisterResult{}, err
 	}
