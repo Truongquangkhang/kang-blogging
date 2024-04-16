@@ -9,5 +9,6 @@ type Application struct {
 }
 
 type IAMUsecases struct {
-	Register iam.RegisterHandler
+	Register           iam.RegisterHandler
+	CheckExistUsername iam.CheckExistUsernameHandler
 }

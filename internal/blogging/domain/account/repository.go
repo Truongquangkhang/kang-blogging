@@ -9,4 +9,6 @@ type Repository interface {
 		username string,
 		password string,
 	) (*Account, error)
+
+	GetAccountByUsername(ctx context.Context, username string) (*Account, error)
 }

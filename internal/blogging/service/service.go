@@ -58,7 +58,8 @@ func newService(ctx context.Context) app.Application {
 
 	return app.Application{
 		IAMUsecases: app.IAMUsecases{
-			Register: iam.NewRegisterHandler(userRepository, accountRepository, logger, metricsClient),
+			Register:           iam.NewRegisterHandler(userRepository, accountRepository, logger, metricsClient),
+			CheckExistUsername: iam.NewCheckExistUsernameHandler(accountRepository, logger, metricsClient),
 		},
 	}
 }
