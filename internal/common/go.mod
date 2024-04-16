@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/go-chi/render v1.0.1
-	github.com/go-sql-driver/mysql v1.6.0
+	github.com/go-sql-driver/mysql v1.7.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3
@@ -21,9 +21,13 @@ require (
 	go.opentelemetry.io/otel/trace v1.11.1
 	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.1
+	gorm.io/driver/mysql v1.5.6
+	gorm.io/gorm v1.25.9
 )
 
 require (
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.24.1 // indirect
 	github.com/stretchr/testify v1.8.1 // indirect

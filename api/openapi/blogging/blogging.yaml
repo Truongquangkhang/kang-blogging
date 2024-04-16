@@ -93,6 +93,11 @@ paths:
           application/json:
             schema:
               required:
+                - name
+                - display_name
+                - email
+                - gender
+                - birth_day
                 - username
                 - password
               properties:
@@ -104,6 +109,29 @@ paths:
                   type: string
                   description: password
                   example: hehehe
+                name:
+                  type: string
+                  description: full name
+                  example: Truong Quang Khang
+                display_name:
+                  type: string
+                  description: Display name
+                  example: khang-cute-123
+                email:
+                  type: string
+                  description: Email
+                phone_numbers:
+                  type: string
+                  description: 0123456789
+                gender:
+                  type: boolean
+                  description: Male/Female
+                birth_day:
+                  type: integer
+                  description: Day of birth (unix timestamp)
+                avatar:
+                  type: string
+                  description: Link url of a image
       responses:
         '200':
           description: Success
@@ -146,7 +174,114 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/UserInfo'
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          users:
+                            type: array
+                            description: list users
+                            items:
+                              $ref: '#/components/schemas/UserInfo'
+        '500':
+          description: |-
+            500000: `Internal Server Error`: Internal Server Error
+          content:
+            application/json:
+              examples:
+                500_000 - Server error:
+                  summary: 500_000 - Server error (Server AirDrop Error)
+                  description: internal error
+                  value:
+                    code: '500_000'
+                    message: Internal Server Error
+  /api/v1/get-user-info/{user_id}:
+    get:
+      tags:
+        - User
+      description: |-
+        - get user by params.
+      summary: 'Get list users'
+      operationId: getUserDetail
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          user:
+                            $ref: '#/components/schemas/UserInfo'
+  /api/v1/blog:
+    get:
+      tags:
+        - Blog
+      description: |-
+        - get list blog
+      summary: 'Get blog with params'
+      operationId: getBlog
+      parameters:
+        - in: query
+          name: categories
+          required: false
+          schema:
+            type: string
+          description: Query blogs with list categoriesIDs (get all with empty this params)
+          example: '1,2,3,...'
+        - in: query
+          name: createdBy
+          required: false
+          schema:
+            type: string
+          description: Query blogs with list author ids (get all with empty this params)
+          example: '1,2,3,...'
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+          description: Current page, for high performance try to use pagination.offset instead! (default 1)
+        - in: query
+          name: pageSize
+          required: true
+          description: Total item in a page (default is 10)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          blogs:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/BlogMetadata'
+                          pagination:
+                            $ref: '#/components/schemas/Pagination'
+
 components:
   schemas:
     BaseAPIResponse:
@@ -167,8 +302,85 @@ components:
           example: uuid
         name:
           type: string
-          example: DUT
+          example: quang khang
+        gender:
+          type: boolean
+          example: true
+        display_name:
+          type: string
+          example: 1kang
+        email:
+          type: string
+          example: knag@123
         avatar:
           type: string
         total_blog:
           type: integer
+        total_follower:
+          type: integer
+          example: 12
+        is_active:
+          type: boolean
+          example: true
+        followed_by_me:
+          type: boolean
+          example: true
+          
+    UserInfoMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+          example: uuid
+        name:
+          type: string
+          example: quang khang
+        gender:
+          type: boolean
+          example: true
+        display_name:
+          type: string
+          example: 1kang
+        followed_by_me:
+          type: boolean
+          example: true
+
+    BlogMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        thumail:
+          type: string
+        created_at:
+          type: integer
+        author:
+          $ref: '#/components/schemas/UserInfoMetadata'
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        pageSize:
+          type: integer
+          example: 10
+        total:
+          type: integer
+          example: 10
+

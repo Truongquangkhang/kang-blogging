@@ -1,9 +1,11 @@
 package infra
 
 import (
-	"context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"kang-blogging/internal/blogging/app"
-	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/errors"
+	"net/http"
 )
 
 type GrpcServer struct {
@@ -14,29 +16,25 @@ func NewGrpcServer(app app.Application) GrpcServer {
 	return GrpcServer{app: app}
 }
 
-func (g GrpcServer) Login(
-	ctx context.Context,
-	request *blogging.LoginRequest,
-) (*blogging.LoginResponse, error) {
-	return &blogging.LoginResponse{
-		Code:    0,
-		Message: "Success",
-		Data: &blogging.LoginResponse_Data{
-			AccessToken:  "abc",
-			RefreshToken: "def",
-			UserInfo: &blogging.UserInfo{
-				Id:        "id",
-				Name:      "Quang Khang",
-				Avatar:    "Image",
-				TotalBlog: 2,
-			},
-		},
-	}, nil
-}
-
-func (g GrpcServer) Register(
-	ctx context.Context,
-	request *blogging.RegisterRequest,
-) (*blogging.RegisterResponse, error) {
-	return &blogging.RegisterResponse{}, nil
+func ParseGrpcError(err error) error {
+	if err == nil {
+		return nil
+	}
+	if baseError, ok := err.(errors.BaseError); ok {
+		msg := baseError.ErrorMessage()
+		switch baseError.BaseErrorCode() {
+		case http.StatusBadRequest:
+			return status.Error(codes.InvalidArgument, msg)
+		case http.StatusForbidden:
+			return status.Error(codes.PermissionDenied, msg)
+		case http.StatusNotFound:
+			return status.Error(codes.NotFound, msg)
+		case http.StatusConflict:
+			return status.Error(codes.AlreadyExists, msg)
+		default:
+			return status.Error(codes.Internal, msg)
+		}
+	} else {
+		return status.Error(codes.Internal, err.Error())
+	}
 }

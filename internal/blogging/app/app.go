@@ -1,12 +1,14 @@
 package app
 
-import "kang-blogging/internal/blogging/app/command"
+import (
+	"kang-blogging/internal/blogging/app/usecase/iam"
+)
 
 type Application struct {
-	Command Command
+	IAMUsecases IAMUsecases
 }
 
-type Command struct {
-	// This is a sample command
-	DoSomething command.DoSomethingHandler
+type IAMUsecases struct {
+	Register           iam.RegisterHandler
+	CheckExistUsername iam.CheckExistUsernameHandler
 }

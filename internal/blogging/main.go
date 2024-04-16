@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"github.com/sirupsen/logrus"
-	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/blogging/infra/iam"
 	"kang-blogging/internal/blogging/service"
 	"kang-blogging/internal/common/logs"
 	"kang-blogging/internal/common/server"
@@ -26,8 +26,8 @@ func main() {
 	server.RunGRPCServer(
 		ctx,
 		func(server *grpc.Server) {
-			svc := infra.NewGrpcServer(application)
-			blogging.RegisterBloggingServiceServer(server, svc)
+			svcIAM := iam.NewGrpcService(application.IAMUsecases)
+			blogging.RegisterBloggingServiceServer(server, svcIAM)
 		},
 		func(mux *runtime.ServeMux, conn *grpc.ClientConn) {
 			err := blogging.RegisterBloggingServiceHandler(ctx, mux, conn)

@@ -2,10 +2,12 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"github.com/sirupsen/logrus"
-	adapters "kang-blogging/internal/blogging/adapter"
+	"kang-blogging/internal/blogging/adapter/account"
+	"kang-blogging/internal/blogging/adapter/user"
 	"kang-blogging/internal/blogging/app"
-	"kang-blogging/internal/blogging/app/command"
+	"kang-blogging/internal/blogging/app/usecase/iam"
 	"kang-blogging/internal/common/db"
 	metrics "kang-blogging/internal/common/metric"
 	"os"
@@ -43,18 +45,21 @@ func newService(ctx context.Context) app.Application {
 	if err != nil {
 		panic(err)
 	}
+	var gdb = db.GetDBInstance()
+	if err = gdb.Open(dbConfig); err != nil {
+		panic(err)
+	}
+	fmt.Printf("db: %v\n", mysqlDb)
 
-	repository := adapters.NewMySQLVoucherRepository(mysqlDb)
+	userRepository := user.NewRepository()
+	accountRepository := account.NewRepository()
 	logger := logrus.NewEntry(logrus.StandardLogger())
 	metricsClient := metrics.NoOp{}
 
 	return app.Application{
-		Command: app.Command{
-			DoSomething: command.NewDoSomethingHandler(repository, logger, metricsClient),
+		IAMUsecases: app.IAMUsecases{
+			Register:           iam.NewRegisterHandler(userRepository, accountRepository, logger, metricsClient),
+			CheckExistUsername: iam.NewCheckExistUsernameHandler(accountRepository, logger, metricsClient),
 		},
-		//Queries: app.Queries{
-		//	AllApplicableVouchers:   query.NewAllApplicableVouchersHandler(repository, logger, metricsClient),
-		//	ApplicableVoucherByCode: query.NewApplicableVoucherByCodeHandler(repository, logger, metricsClient),
-		//},
 	}
 }

@@ -6,22 +6,26 @@ option go_package = "./blogging";
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "blogging/common.proto";
 
 // Applicable Vouchers Service
 service BloggingService {
-  // Get all the vouchers that can be applied in NIO
   rpc Login(LoginRequest) returns (LoginResponse) {
     option (google.api.http) = {
       post: "/api/v1/login"
       body: "*"
     };
   }
-  // Get an applicable voucher by voucher code in NIO
   rpc Register(RegisterRequest) returns (RegisterResponse) {
     option (google.api.http) = {
       post: "/api/v1/register"
       body: "*"
+    };
+  }
+  rpc CheckExistUsername(CheckExistUsernameRequest) returns (CheckExistUsernameResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/check-exist-username"
     };
   }
 }
@@ -43,9 +47,31 @@ message LoginResponse {
 }
 
 message RegisterRequest {
-
+  string username = 1;
+  string password = 2;
+  string name = 3;
+  string display_name = 4;
+  string email = 5;
+  google.protobuf.StringValue phone_numbers = 6;
+  google.protobuf.BoolValue gender = 7;
+  google.protobuf.Int64Value birth_of_day = 8;
+  google.protobuf.StringValue avatar = 9;
 }
 
 message RegisterResponse {
+  int32 code = 1;
+  string message = 2;
+}
 
+message CheckExistUsernameRequest{
+  string username = 1;
+}
+
+message CheckExistUsernameResponse {
+  message Data {
+    bool alreadyExist = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
 }
