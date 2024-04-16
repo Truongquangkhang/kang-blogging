@@ -2,7 +2,8 @@ package account
 
 import (
 	"context"
-	"fmt"
+	"errors"
+	"gorm.io/gorm"
 	"kang-blogging/internal/blogging/domain/account"
 	"kang-blogging/internal/common/model"
 )
@@ -13,11 +14,12 @@ func (u AccountRepository) GetAccountByUsername(
 ) (*account.Account, error) {
 	var rs model.Account
 	err := u.gdb.DB().WithContext(ctx).Model(model.Account{}).
-		Find(&rs, "username = ?", username).Error
+		First(&rs, "username = ?", username).Error
 
 	if err != nil || &rs.ID == nil {
-		fmt.Printf("error: %v \n", err)
-		fmt.Printf("rs: %v\n", rs)
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
 		return nil, err
 	}
 	return &account.Account{

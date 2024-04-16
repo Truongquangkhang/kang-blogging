@@ -6,6 +6,6 @@ type Account struct {
 	Password string `gorm:"column:password"`
 }
 
-func (User) TableName() string {
+func (Account) TableName() string {
 	return "accounts"
 }

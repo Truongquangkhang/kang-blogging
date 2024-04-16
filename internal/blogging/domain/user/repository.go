@@ -1,14 +1,13 @@
 package user
 
+import (
+	"context"
+	"kang-blogging/internal/common/model"
+)
+
 type Repository interface {
-	//InsertUser(
-	//	ctx context.Context,
-	//	name string,
-	//	displayName string,
-	//	email string,
-	//	gender *bool,
-	//	avatarUrl *string,
-	//	birthOfDay *int64,
-	//	phoneNumbers *string,
-	//) (*UserInfo, error)
+	InsertUser(
+		ctx context.Context,
+		user *model.User,
+	) (*model.User, error)
 }

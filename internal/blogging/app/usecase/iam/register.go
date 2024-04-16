@@ -7,7 +7,9 @@ import (
 	"kang-blogging/internal/blogging/domain/user"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
+	"kang-blogging/internal/common/model"
 	"kang-blogging/internal/common/utils"
+	util_password "kang-blogging/internal/common/utils/password"
 )
 
 type RegisterParams struct {
@@ -59,8 +61,27 @@ func (r registerHandler) Handle(ctx context.Context, param RegisterParams) (Regi
 	if err != nil {
 		return RegisterResult{}, err
 	}
-	id := utils.GenUUID()
-	_, err = r.accountRepo.InsertAccount(ctx, id, param.Username, param.Password)
+	idAccount := utils.GenUUID()
+	password, err := util_password.HashPassword(param.Password)
+	if err != nil {
+		return RegisterResult{}, err
+	}
+
+	_, err = r.accountRepo.InsertAccount(ctx, idAccount, param.Username, password)
+	if err != nil {
+		return RegisterResult{}, err
+	}
+
+	user := model.User{
+		ID:          utils.GenUUID(),
+		AccountID:   idAccount,
+		RoleID:      "e6603350-fc0d-11ee-8088-8c04baa2e77c",
+		Name:        param.Name,
+		Email:       param.Email,
+		PhoneNumber: param.PhoneNumbers,
+	}
+
+	_, err = r.userRepo.InsertUser(ctx, &user)
 	if err != nil {
 		return RegisterResult{}, err
 	}
@@ -68,8 +89,9 @@ func (r registerHandler) Handle(ctx context.Context, param RegisterParams) (Regi
 }
 
 func (p *RegisterParams) Validate() error {
-	if p.Username == "" || p.Password == "" || p.Name == "" {
-		return errors.NewBadRequestError("invalid username or password")
+	if p.Username == "" || p.Password == "" || p.Name == "" ||
+		p.DisplayName == "" || p.Email == "" {
+		return errors.NewBadRequestError("invalid params")
 	}
 	return nil
 }
