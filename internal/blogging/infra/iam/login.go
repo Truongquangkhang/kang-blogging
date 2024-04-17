@@ -15,7 +15,7 @@ func (g GrpcService) Login(
 		Username: request.Username,
 		Password: request.Password,
 	}
-	_, err := g.usecase.Login.Handle(ctx, param)
+	rs, err := g.usecase.Login.Handle(ctx, param)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}
@@ -23,5 +23,9 @@ func (g GrpcService) Login(
 	return &blogging.LoginResponse{
 		Code:    0,
 		Message: "Success",
+		Data: &blogging.LoginResponse_Data{
+			AccessToken:  rs.AccessToken,
+			RefreshToken: rs.RefreshToken,
+		},
 	}, nil
 }

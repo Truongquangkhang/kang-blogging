@@ -6,7 +6,10 @@ import (
 	"kang-blogging/internal/blogging/domain/account"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
+	"kang-blogging/internal/common/jwt"
 	util_password "kang-blogging/internal/common/utils/password"
+	"os"
+	"strconv"
 )
 
 type LoginParams struct {
@@ -15,6 +18,8 @@ type LoginParams struct {
 }
 
 type LoginResult struct {
+	AccessToken  string
+	RefreshToken string
 }
 
 type LoginHandler decorator.UsecaseHandler[LoginParams, LoginResult]
@@ -54,7 +59,23 @@ func (l loginhandler) Handle(ctx context.Context, param LoginParams) (LoginResul
 		return LoginResult{}, errors.NewBadRequestError("invalid username or password")
 	}
 
-	return LoginResult{}, nil
+	secretKey := os.Getenv("JWT_SECRET_KEY")
+	expireHoursAccessToken, _ := strconv.Atoi(os.Getenv("JWT_EXPIRE_HOURS_ACCESS_TOKEN"))
+	expireHoursRefreshTokenm, _ := strconv.Atoi(os.Getenv("JWT_EXPIRE_HOURS_REFRESH_TOKEN"))
+
+	accessToken, err := jwt.CreateAccessToken(acc.ID, secretKey, expireHoursAccessToken)
+	if err != nil {
+		return LoginResult{}, err
+	}
+	refreshToken, err := jwt.CreateRefreshToken(secretKey, expireHoursRefreshTokenm)
+	if err != nil {
+		return LoginResult{}, err
+	}
+
+	return LoginResult{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	}, nil
 }
 
 func (p *LoginParams) Validate() error {
