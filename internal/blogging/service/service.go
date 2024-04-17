@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/adapter/account"
+	"kang-blogging/internal/blogging/adapter/role"
 	"kang-blogging/internal/blogging/adapter/user"
 	"kang-blogging/internal/blogging/app"
 	"kang-blogging/internal/blogging/app/usecase/iam"
@@ -53,12 +54,18 @@ func newService(ctx context.Context) app.Application {
 
 	userRepository := user.NewRepository()
 	accountRepository := account.NewRepository()
+	roleRepository := role.NewRepository()
 	logger := logrus.NewEntry(logrus.StandardLogger())
 	metricsClient := metrics.NoOp{}
 
 	return app.Application{
 		IAMUsecases: app.IAMUsecases{
-			Register:           iam.NewRegisterHandler(userRepository, accountRepository, logger, metricsClient),
+			Login: iam.NewLoginHanle(
+				accountRepository, logger, metricsClient,
+			),
+			Register: iam.NewRegisterHandler(
+				userRepository, accountRepository, roleRepository, logger, metricsClient,
+			),
 			CheckExistUsername: iam.NewCheckExistUsernameHandler(accountRepository, logger, metricsClient),
 		},
 	}

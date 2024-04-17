@@ -4,7 +4,9 @@ import (
 	"context"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/account"
+	"kang-blogging/internal/blogging/domain/role"
 	"kang-blogging/internal/blogging/domain/user"
+	"kang-blogging/internal/common/constants"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/model"
@@ -33,11 +35,13 @@ type RegisterHandler decorator.UsecaseHandler[RegisterParams, RegisterResult]
 type registerHandler struct {
 	userRepo    user.Repository
 	accountRepo account.Repository
+	roleRepo    role.Repository
 }
 
 func NewRegisterHandler(
 	userRepo user.Repository,
 	accountRepo account.Repository,
+	roleRepo role.Repository,
 	logger *logrus.Entry,
 	metricsClient decorator.MetricsClient,
 ) RegisterHandler {
@@ -47,10 +51,14 @@ func NewRegisterHandler(
 	if accountRepo == nil {
 		panic("accountRepo is nil")
 	}
+	if roleRepo == nil {
+		panic("roleRepo is nil")
+	}
 	return decorator.ApplyUsecaseDecorators[RegisterParams, RegisterResult](
 		registerHandler{
 			userRepo:    userRepo,
 			accountRepo: accountRepo,
+			roleRepo:    roleRepo,
 		},
 		logger,
 		metricsClient)
@@ -66,6 +74,11 @@ func (r registerHandler) Handle(ctx context.Context, param RegisterParams) (Regi
 	if err != nil {
 		return RegisterResult{}, err
 	}
+	mapNameToRole, err := r.roleRepo.GetMapNameToRole(ctx, []string{constants.USER_ROLE})
+	if err != nil || len(mapNameToRole) == 0 {
+		logrus.Error("Catch an error when get roles", err)
+		return RegisterResult{}, err
+	}
 
 	_, err = r.accountRepo.InsertAccount(ctx, idAccount, param.Username, password)
 	if err != nil {
@@ -75,10 +88,14 @@ func (r registerHandler) Handle(ctx context.Context, param RegisterParams) (Regi
 	user := model.User{
 		ID:          utils.GenUUID(),
 		AccountID:   idAccount,
-		RoleID:      "e6603350-fc0d-11ee-8088-8c04baa2e77c",
+		RoleID:      mapNameToRole[constants.USER_ROLE].ID,
 		Name:        param.Name,
 		Email:       param.Email,
 		PhoneNumber: param.PhoneNumbers,
+		DisplayName: param.DisplayName,
+		Avatar:      param.Avatar,
+		Gender:      param.Gender,
+		BirthOfDay:  param.BirthOfDay,
 	}
 
 	_, err = r.userRepo.InsertUser(ctx, &user)

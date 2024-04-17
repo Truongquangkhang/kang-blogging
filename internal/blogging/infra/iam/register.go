@@ -15,7 +15,7 @@ func (g GrpcService) Register(
 	params := iamUsecase.RegisterParams{
 		Username:     request.Username,
 		Password:     request.Password,
-		Name:         request.Username,
+		Name:         request.Name,
 		DisplayName:  request.DisplayName,
 		Email:        request.Email,
 		Gender:       utils.WrapperValueBool(request.Gender),

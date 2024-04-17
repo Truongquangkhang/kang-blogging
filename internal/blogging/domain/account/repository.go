@@ -1,6 +1,9 @@
 package account
 
-import "context"
+import (
+	"context"
+	"kang-blogging/internal/common/model"
+)
 
 type Repository interface {
 	InsertAccount(
@@ -10,5 +13,8 @@ type Repository interface {
 		password string,
 	) (*Account, error)
 
-	GetAccountByUsername(ctx context.Context, username string) (*Account, error)
+	GetAccountByUsername(
+		ctx context.Context,
+		username string,
+	) (*model.Account, error)
 }
