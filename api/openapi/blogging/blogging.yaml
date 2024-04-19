@@ -75,7 +75,7 @@ paths:
             application/json:
               examples:
                 500_000 - Server error:
-                  summary: 500_000 - Server error (Server AirDrop Error)
+                  summary: 500_000 - Server error
                   description: internal error
                   value:
                     code: '500_000'
@@ -154,7 +154,7 @@ paths:
             application/json:
               examples:
                 500_000 - Server error:
-                  summary: 500_000 - Server error (Server AirDrop Error)
+                  summary: 500_000 - Server error
                   description: internal error
                   value:
                     code: '500_000'
@@ -197,7 +197,7 @@ paths:
             application/json:
               examples:
                 500_000 - Server error:
-                  summary: 500_000 - Server error (Server AirDrop Error)
+                  summary: 500_000 - Server error
                   description: internal error
                   value:
                     code: '500_000'
@@ -211,18 +211,6 @@ paths:
       summary: 'Get list users'
       operationId: getUsers
       parameters:
-        - name: page
-          in: query
-          schema:
-            type: integer
-          required: true
-          description: current page
-        - name: page_size
-          in: query
-          required: true
-          description: 'total items in a page'
-          schema:
-            type: integer
         - name: search_name
           in: query
           required: false
@@ -250,6 +238,18 @@ paths:
           description: 'get users followed me'
           schema:
             type: boolean
+        - name: page
+          in: query
+          schema:
+            type: integer
+          required: true
+          description: current page
+        - name: page_size
+          in: query
+          required: true
+          description: 'total items in a page'
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -277,7 +277,7 @@ paths:
             application/json:
               examples:
                 500_000 - Server error:
-                  summary: 500_000 - Server error (Server AirDrop Error)
+                  summary: 500_000 - Server error
                   description: internal error
                   value:
                     code: '500_000'
@@ -384,6 +384,21 @@ paths:
             type: string
           description: Query blogs with list author ids (get all with empty this params)
           example: '1,2,3,...'
+        - name: search_name
+          in: query
+          required: false
+          description: 'search with name'
+          schema:
+            type: string
+        - name: search_by
+          in: query
+          required: false
+          description: 'search by field'
+          schema:
+            enum:
+              - title
+              - author
+              - content
         - in: query
           name: page
           required: true
@@ -443,7 +458,7 @@ paths:
                       data:
                         type: object
                         properties:
-                          user:
+                          blog:
                             $ref: '#/components/schemas/BlogInfo'
     post:
       tags:
@@ -491,12 +506,8 @@ paths:
                       data:
                         type: object
                         properties:
-                          blogs:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/BlogMetadata'
-                          pagination:
-                            $ref: '#/components/schemas/Pagination'
+                          blog:
+                            $ref: '#/components/schemas/BlogInfo'
     patch:
       tags:
         - Blog
@@ -543,12 +554,8 @@ paths:
                       data:
                         type: object
                         properties:
-                          blogs:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/BlogMetadata'
-                          pagination:
-                            $ref: '#/components/schemas/Pagination'
+                          blog:
+                            $ref: '#/components/schemas/BlogInfo'
     delete:
       tags:
         - Blog
@@ -573,6 +580,70 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/BaseAPIResponse'
+  /api/v1/comment:
+    get:
+      tags:
+        - Comment
+      description: |-
+        - Get comments.
+        - If call api without param then get all comment
+      summary: 'Get comment by param'
+      operationId: getComment
+      parameters:
+        - in: query
+          name: blog_ids
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+        - in: query
+          name: author_ids
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+        - in: query
+          name: is_toxicity
+          schema:
+            type: boolean
+          required: false
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+          description: Current page, for high performance try to use pagination.offset instead! (default 1)
+        - in: query
+          name: pageSize
+          required: true
+          description: Total item in a page (default is 10)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          comments:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Comment'
+                          replys:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Comment'
+                          pagination:
+                            $ref: '#/components/schemas/Comment'
 components:
   schemas:
     BaseAPIResponse:
@@ -611,6 +682,21 @@ components:
           type: string
           format: text<HTML>
           description: 'HTML of a content'
+    Comment:
+      type: object
+      properties:
+        content:
+          type: string
+        author:
+          $ref: '#/components/schemas/UserInfoMetadata'
+        created_at:
+          type: integer
+        edit_at:
+          type: integer
+        is_toxicity:
+          type: boolean
+        is_deleted:
+          type: boolean
     UserInfoMetadata:
       type: object
       properties:
