@@ -27,10 +27,10 @@ func main() {
 		ctx,
 		func(server *grpc.Server) {
 			svcIAM := iam.NewGrpcService(application.IAMUsecases)
-			blogging.RegisterBloggingServiceServer(server, svcIAM)
+			blogging.RegisterIAMServiceServer(server, svcIAM)
 		},
 		func(mux *runtime.ServeMux, conn *grpc.ClientConn) {
-			err := blogging.RegisterBloggingServiceHandler(ctx, mux, conn)
+			err := blogging.RegisterIAMServiceHandler(ctx, mux, conn)
 			if err != nil {
 				logrus.Fatal(err)
 			}
