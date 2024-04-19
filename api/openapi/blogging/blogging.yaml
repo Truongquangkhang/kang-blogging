@@ -7,7 +7,7 @@ servers:
   - url: 'https://localhost:10080'
     description: local
 paths:
-  /api/v1/login:
+  /api/v1/iam/login:
     post:
       tags:
         - IAM
@@ -75,12 +75,12 @@ paths:
             application/json:
               examples:
                 500_000 - Server error:
-                  summary: 500_000 - Server error (Server AirDrop Error)
+                  summary: 500_000 - Server error
                   description: internal error
                   value:
                     code: '500_000'
                     message: Internal Server Error
-  /api/v1/register:
+  /api/v1/iam/register:
     post:
       tags:
         - IAM
@@ -122,7 +122,7 @@ paths:
                   description: Email
                 phone_numbers:
                   type: string
-                  description: 0123456789
+                  description: '0123456789'
                 gender:
                   type: boolean
                   description: Male/Female
@@ -154,12 +154,55 @@ paths:
             application/json:
               examples:
                 500_000 - Server error:
-                  summary: 500_000 - Server error (Server AirDrop Error)
+                  summary: 500_000 - Server error
                   description: internal error
                   value:
                     code: '500_000'
                     message: Internal Server Error
-  /api/v1/get-user-info:
+  /api/v1/iam/check-exist-username:
+    get:
+      tags:
+        - IAM
+      description: |-
+        - check exist of a username.
+      summary: 'Get list users'
+      operationId: checkExistUsername
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+          required: true
+          description: username of a account
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          already_exist:
+                            type: boolean
+                            default: false
+        '500':
+          description: |-
+            500000: `Internal Server Error`: Internal Server Error
+          content:
+            application/json:
+              examples:
+                500_000 - Server error:
+                  summary: 500_000 - Server error
+                  description: internal error
+                  value:
+                    code: '500_000'
+                    message: Internal Server Error
+  /api/v1/user:
     get:
       tags:
         - User
@@ -167,6 +210,46 @@ paths:
         - get user by params.
       summary: 'Get list users'
       operationId: getUsers
+      parameters:
+        - name: search_name
+          in: query
+          required: false
+          description: 'search with name'
+          schema:
+            type: string
+        - name: search_by
+          in: query
+          required: false
+          description: 'search by field'
+          schema:
+            enum:
+              - name
+              - email
+              - phone_number
+        - name: following
+          in: query
+          required: false
+          description: 'filter my following user'
+          schema:
+            type: boolean
+        - name: followed_by_me
+          in: query
+          required: false
+          description: 'get users followed me'
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          schema:
+            type: integer
+          required: true
+          description: current page
+        - name: page_size
+          in: query
+          required: true
+          description: 'total items in a page'
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -185,6 +268,8 @@ paths:
                             description: list users
                             items:
                               $ref: '#/components/schemas/UserInfo'
+                          pagination:
+                            $ref: '#/components/schemas/Pagination'
         '500':
           description: |-
             500000: `Internal Server Error`: Internal Server Error
@@ -192,12 +277,12 @@ paths:
             application/json:
               examples:
                 500_000 - Server error:
-                  summary: 500_000 - Server error (Server AirDrop Error)
+                  summary: 500_000 - Server error
                   description: internal error
                   value:
                     code: '500_000'
                     message: Internal Server Error
-  /api/v1/get-user-info/{user_id}:
+  /api/v1/user/{user_id}:
     get:
       tags:
         - User
@@ -209,9 +294,58 @@ paths:
         - in: path
           name: user_id
           schema:
-            type: integer
+            type: string
           required: true
-          description: Numeric ID of the user to get
+          description: uuid of users
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          user:
+                            $ref: '#/components/schemas/UserInfo'
+    patch:
+      tags:
+        - User
+      description: |-
+        - get user by params.
+      summary: 'Update profile of a user'
+      operationId: updateUser
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: uuid of users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                gender:
+                  type: boolean
+                avatar:
+                  type: string
+                display_name:
+                  type: string
+                phone_number:
+                  type: string
       responses:
         '200':
           description: Success
@@ -250,6 +384,21 @@ paths:
             type: string
           description: Query blogs with list author ids (get all with empty this params)
           example: '1,2,3,...'
+        - name: search_name
+          in: query
+          required: false
+          description: 'search with name'
+          schema:
+            type: string
+        - name: search_by
+          in: query
+          required: false
+          description: 'search by field'
+          schema:
+            enum:
+              - title
+              - author
+              - content
         - in: query
           name: page
           required: true
@@ -281,7 +430,220 @@ paths:
                               $ref: '#/components/schemas/BlogMetadata'
                           pagination:
                             $ref: '#/components/schemas/Pagination'
-
+  /api/v1/blog/{blog_id}:
+    get:
+      tags:
+        - Blog
+      description: |-
+        - get user by params.
+      summary: 'Get detail of a blogging'
+      operationId: getBloggingDetail
+      parameters:
+        - in: path
+          name: blog_id
+          schema:
+            type: string
+          required: true
+          description: id of a blog
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          blog:
+                            $ref: '#/components/schemas/BlogInfo'
+    post:
+      tags:
+        - Blog
+      description: |-
+        - Create new a blog.
+      summary: 'Creaet blogging'
+      operationId: createBlogging
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: blog_id
+          schema:
+            type: string
+          required: true
+          description: uuid of blogging
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                categories:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Category'
+                thumbnail:
+                  type: string
+                content:
+                  type: string
+                  format: html
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          blog:
+                            $ref: '#/components/schemas/BlogInfo'
+    patch:
+      tags:
+        - Blog
+      description: |-
+        - Update infomations of blog.
+      summary: 'Update blogging'
+      operationId: updateBlogging
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: blog_id
+          schema:
+            type: string
+          required: true
+          description: uuid of blogging
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                categories:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Category'
+                thumbnail:
+                  type: string
+                content:
+                  type: string
+                  format: html
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          blog:
+                            $ref: '#/components/schemas/BlogInfo'
+    delete:
+      tags:
+        - Blog
+      description: |-
+        - Delete a blog.
+      summary: 'Delete blogging'
+      operationId: deleteBlogging
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: blog_id
+          schema:
+            type: string
+          required: true
+          description: uuid of blogging
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+  /api/v1/comment:
+    get:
+      tags:
+        - Comment
+      description: |-
+        - Get comments.
+        - If call api without param then get all comment
+      summary: 'Get comment by param'
+      operationId: getComment
+      parameters:
+        - in: query
+          name: blog_ids
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+        - in: query
+          name: author_ids
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+        - in: query
+          name: is_toxicity
+          schema:
+            type: boolean
+          required: false
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+          description: Current page, for high performance try to use pagination.offset instead! (default 1)
+        - in: query
+          name: pageSize
+          required: true
+          description: Total item in a page (default is 10)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          comments:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Comment'
+                          replys:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Comment'
+                          pagination:
+                            $ref: '#/components/schemas/Comment'
 components:
   schemas:
     BaseAPIResponse:
@@ -297,35 +659,44 @@ components:
     UserInfo:
       type: object
       properties:
-        id:
+        user_info:
+          $ref: '#/components/schemas/UserInfoMetadata'
+        blogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlogMetadata'
+        user_followed:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserInfoMetadata'
+        user_following_me:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserInfoMetadata'
+    BlogInfo:
+      type: object
+      properties:
+        blog_info:
+          $ref: '#/components/schemas/BlogMetadata'
+        content:
           type: string
-          example: uuid
-        name:
+          format: text<HTML>
+          description: 'HTML of a content'
+    Comment:
+      type: object
+      properties:
+        content:
           type: string
-          example: quang khang
-        gender:
-          type: boolean
-          example: true
-        display_name:
-          type: string
-          example: 1kang
-        email:
-          type: string
-          example: knag@123
-        avatar:
-          type: string
-        total_blog:
+        author:
+          $ref: '#/components/schemas/UserInfoMetadata'
+        created_at:
           type: integer
-        total_follower:
+        edit_at:
           type: integer
-          example: 12
-        is_active:
+        is_toxicity:
           type: boolean
-          example: true
-        followed_by_me:
+        is_deleted:
           type: boolean
-          example: true
-          
     UserInfoMetadata:
       type: object
       properties:
@@ -335,16 +706,25 @@ components:
         name:
           type: string
           example: quang khang
+        email:
+          type: string
+          example: khang@123
         gender:
           type: boolean
           example: true
+        avatar:
+          type: string
+          example: image (url of a picture)
         display_name:
           type: string
           example: 1kang
         followed_by_me:
           type: boolean
           example: true
-
+        is_active:
+          type: boolean
+          default: true
+          example: true
     BlogMetadata:
       type: object
       properties:
@@ -356,13 +736,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Category'
-        thumail:
+        thumbnail:
           type: string
         created_at:
           type: integer
         author:
           $ref: '#/components/schemas/UserInfoMetadata'
-
     Category:
       type: object
       properties:
@@ -370,7 +749,6 @@ components:
           type: string
         name:
           type: string
-
     Pagination:
       type: object
       properties:
@@ -383,4 +761,11 @@ components:
         total:
           type: integer
           example: 10
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
+security:
+  - bearerAuth: [ ]
