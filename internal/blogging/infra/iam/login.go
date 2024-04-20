@@ -19,7 +19,7 @@ func (g GrpcService) Login(
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}
-
+	
 	return &blogging.LoginResponse{
 		Code:    0,
 		Message: "Success",

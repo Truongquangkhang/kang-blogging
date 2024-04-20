@@ -5,6 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/blogging/infra/iam"
+	"kang-blogging/internal/blogging/infra/user"
 	"kang-blogging/internal/blogging/service"
 	"kang-blogging/internal/common/logs"
 	"kang-blogging/internal/common/server"
@@ -27,10 +28,16 @@ func main() {
 		ctx,
 		func(server *grpc.Server) {
 			svcIAM := iam.NewGrpcService(application.IAMUsecases)
-			blogging.RegisterBloggingServiceServer(server, svcIAM)
+			blogging.RegisterIAMServiceServer(server, svcIAM)
+			svcUser := user.NewGrpcService(application.UserUsecase)
+			blogging.RegisterUserServiceServer(server, svcUser)
 		},
 		func(mux *runtime.ServeMux, conn *grpc.ClientConn) {
-			err := blogging.RegisterBloggingServiceHandler(ctx, mux, conn)
+			err := blogging.RegisterIAMServiceHandler(ctx, mux, conn)
+			if err != nil {
+				logrus.Fatal(err)
+			}
+			err = blogging.RegisterUserServiceHandler(ctx, mux, conn)
 			if err != nil {
 				logrus.Fatal(err)
 			}

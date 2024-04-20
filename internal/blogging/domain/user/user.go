@@ -9,3 +9,12 @@ type UserInfo struct {
 	Gender      *bool
 	BirthOfDay  *int64
 }
+
+type UserParams struct {
+	Page         int32
+	PageSize     int32
+	SearchName   *string
+	SearchBy     *string
+	Following    *bool
+	FollowedByMe *bool
+}

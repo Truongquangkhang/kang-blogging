@@ -7,7 +7,6 @@ import (
 // User represents the MySQL table structure
 type User struct {
 	ID          string     `gorm:"type:varchar(40);primaryKey;not null;default:uuid();column:id"`
-	AccountID   string     `gorm:"type:varchar(40);index;not null;column:account_id"`
 	RoleID      string     `gorm:"type:varchar(40);index;not null;column:role_id"`
 	Name        string     `gorm:"type:varchar(255);not null;column:name"`
 	Email       string     `gorm:"type:varchar(255);not null;column:email"`

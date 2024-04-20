@@ -86,8 +86,7 @@ func (r registerHandler) Handle(ctx context.Context, param RegisterParams) (Regi
 	}
 
 	user := model.User{
-		ID:          utils.GenUUID(),
-		AccountID:   idAccount,
+		ID:          idAccount,
 		RoleID:      mapNameToRole[constants.USER_ROLE].ID,
 		Name:        param.Name,
 		Email:       param.Email,
