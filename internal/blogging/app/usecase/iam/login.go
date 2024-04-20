@@ -24,11 +24,11 @@ type LoginResult struct {
 
 type LoginHandler decorator.UsecaseHandler[LoginParams, LoginResult]
 
-type loginhandler struct {
+type loginHandler struct {
 	accountRepo account.Repository
 }
 
-func NewLoginHanle(
+func NewLoginHandler(
 	accountRepo account.Repository,
 	logger *logrus.Entry,
 	metricsClient decorator.MetricsClient,
@@ -37,7 +37,7 @@ func NewLoginHanle(
 		panic("accountRepo is nil")
 	}
 	return decorator.ApplyUsecaseDecorators[LoginParams, LoginResult](
-		loginhandler{
+		loginHandler{
 			accountRepo: accountRepo,
 		},
 		logger,
@@ -45,7 +45,7 @@ func NewLoginHanle(
 	)
 }
 
-func (l loginhandler) Handle(ctx context.Context, param LoginParams) (LoginResult, error) {
+func (l loginHandler) Handle(ctx context.Context, param LoginParams) (LoginResult, error) {
 	err := param.Validate()
 	if err != nil {
 		return LoginResult{}, err

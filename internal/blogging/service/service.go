@@ -9,6 +9,7 @@ import (
 	"kang-blogging/internal/blogging/adapter/user"
 	"kang-blogging/internal/blogging/app"
 	"kang-blogging/internal/blogging/app/usecase/iam"
+	user2 "kang-blogging/internal/blogging/app/usecase/user"
 	"kang-blogging/internal/common/db"
 	metrics "kang-blogging/internal/common/metric"
 	"os"
@@ -60,13 +61,18 @@ func newService(ctx context.Context) app.Application {
 
 	return app.Application{
 		IAMUsecases: app.IAMUsecases{
-			Login: iam.NewLoginHanle(
+			Login: iam.NewLoginHandler(
 				accountRepository, logger, metricsClient,
 			),
 			Register: iam.NewRegisterHandler(
 				userRepository, accountRepository, roleRepository, logger, metricsClient,
 			),
 			CheckExistUsername: iam.NewCheckExistUsernameHandler(accountRepository, logger, metricsClient),
+		},
+		UserUsecase: app.UserUsecase{
+			GetUsers: user2.NewGetUserHandler(
+				userRepository, logger, metricsClient,
+			),
 		},
 	}
 }
