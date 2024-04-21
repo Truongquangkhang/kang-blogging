@@ -51,15 +51,13 @@ func (u updateUserHandler) Handle(ctx context.Context, param UpdateUserParams) (
 	if err != nil {
 		return UpdateUserResult{}, err
 	}
-	rs, err := u.userRepo.UpdateUser(ctx, &user.UserInfo{
-		ID:          param.ID,
-		Name:        param.Name,
-		DisplayName: param.DisplayName,
-		Email:       param.Email,
-		Avatar:      param.Avatar,
-		PhoneNumber: param.PhoneNumber,
-		Gender:      param.Gender,
-	})
+
+	// get user
+	user, err := u.userRepo.GetUserByID(ctx, param.ID)
+	if err != nil || user == nil {
+		return UpdateUserResult{}, errors.NewNotFoundError("User not found")
+	}
+	rs, err := u.userRepo.UpdateUser(ctx, mapUserUpdate(param, user))
 	if err != nil {
 		return UpdateUserResult{}, err
 	}
@@ -73,4 +71,26 @@ func (p *UpdateUserParams) Validate() error {
 		return errors.NewBadRequestError("id is required")
 	}
 	return nil
+}
+
+func mapUserUpdate(p UpdateUserParams, user *model.User) *model.User {
+	if p.Name != nil {
+		user.Name = *p.Name
+	}
+	if p.DisplayName != nil {
+		user.DisplayName = *p.DisplayName
+	}
+	if p.Email != nil {
+		user.Email = *p.Email
+	}
+	if p.Avatar != nil {
+		user.Avatar = p.Avatar
+	}
+	if p.PhoneNumber != nil {
+		user.PhoneNumber = p.PhoneNumber
+	}
+	if p.Gender != nil {
+		user.Gender = p.Gender
+	}
+	return user
 }

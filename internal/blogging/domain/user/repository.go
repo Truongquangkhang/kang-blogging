@@ -23,6 +23,6 @@ type Repository interface {
 
 	UpdateUser(
 		ctx context.Context,
-		user *UserInfo,
+		user *model.User,
 	) (*model.User, error)
 }
