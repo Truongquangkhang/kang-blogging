@@ -17,5 +17,7 @@ type IAMUsecases struct {
 }
 
 type UserUsecase struct {
-	GetUsers user.GetUsersHandler
+	GetUsers      user.GetUsersHandler
+	GetUserDetail user.GetUserDetailHandler
+	UpdateUser    user.UpdateUserHandler
 }

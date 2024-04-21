@@ -15,6 +15,17 @@ service UserService {
       get: "/api/v1/user"
     };
   }
+  rpc GetUserDetail(GetUserDetailRequest) returns (GetUserDetailResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/user/{user_id}"
+    };
+  };
+  rpc UpdateUserDetail(UpdateUserDetailRequest) returns (UpdateUserDetailResponse) {
+    option (google.api.http) = {
+      patch: "/api/v1/user/{user_id}"
+      body: "*"
+    };
+  };
 }
 
 message GetUsersRequest {
@@ -30,6 +41,38 @@ message  GetUsersResponse {
   message Data {
     repeated UserInfoMetadata users = 1;
     Pagination pagination = 2;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message GetUserDetailRequest {
+  string user_id = 1;
+}
+
+message GetUserDetailResponse {
+  message Data {
+    UserInfoMetadata users = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message UpdateUserDetailRequest {
+  string user_id = 1;
+  google.protobuf.StringValue name = 2;
+  google.protobuf.StringValue email = 3;
+  google.protobuf.StringValue display_name = 4;
+  google.protobuf.StringValue avatar = 5;
+  google.protobuf.StringValue phone_number = 6;
+  google.protobuf.BoolValue gender = 7;
+}
+
+message UpdateUserDetailResponse {
+  message Data {
+    UserInfoMetadata users = 1;
   }
   int32 code = 1;
   string message = 2;
