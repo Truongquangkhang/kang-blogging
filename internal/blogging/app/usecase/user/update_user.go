@@ -8,6 +8,13 @@ import (
 )
 
 type UpdateUserParams struct {
+	ID          string
+	Name        *string
+	DisplayName *string
+	Email       *string
+	Avatar      *string
+	PhoneNumber *string
+	Gender      *bool
 }
 
 type UpdateUserResult struct {

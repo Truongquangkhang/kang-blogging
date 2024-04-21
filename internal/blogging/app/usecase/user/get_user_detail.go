@@ -5,17 +5,12 @@ import (
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/user"
 	"kang-blogging/internal/common/decorator"
+	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/model"
 )
 
 type GetUserDetailParams struct {
-	ID          string
-	Name        *string
-	DisplayName *string
-	Email       *string
-	Avatar      *string
-	PhoneNumber *string
-	Gender      *bool
+	ID string
 }
 
 type GetUserDetailResult struct {
@@ -49,5 +44,23 @@ func (g getUserDetailHandler) Handle(
 	ctx context.Context,
 	param GetUserDetailParams,
 ) (GetUserDetailResult, error) {
-	return GetUserDetailResult{}, nil
+	err := param.Validate()
+	if err != nil {
+		return GetUserDetailResult{}, err
+	}
+	u, err := g.userRepo.GetUserByID(ctx, param.ID)
+	if err != nil || u == nil {
+		return GetUserDetailResult{}, errors.NewNotFoundError("user not found")
+	}
+
+	return GetUserDetailResult{
+		User: *u,
+	}, nil
+}
+
+func (p GetUserDetailParams) Validate() error {
+	if p.ID == "" {
+		return errors.NewBadRequestError("user ID is required")
+	}
+	return nil
 }
