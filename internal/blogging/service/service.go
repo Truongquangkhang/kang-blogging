@@ -67,10 +67,18 @@ func newService(ctx context.Context) app.Application {
 			Register: iam.NewRegisterHandler(
 				userRepository, accountRepository, roleRepository, logger, metricsClient,
 			),
-			CheckExistUsername: iam.NewCheckExistUsernameHandler(accountRepository, logger, metricsClient),
+			CheckExistUsername: iam.NewCheckExistUsernameHandler(
+				accountRepository, logger, metricsClient,
+			),
 		},
 		UserUsecase: app.UserUsecase{
 			GetUsers: user2.NewGetUserHandler(
+				userRepository, logger, metricsClient,
+			),
+			GetUserDetail: user2.NewGetUserDetailHandler(
+				userRepository, logger, metricsClient,
+			),
+			UpdateUser: user2.NewUpdateUserHandler(
 				userRepository, logger, metricsClient,
 			),
 		},
