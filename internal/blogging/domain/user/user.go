@@ -1,9 +1,10 @@
 package user
 
 type UserInfo struct {
-	Name        string
-	DisplayName string
-	Email       string
+	ID          string
+	Name        *string
+	DisplayName *string
+	Email       *string
 	PhoneNumber *string
 	Avatar      *string
 	Gender      *bool

@@ -5,6 +5,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/user"
 	"kang-blogging/internal/common/decorator"
+	"kang-blogging/internal/common/errors"
+	"kang-blogging/internal/common/model"
 )
 
 type UpdateUserParams struct {
@@ -18,6 +20,7 @@ type UpdateUserParams struct {
 }
 
 type UpdateUserResult struct {
+	User model.User
 }
 
 type UpdateUserHandler decorator.UsecaseHandler[UpdateUserParams, UpdateUserResult]
@@ -44,5 +47,30 @@ func NewUpdateUserHandler(
 }
 
 func (u updateUserHandler) Handle(ctx context.Context, param UpdateUserParams) (UpdateUserResult, error) {
-	return UpdateUserResult{}, nil
+	err := param.Validate()
+	if err != nil {
+		return UpdateUserResult{}, err
+	}
+	rs, err := u.userRepo.UpdateUser(ctx, &user.UserInfo{
+		ID:          param.ID,
+		Name:        param.Name,
+		DisplayName: param.DisplayName,
+		Email:       param.Email,
+		Avatar:      param.Avatar,
+		PhoneNumber: param.PhoneNumber,
+		Gender:      param.Gender,
+	})
+	if err != nil {
+		return UpdateUserResult{}, err
+	}
+	return UpdateUserResult{
+		User: *rs,
+	}, nil
+}
+
+func (p *UpdateUserParams) Validate() error {
+	if p.ID == "" {
+		return errors.NewBadRequestError("id is required")
+	}
+	return nil
 }
