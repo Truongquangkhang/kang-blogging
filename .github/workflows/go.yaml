@@ -49,6 +49,12 @@ jobs:
         with:
           go-version: 1.18
 
+      - name: Build
+        run: |
+          chmod +x ./scripts/build.sh
+          ./scripts/build.sh common
+          ./scripts/build.sh blogging
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -56,8 +62,3 @@ jobs:
           path: |
             internal/common/app-runtime
             internal/blogging/app-runtime
-
-      - name: Build
-        run: |
-          chmod +x ./scripts/build.sh
-          ./scripts/build.sh blogging
