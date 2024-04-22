@@ -19,6 +19,10 @@ generate-openapi:
 	@./scripts/openapi.sh blogging internal/blogging/infra/genoapi blogging server
 	@./scripts/openapi.sh iam internal/common/adapters/genoapi/iam iam client
 
+lint:
+	@./scripts/lint.sh blogging
+	@./scripts/lint.sh common
+
 .PHONY: migrate
 migrate-up:
 	cd sql && go run . migrate up
