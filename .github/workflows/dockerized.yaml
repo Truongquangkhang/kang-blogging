@@ -24,9 +24,10 @@ jobs:
 
       - name: Dockerized
         run: |
-          echo 'Building docker image $IMAGE_REPOSITORY:$IMAGE_TAG'
-          chmod +x ./scripts/dockerize.sh
-          ./scripts/dockerize.sh $IMAGE_TAG $IMAGE_REPOSITORY $TYPE $SERVICE true
+          echo  m-${{ github.sha }}
+#          echo 'Building docker image $IMAGE_REPOSITORY:$IMAGE_TAG'
+#          chmod +x ./scripts/dockerize.sh
+#          ./scripts/dockerize.sh $IMAGE_TAG $IMAGE_REPOSITORY $TYPE $SERVICE true
 
     env:
       IMAGE_TAG: m-${{ github.sha }}
