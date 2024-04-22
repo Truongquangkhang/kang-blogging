@@ -52,13 +52,9 @@ jobs:
       - name: Build
         run: |
           chmod +x ./scripts/build.sh
-          ./scripts/build.sh common
           ./scripts/build.sh blogging
-
-      - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: app-runtime
           path: |
-            internal/common/app-runtime
-            internal/blogging/app-runtime
+            internal/**/app-runtime
