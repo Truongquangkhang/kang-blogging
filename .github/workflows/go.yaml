@@ -1,4 +1,4 @@
-name: Pretest
+name: CI/CD
 
 on:
   pull_request:
