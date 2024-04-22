@@ -18,10 +18,10 @@ jobs:
         with:
           go-version: 1.18
 
-      - name: Prepare and Generate
-        run: |
-          make prepare
-          make generate
+#      - name: Prepare and Generate
+#        run: |
+#          make prepare
+#          make generate
 
       - name: Install golangci-lint
         run: |
@@ -29,4 +29,5 @@ jobs:
 
       - name: Run Lint
         run: |
+          chmod +x ./scripts/lint.sh
           ./scripts/lint.sh common
