@@ -1,18 +1,38 @@
-name: Dockerized
+name: Build Template
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - '*'
 
 jobs:
-  lint:
-    name: Lint
+  build:
+    name: Build
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'opened')
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
+
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v2
         with:
           go-version: 1.18
+
+      - name: Build
+        run: |
+          ./scripts/build.sh ${{ env.SERVICE }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-runtime
+          path: |
+            internal/common/app-runtime
+            internal/blogging/app-runtime
+
+    env:
+      SERVICE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && 'master' || github.event.pull_request.head.ref }}
