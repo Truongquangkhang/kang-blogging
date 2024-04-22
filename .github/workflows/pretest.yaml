@@ -37,3 +37,19 @@ jobs:
         run: |
           chmod +x ./scripts/test.sh
           ./scripts/test.sh common .test.env
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.18
+
+      - name: Build
+        run: |
+          chmod +x ./scripts/build.sh
+          ./scripts/build.sh blogging
