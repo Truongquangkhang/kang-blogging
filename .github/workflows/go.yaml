@@ -49,6 +49,14 @@ jobs:
         with:
           go-version: 1.18
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-runtime
+          path: |
+            internal/common/app-runtime
+            internal/blogging/app-runtime
+
       - name: Build
         run: |
           chmod +x ./scripts/build.sh
