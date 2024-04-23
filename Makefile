@@ -13,6 +13,7 @@ BUF_VERSION=1.6.0
 #BUF_BIN=buf-Darwin-x86_64
 BUF_BIN=buf-Linux-x86_64
 
+
 prepare: prepare-protoc prepare-go-tools
 
 prepare-protoc:
@@ -32,6 +33,7 @@ prepare-go-tools:
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+	export PATH="$PATH:$(go env GOPATH)/bin"
 
 
 .PHONY: generate
@@ -40,9 +42,6 @@ generate: generate-proto
 generate-proto:
 	@./scripts/proto.sh blogging internal/blogging/infra/genproto
 
-generate-openapi:
-	@./scripts/openapi.sh blogging internal/blogging/infra/genoapi blogging server
-	@./scripts/openapi.sh iam internal/common/adapters/genoapi/iam iam client
 
 lint:
 	@./scripts/lint.sh blogging

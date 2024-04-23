@@ -52,12 +52,9 @@ jobs:
       - name: Prepare
         run: |
           sudo make prepare
-          sudo apt-get update
 
       - name: Generate
         run: |
-          export PATH=$PATH:$(go env GOPATH)/bin
-          protoc-gen-go --version
           chmod +x ./scripts/proto.sh
           sudo make generate
 
