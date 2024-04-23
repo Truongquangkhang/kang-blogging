@@ -39,6 +39,7 @@ prepare-go-tools:
 generate: generate-proto
 
 generate-proto:
+	chmod +x ./scripts/dockerize.sh
 	@./scripts/proto.sh blogging internal/blogging/infra/genproto
 
 generate-openapi:
