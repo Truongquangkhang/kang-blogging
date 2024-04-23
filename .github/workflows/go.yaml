@@ -51,6 +51,7 @@ jobs:
 
       - name: Prepare and Generate
         run: |
+          sudo apt-get update
           make prepare
           make generate
 
