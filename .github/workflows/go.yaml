@@ -56,6 +56,9 @@ jobs:
 
       - name: Generate
         run: |
+          export GOPATH=$HOME/go
+          export PATH=$PATH:$GOPATH/bin
+          protoc-gen-go --version
           chmod +x ./scripts/proto.sh
           sudo make generate
 
