@@ -49,10 +49,14 @@ jobs:
         with:
           go-version: 1.18
 
-      - name: Prepare and Generate
+      - name: Prepare
         run: |
-          sudo apt-get update
           sudo make prepare
+          sudo apt-get update
+
+      - name: Generate
+        run: |
+          chmod +x ./scripts/proto.sh
           sudo make generate
 
       - name: Build

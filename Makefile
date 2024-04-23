@@ -39,7 +39,6 @@ prepare-go-tools:
 generate: generate-proto
 
 generate-proto:
-	chmod +x ./scripts/proto.sh
 	@./scripts/proto.sh blogging internal/blogging/infra/genproto
 
 generate-openapi:
