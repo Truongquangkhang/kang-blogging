@@ -53,10 +53,10 @@ jobs:
         run: |
           sudo make prepare
 
-#      - name: Generate
-#        run: |
-#          chmod +x ./scripts/proto.sh
-#          sudo make generate
+      - name: Generate
+        run: |
+          chmod +x ./scripts/proto.sh
+          sudo make generate
 
       - name: Build
         run: |
