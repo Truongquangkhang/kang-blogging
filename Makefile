@@ -30,9 +30,9 @@ prepare-buf:
 
 prepare-go-tools:
 	# codegen
-	go get google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	go get google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	go get github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
 
 
 .PHONY: generate
