@@ -49,14 +49,14 @@ jobs:
         with:
           go-version: 1.18
 
-      - name: Prepare
-        run: |
-          sudo make prepare
-
-      - name: Generate
-        run: |
-          chmod +x ./scripts/proto.sh
-          sudo make generate
+#      - name: Prepare
+#        run: |
+#          sudo make prepare
+#
+#      - name: Generate
+#        run: |
+#          chmod +x ./scripts/proto.sh
+#          sudo make generate
 
       - name: Build
         run: |
