@@ -60,5 +60,7 @@ jobs:
 
       - name: Build
         run: |
+          export GOPATH=$HOME/go
+          export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
           chmod +x ./scripts/build.sh
           ./scripts/build.sh blogging
