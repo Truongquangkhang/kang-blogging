@@ -24,9 +24,9 @@ go.work
 .go/
 .go-cache/
 
-# Gen file from API (Protobuf, Open API)
-**genproto
-**genoapi
+## Gen file from API (Protobuf, Open API)
+#**genproto
+#**genoapi
 
 # Tools
 .idea
