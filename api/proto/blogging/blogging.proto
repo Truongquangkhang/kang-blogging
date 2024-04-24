@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package blogging;
+
+option go_package = "./blogging";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "blogging/common.proto";
+
+// Applicable Vouchers Service
+service BlogService {
+  rpc GetBlogs(GetBlogsRequest) returns (GetBlogsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/blog"
+    };
+  }
+
+  rpc GetBlogDetail(GetBlogDetailRequest) returns (GetBlogDetailResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/blog/{blog_id}"
+    };
+  }
+
+  rpc CreateBlog(CreateBlogRequest) returns (CreateBlogResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/blog/{blog_id}"
+      body: "*"
+    };
+  }
+}
+
+message GetBlogsRequest {
+  google.protobuf.StringValue category_ids = 1;
+  google.protobuf.StringValue author_ids = 2;
+  google.protobuf.StringValue search_name = 3;
+  google.protobuf.StringValue search_by = 4;
+  int32 page = 5;
+  int32 page_size = 6;
+}
+
+message GetBlogsResponse {
+  message Data {
+    repeated BlogMetadata blogs = 1;
+    Pagination pagination = 2;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message GetBlogDetailRequest {
+  string blog_id = 1;
+}
+
+message GetBlogDetailResponse {
+  message Data {
+    BlogInfo bog = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message CreateBlogRequest {
+  string blog_id = 1;
+  string name = 2;
+  string description =3;
+  repeated Category categories = 4;
+  google.protobuf.StringValue thumbnail = 5;
+  google.protobuf.StringValue content = 6;
+}
+
+message CreateBlogResponse {
+  message Data {
+    BlogInfo blog = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
