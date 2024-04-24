@@ -267,7 +267,7 @@ paths:
                             type: array
                             description: list users
                             items:
-                              $ref: '#/components/schemas/UserInfo'
+                              $ref: '#/components/schemas/UserInfoMetadata'
                           pagination:
                             $ref: '#/components/schemas/Pagination'
         '500':
@@ -371,14 +371,14 @@ paths:
       operationId: getBlog
       parameters:
         - in: query
-          name: categories
+          name: categoryIds
           required: false
           schema:
             type: string
           description: Query blogs with list categoriesIDs (get all with empty this params)
           example: '1,2,3,...'
         - in: query
-          name: createdBy
+          name: authorIds
           required: false
           schema:
             type: string
@@ -483,6 +483,8 @@ paths:
               type: object
               properties:
                 name:
+                  type: string
+                description:
                   type: string
                 categories:
                   type: array
@@ -665,14 +667,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BlogMetadata'
-        user_followed:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserInfoMetadata'
-        user_following_me:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserInfoMetadata'
     BlogInfo:
       type: object
       properties:
@@ -718,9 +712,9 @@ components:
         display_name:
           type: string
           example: 1kang
-        followed_by_me:
-          type: boolean
-          example: true
+        total_blogs:
+          type: integer
+          example: 3
         is_active:
           type: boolean
           default: true
@@ -731,6 +725,8 @@ components:
         id:
           type: string
         name:
+          type: string
+        description:
           type: string
         categories:
           type: array

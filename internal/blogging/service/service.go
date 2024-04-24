@@ -8,6 +8,7 @@ import (
 	"kang-blogging/internal/blogging/adapter/role"
 	"kang-blogging/internal/blogging/adapter/user"
 	"kang-blogging/internal/blogging/app"
+	"kang-blogging/internal/blogging/app/usecase/blog"
 	"kang-blogging/internal/blogging/app/usecase/iam"
 	user2 "kang-blogging/internal/blogging/app/usecase/user"
 	"kang-blogging/internal/common/db"
@@ -79,6 +80,11 @@ func newService(ctx context.Context) app.Application {
 				userRepository, logger, metricsClient,
 			),
 			UpdateUser: user2.NewUpdateUserHandler(
+				userRepository, logger, metricsClient,
+			),
+		},
+		BlogUsecase: app.BlogUsecase{
+			GetBlogs: blog.NewGetBlogsHandler(
 				userRepository, logger, metricsClient,
 			),
 		},
