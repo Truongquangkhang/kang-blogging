@@ -68,3 +68,28 @@ jobs:
         with:
           name: blogging
           path: internal/blogging/app-runtime
+
+  Dockerized:
+    name: Dockerized
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Dockerized
+        run: |
+          echo 'Building docker image $IMAGE_REPOSITORY:$IMAGE_TAG'
+          chmod +x ./scripts/dockerize.sh
+          ./scripts/dockerize.sh $IMAGE_TAG $IMAGE_REPOSITORY $TYPE $SERVICE true
+        env:
+          IMAGE_TAG: m-${{ github.sha }}
+          IMAGE_REPOSITORY: truongquangkhang/kang-blogging
+          TYPE: app
+          SERVICE: blogging
