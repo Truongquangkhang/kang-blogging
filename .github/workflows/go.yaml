@@ -79,6 +79,13 @@ jobs:
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging
           TYPE: app
           SERVICE: blogging
+
+      - name: Docker push
+        run: |
+          docker push $$IMAGE_REPOSITORY:$$IMAGE_TAG
+        env:
+          IMAGE_TAG: m-${{ github.sha }}
+          IMAGE_REPOSITORY: truongquangkhang/kang-blogging
 #      - name: Upload artifacts
 #        uses: actions/upload-artifact@v2
 #        with:
