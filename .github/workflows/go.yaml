@@ -38,6 +38,7 @@ jobs:
           chmod +x ./scripts/test.sh
           ./scripts/test.sh common .test.env
   build:
+    needs: [lint, test]
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -49,22 +50,7 @@ jobs:
         with:
           go-version: 1.19
 
-#      - name: Prepare
-#        run: |
-#          sudo make prepare
-#
-#      - name: Generate
-#        run: |
-#          chmod +x ./scripts/proto.sh
-#          sudo make generate
-
       - name: Build
         run: |
           chmod +x ./scripts/build.sh
           ./scripts/build.sh blogging
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: blogging
-          path: internal/blogging/app-runtime
