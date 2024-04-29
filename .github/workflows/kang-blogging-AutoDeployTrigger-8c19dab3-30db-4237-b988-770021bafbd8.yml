@@ -31,8 +31,8 @@ jobs:
         with:
           appSourcePath: ${{ github.workspace }} 
           registryUrl: docker.io
-          registryUsername: ${{ secrets.KANGBLOGGING_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.KANGBLOGGING_REGISTRY_PASSWORD }}
+          registryUsername: ${{ secrets.DOCKER_USERNAME }}
+          registryPassword: ${{ secrets.DOCKER_PASSWORD }}
           containerAppName: kang-blogging
           resourceGroup: kang
           imageToBuild: balankhang1967@/truongquangkhang/kang-blogging:${{ github.sha }}
