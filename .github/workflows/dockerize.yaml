@@ -47,5 +47,5 @@ jobs:
         env:
 #          IMAGE_TAG: m-${{ github.sha }}
           # trigger ci
-          MAGE_TAG: latest
+          IMAGE_TAG: latest
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging
