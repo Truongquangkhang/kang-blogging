@@ -35,8 +35,7 @@ jobs:
           chmod +x ./scripts/dockerize.sh
           ./scripts/dockerize.sh $IMAGE_TAG $IMAGE_REPOSITORY $TYPE $SERVICE true
         env:
-#          IMAGE_TAG: m-${{ github.sha }}
-          IMAGE_TAG: latest
+          IMAGE_TAG: m-${{ github.sha }}
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging
           TYPE: app
           SERVICE: blogging
@@ -45,7 +44,28 @@ jobs:
         run: |
           docker push $IMAGE_REPOSITORY:$IMAGE_TAG
         env:
-#          IMAGE_TAG: m-${{ github.sha }}
-          # trigger ci
-          IMAGE_TAG: latest
+          IMAGE_TAG: m-${{ github.sha }}
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging
+
+  deploy:
+    needs: [dockerize]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.KANGBLOGGING_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.DOCKER_USERNAME }}
+          registryPassword: ${{ secrets.DOCKER_PASSWORD }}
+          containerAppName: kang-blogging
+          resourceGroup: kang
+          imageToBuild: truongquangkhang/kang-blogging:m-${{ github.sha }}
