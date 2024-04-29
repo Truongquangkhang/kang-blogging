@@ -2,16 +2,15 @@ package main
 
 import (
 	"context"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/blogging/infra/iam"
 	"kang-blogging/internal/blogging/infra/user"
 	"kang-blogging/internal/blogging/service"
 	"kang-blogging/internal/common/logs"
 	"kang-blogging/internal/common/server"
-
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"google.golang.org/grpc"
 )
 
 func main() {
@@ -23,6 +22,13 @@ func main() {
 
 	application, appCleanUp := service.NewApplication(ctx)
 	defer appCleanUp()
+
+	//server.RunHTTPServer(func(router chi.Router) http.Handler {
+	//	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	//		body, _ := ioutil.ReadFile("api/openapi/blogging/blogging.yaml")
+	//		fmt.Fprint(w, string(body))
+	//	})
+	//})
 
 	server.RunGRPCServer(
 		ctx,
