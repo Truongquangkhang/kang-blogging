@@ -35,7 +35,7 @@ jobs:
           registryPassword: ${{ secrets.DOCKER_PASSWORD }}
           containerAppName: kang-blogging
           resourceGroup: kang
-          imageToBuild: balankhang1967@/truongquangkhang/kang-blogging:${{ github.sha }}
+          imageToBuild: truongquangkhang/kang-blogging:m-${{ github.sha }}
           
             
 
