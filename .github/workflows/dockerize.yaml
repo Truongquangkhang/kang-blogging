@@ -35,7 +35,8 @@ jobs:
           chmod +x ./scripts/dockerize.sh
           ./scripts/dockerize.sh $IMAGE_TAG $IMAGE_REPOSITORY $TYPE $SERVICE true
         env:
-          IMAGE_TAG: m-${{ github.sha }}
+#          IMAGE_TAG: m-${{ github.sha }}
+          IMAGE_TAG: latest
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging
           TYPE: app
           SERVICE: blogging
@@ -44,5 +45,7 @@ jobs:
         run: |
           docker push $IMAGE_REPOSITORY:$IMAGE_TAG
         env:
-          IMAGE_TAG: m-${{ github.sha }}
+#          IMAGE_TAG: m-${{ github.sha }}
+          # trigger ci
+          MAGE_TAG: latest
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging
