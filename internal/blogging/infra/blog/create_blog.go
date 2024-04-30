@@ -37,14 +37,14 @@ func (g GrpcService) CreateBlog(
 		Message: "Success",
 		Data: &blogging.CreateBlogResponse_Data{
 			Blog: &blogging.BlogInfo{
-				BlogInfo: convertBlogResultToBlogMetadataResponse(&rs),
+				BlogInfo: buildCreateBlogResponse(&rs),
 				Content:  utils.WrapperStringFromString(rs.Blog.Content),
 			},
 		},
 	}, nil
 }
 
-func convertBlogResultToBlogMetadataResponse(rs *blog.CreateBlogResult) *blogging.BlogMetadata {
+func buildCreateBlogResponse(rs *blog.CreateBlogResult) *blogging.BlogMetadata {
 	b := rs.Blog
 	u := rs.Author
 	var categoriesResponse []*blogging.Category
