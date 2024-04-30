@@ -10,4 +10,9 @@ type Repository interface {
 		ctx context.Context,
 		blog *model.Blog,
 	) (*model.Blog, error)
+
+	GetBlogsByParam(
+		ctx context.Context,
+		param BlogsParams,
+	) ([]model.Blog, int32, error)
 }

@@ -2,7 +2,6 @@ package infra
 
 import (
 	"context"
-	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
@@ -26,20 +25,20 @@ func GetIDAndRoleFromJwtToken(ctx context.Context) (*string, *string, error) {
 	secretKey := os.Getenv("JWT_SECRET_KEY")
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		return nil, nil, fmt.Errorf("catch an error when read header")
+		return nil, nil, errors.NewAuthorizationError("get an error when get data from header")
 	}
 	authorizations := md.Get("authorization")
 	if len(authorizations) < 1 {
-		return nil, nil, fmt.Errorf("bearer token not found")
+		return nil, nil, errors.NewAuthorizationError("bearer token not found")
 	}
 	bearerToken := strings.TrimPrefix(authorizations[0], "Bearer ")
 
 	if err := jwt.VerifyToken(bearerToken, secretKey); err != nil {
-		return nil, nil, err
+		return nil, nil, errors.NewAuthorizationDefaultError()
 	}
 	id, role, err := jwt.GetIDAndRoleFromJwtToken(bearerToken, secretKey)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, errors.NewAuthorizationDefaultError()
 	}
 	return &id, &role, err
 }
@@ -59,6 +58,8 @@ func ParseGrpcError(err error) error {
 			return status.Error(codes.NotFound, msg)
 		case http.StatusConflict:
 			return status.Error(codes.AlreadyExists, msg)
+		case http.StatusUnauthorized:
+			return status.Error(codes.Unauthenticated, msg)
 		default:
 			return status.Error(codes.Internal, msg)
 		}
