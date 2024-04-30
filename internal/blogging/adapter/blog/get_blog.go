@@ -31,8 +31,13 @@ func (r BlogRepository) GetBlogsByParam(
 	if len(param.AuthorIds) > 0 {
 		query = query.Where("author_id IN (?)", param.AuthorIds)
 	}
-	err := query.Offset(int(offset)).Limit(int(limit)).Find(&blogs).
+	if len(param.CategoryIds) > 0 {
+		query = query.Joins("join blog_categories on blog_categories.blog_id = blogs.id").
+			Where("blog_categories.category_id IN (?)", param.CategoryIds)
+	}
+	err := query.Preload("User").Preload("Categories").Offset(int(offset)).Limit(int(limit)).Find(&blogs).
 		Count(&total).Error
+
 	if err != nil {
 		return nil, 0, err
 	}

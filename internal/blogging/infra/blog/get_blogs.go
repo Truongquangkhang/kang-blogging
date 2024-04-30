@@ -35,12 +35,28 @@ func (g GrpcService) GetBlogs(
 func buildGetBlogsResponseData(rs blog.GetBlogsResult) *blogging.GetBlogsResponse_Data {
 	var blogMetadatas []*blogging.BlogMetadata
 	for _, b := range rs.Blogs {
+		var categories []*blogging.Category
+		for _, cat := range b.Categories {
+			categories = append(categories, &blogging.Category{
+				Id:   cat.ID,
+				Name: cat.Name,
+			})
+		}
 		blogMetadatas = append(blogMetadatas, &blogging.BlogMetadata{
 			Id:          b.ID,
 			Name:        b.Title,
 			Description: *b.Summary,
 			Thumbnail:   utils.WrapperStringFromString(b.Thumbnail),
 			CreatedAt:   time.Now().Unix(),
+			Categories:  categories,
+			Author: &blogging.UserInfoMetadata{
+				Id:          b.User.ID,
+				Name:        b.User.Name,
+				DisplayName: b.User.DisplayName,
+				Email:       b.User.Email,
+				Avatar:      utils.WrapperStringFromString(b.User.Avatar),
+				Gender:      utils.WrapperBoolFromBool(b.User.Gender),
+			},
 		})
 	}
 	pagination := &blogging.Pagination{

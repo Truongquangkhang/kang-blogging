@@ -58,6 +58,8 @@ func ParseGrpcError(err error) error {
 			return status.Error(codes.NotFound, msg)
 		case http.StatusConflict:
 			return status.Error(codes.AlreadyExists, msg)
+		case http.StatusUnauthorized:
+			return status.Error(codes.Unauthenticated, msg)
 		default:
 			return status.Error(codes.Internal, msg)
 		}
