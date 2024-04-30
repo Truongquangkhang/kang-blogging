@@ -6,10 +6,11 @@ import (
 	"time"
 )
 
-func CreateAccessToken(userId string, secretKey string, expireHours int) (string, error) {
+func CreateAccessToken(userId string, role string, secretKey string, expireHours int) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
 			"userId": userId,
+			"role":   role,
 			"exp":    time.Now().Add(time.Duration(expireHours) * time.Hour).Unix(),
 		})
 
@@ -41,28 +42,19 @@ func VerifyToken(tokenString string, secretKey string) error {
 	if err != nil {
 		return err
 	}
-
 	if !token.Valid {
 		return fmt.Errorf("invalid token")
 	}
-
 	return nil
 }
 
-//
-//func (j *jwtService) GenerateToken(UserID string) string {
-//	claims := &jwtCustomClaim{
-//		UserID,
-//		jwt.StandardClaims{
-//			ExpiresAt: time.Now().AddDate(1, 0, 0).Unix(),
-//			Issuer:    j.issuer,
-//			IssuedAt:  time.Now().Unix(),
-//		},
-//	}
-//	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-//	t, err := token.SignedString([]byte(j.secretKey))
-//	if err != nil {
-//		panic(err)
-//	}
-//	return t
-//}
+func GetIDAndRoleFromJwtToken(jwtToken string, secretKey string) (string, string, error) {
+	claims := jwt.MapClaims{}
+	_, err := jwt.ParseWithClaims(jwtToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secretKey), nil
+	})
+	if err != nil {
+		return "", "", err
+	}
+	return claims["userId"].(string), claims["role"].(string), nil
+}

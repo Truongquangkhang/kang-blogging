@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/account"
+	"kang-blogging/internal/common/constants"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/jwt"
@@ -63,7 +64,7 @@ func (l loginHandler) Handle(ctx context.Context, param LoginParams) (LoginResul
 	expireHoursAccessToken, _ := strconv.Atoi(os.Getenv("JWT_EXPIRE_HOURS_ACCESS_TOKEN"))
 	expireHoursRefreshTokenm, _ := strconv.Atoi(os.Getenv("JWT_EXPIRE_HOURS_REFRESH_TOKEN"))
 
-	accessToken, err := jwt.CreateAccessToken(acc.ID, secretKey, expireHoursAccessToken)
+	accessToken, err := jwt.CreateAccessToken(acc.ID, constants.USER_ROLE, secretKey, expireHoursAccessToken)
 	if err != nil {
 		return LoginResult{}, err
 	}

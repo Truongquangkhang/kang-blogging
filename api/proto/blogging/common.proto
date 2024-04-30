@@ -27,6 +27,26 @@ message UserInfoMetadata {
   google.protobuf.StringValue avatar = 7;
 }
 
+message BlogInfo {
+  BlogMetadata blog_info = 1;
+  google.protobuf.StringValue content = 2;
+}
+
+message BlogMetadata {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  repeated Category categories = 4;
+  google.protobuf.StringValue thumbnail = 5;
+  int64 created_at = 6;
+  UserInfoMetadata author = 7;
+}
+
+message Category {
+  string id = 1;
+  string name =2;
+}
+
 message Pagination {
   int32 page = 1;
   int32 page_size = 2;

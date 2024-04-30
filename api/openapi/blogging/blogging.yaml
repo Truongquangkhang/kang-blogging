@@ -267,7 +267,7 @@ paths:
                             type: array
                             description: list users
                             items:
-                              $ref: '#/components/schemas/UserInfo'
+                              $ref: '#/components/schemas/UserInfoMetadata'
                           pagination:
                             $ref: '#/components/schemas/Pagination'
         '500':
@@ -371,14 +371,14 @@ paths:
       operationId: getBlog
       parameters:
         - in: query
-          name: categories
+          name: categoryIds
           required: false
           schema:
             type: string
           description: Query blogs with list categoriesIDs (get all with empty this params)
           example: '1,2,3,...'
         - in: query
-          name: createdBy
+          name: authorIds
           required: false
           schema:
             type: string
@@ -430,21 +430,36 @@ paths:
                               $ref: '#/components/schemas/BlogMetadata'
                           pagination:
                             $ref: '#/components/schemas/Pagination'
-  /api/v1/blog/{blog_id}:
-    get:
+
+  /api/v1/create-blog:
+    post:
       tags:
         - Blog
       description: |-
-        - get user by params.
-      summary: 'Get detail of a blogging'
-      operationId: getBloggingDetail
-      parameters:
-        - in: path
-          name: blog_id
-          schema:
-            type: string
-          required: true
-          description: id of a blog
+        - Create new a blog.
+      summary: 'Creaet blogging'
+      operationId: createBlogging
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                categoryIds:
+                  type: array
+                  items:
+                    type: string
+                thumbnail:
+                  type: string
+                content:
+                  type: string
+                  format: html
       responses:
         '200':
           description: Success
@@ -460,39 +475,21 @@ paths:
                         properties:
                           blog:
                             $ref: '#/components/schemas/BlogInfo'
-    post:
+  /api/v1/blog/{blog_id}:
+    get:
       tags:
         - Blog
       description: |-
-        - Create new a blog.
-      summary: 'Creaet blogging'
-      operationId: createBlogging
-      security:
-        - bearerAuth: []
+        - get user by params.
+      summary: 'Get detail of a blogging'
+      operationId: getBloggingDetail
       parameters:
         - in: path
           name: blog_id
           schema:
             type: string
           required: true
-          description: uuid of blogging
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                categories:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Category'
-                thumbnail:
-                  type: string
-                content:
-                  type: string
-                  format: html
+          description: id of a blog
       responses:
         '200':
           description: Success
@@ -665,14 +662,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BlogMetadata'
-        user_followed:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserInfoMetadata'
-        user_following_me:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserInfoMetadata'
     BlogInfo:
       type: object
       properties:
@@ -718,9 +707,9 @@ components:
         display_name:
           type: string
           example: 1kang
-        followed_by_me:
-          type: boolean
-          example: true
+        total_blogs:
+          type: integer
+          example: 3
         is_active:
           type: boolean
           default: true
@@ -731,6 +720,8 @@ components:
         id:
           type: string
         name:
+          type: string
+        description:
           type: string
         categories:
           type: array
