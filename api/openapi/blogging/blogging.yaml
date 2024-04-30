@@ -430,21 +430,36 @@ paths:
                               $ref: '#/components/schemas/BlogMetadata'
                           pagination:
                             $ref: '#/components/schemas/Pagination'
-  /api/v1/blog/{blog_id}:
-    get:
+
+  /api/v1/create-blog:
+    post:
       tags:
         - Blog
       description: |-
-        - get user by params.
-      summary: 'Get detail of a blogging'
-      operationId: getBloggingDetail
-      parameters:
-        - in: path
-          name: blog_id
-          schema:
-            type: string
-          required: true
-          description: id of a blog
+        - Create new a blog.
+      summary: 'Creaet blogging'
+      operationId: createBlogging
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                categoryIds:
+                  type: array
+                  items:
+                    type: string
+                thumbnail:
+                  type: string
+                content:
+                  type: string
+                  format: html
       responses:
         '200':
           description: Success
@@ -460,41 +475,21 @@ paths:
                         properties:
                           blog:
                             $ref: '#/components/schemas/BlogInfo'
-    post:
+  /api/v1/blog/{blog_id}:
+    get:
       tags:
         - Blog
       description: |-
-        - Create new a blog.
-      summary: 'Creaet blogging'
-      operationId: createBlogging
-      security:
-        - bearerAuth: []
+        - get user by params.
+      summary: 'Get detail of a blogging'
+      operationId: getBloggingDetail
       parameters:
         - in: path
           name: blog_id
           schema:
             type: string
           required: true
-          description: uuid of blogging
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                categories:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Category'
-                thumbnail:
-                  type: string
-                content:
-                  type: string
-                  format: html
+          description: id of a blog
       responses:
         '200':
           description: Success

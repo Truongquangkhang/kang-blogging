@@ -127,23 +127,6 @@ func request_BlogService_CreateBlog_0(ctx context.Context, marshaler runtime.Mar
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["blog_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "blog_id")
-	}
-
-	protoReq.BlogId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "blog_id", err)
-	}
-
 	msg, err := client.CreateBlog(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
@@ -155,23 +138,6 @@ func local_request_BlogService_CreateBlog_0(ctx context.Context, marshaler runti
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["blog_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "blog_id")
-	}
-
-	protoReq.BlogId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "blog_id", err)
 	}
 
 	msg, err := server.CreateBlog(ctx, &protoReq)
@@ -243,7 +209,7 @@ func RegisterBlogServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/blogging.BlogService/CreateBlog", runtime.WithHTTPPathPattern("/api/v1/blog/{blog_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/blogging.BlogService/CreateBlog", runtime.WithHTTPPathPattern("/api/v1/create-blog"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -351,7 +317,7 @@ func RegisterBlogServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/blogging.BlogService/CreateBlog", runtime.WithHTTPPathPattern("/api/v1/blog/{blog_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/blogging.BlogService/CreateBlog", runtime.WithHTTPPathPattern("/api/v1/create-blog"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -375,7 +341,7 @@ var (
 
 	pattern_BlogService_GetBlogDetail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "blog", "blog_id"}, ""))
 
-	pattern_BlogService_CreateBlog_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "blog", "blog_id"}, ""))
+	pattern_BlogService_CreateBlog_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "create-blog"}, ""))
 )
 
 var (

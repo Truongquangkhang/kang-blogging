@@ -25,7 +25,7 @@ service BlogService {
 
   rpc CreateBlog(CreateBlogRequest) returns (CreateBlogResponse) {
     option (google.api.http) = {
-      post: "/api/v1/blog/{blog_id}"
+      post: "/api/v1/create-blog"
       body: "*"
     };
   }
@@ -64,12 +64,11 @@ message GetBlogDetailResponse {
 }
 
 message CreateBlogRequest {
-  string blog_id = 1;
-  string name = 2;
-  string description =3;
-  repeated Category categories = 4;
-  google.protobuf.StringValue thumbnail = 5;
-  google.protobuf.StringValue content = 6;
+  string name = 1;
+  string description =2;
+  repeated string category_ids = 3;
+  google.protobuf.StringValue thumbnail = 4;
+  google.protobuf.StringValue content = 5;
 }
 
 message CreateBlogResponse {

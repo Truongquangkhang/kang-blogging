@@ -24,3 +24,16 @@ func init() {
 func GetServerNow() time.Time {
 	return time.Now().In(locale)
 }
+
+func ConvertTimeToTimestamp(date string) int {
+	format := "2006-01-02 15:04:05"
+
+	t, err := time.Parse(format, date)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(t.Unix())
+		return int(t.Unix())
+	}
+	return 0
+}

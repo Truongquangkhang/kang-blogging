@@ -1,4 +1,4 @@
-package blog
+package category
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 )
 
 type Repository interface {
-	InsertBlog(
+	GetCategories(
 		ctx context.Context,
-		blog *model.Blog,
-	) (*model.Blog, error)
+		categoryIds []string,
+	) ([]model.Category, error)
 }

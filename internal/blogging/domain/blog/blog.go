@@ -1,4 +1,5 @@
 package blog
 
-type BlogsParmas struct {
+type CreateBlogsParmas struct {
+	Name string
 }

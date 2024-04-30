@@ -25,5 +25,6 @@ type UserUsecase struct {
 }
 
 type BlogUsecase struct {
-	GetBlogs blog.GetBlogsHandler
+	GetBlogs   blog.GetBlogsHandler
+	CreateBlog blog.CreateBlogHandler
 }
