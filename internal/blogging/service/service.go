@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/adapter/account"
 	blog2 "kang-blogging/internal/blogging/adapter/blog"
@@ -46,15 +45,10 @@ func newService(ctx context.Context) app.Application {
 		ConnMaxLifetimeSec: time.Duration(connLifeTimeSec),
 	}
 
-	mysqlDb, err := db.NewMySQLConnection(dbConfig)
-	if err != nil {
-		panic(err)
-	}
 	var gdb = db.GetDBInstance()
-	if err = gdb.Open(dbConfig); err != nil {
+	if err := gdb.Open(dbConfig); err != nil {
 		panic(err)
 	}
-	fmt.Printf("db: %v\n", mysqlDb)
 
 	userRepository := user.NewRepository()
 	accountRepository := account.NewRepository()
@@ -95,6 +89,9 @@ func newService(ctx context.Context) app.Application {
 			CreateBlog: blog.NewCreateBlogHandler(
 				blogRepository, categoryRepository, blogCategoriesRepository,
 				userRepository, logger, metricsClient,
+			),
+			GetBlogDetail: blog.NewGetBlogDetailHandler(
+				blogRepository, logger, metricsClient,
 			),
 		},
 	}
