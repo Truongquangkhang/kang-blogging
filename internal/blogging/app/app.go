@@ -29,4 +29,5 @@ type BlogUsecase struct {
 	CreateBlog       blog.CreateBlogHandler
 	GetBlogDetail    blog.GetBlogDetailHandler
 	UpdateBlogDetail blog.UpdateBlogDetailHandler
+	DeleteBlogDetail blog.DeleteBlogDetailHandler
 }

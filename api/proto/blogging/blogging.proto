@@ -36,6 +36,12 @@ service BlogService {
       body: "*"
     };
   }
+
+  rpc DeleteBlogDetail(DeleteBlogDetailRequest) returns (DeleteBlogDetailResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/blog/{blog_id}"
+    };
+  }
 }
 
 message GetBlogsRequest {
@@ -103,4 +109,13 @@ message UpdateBlogDetailResponse {
   int32 code = 1;
   string message = 2;
   Data data = 3;
+}
+
+message DeleteBlogDetailRequest {
+  string blog_id = 1;
+}
+
+message DeleteBlogDetailResponse {
+  int32 code = 1;
+  string message = 2;
 }
