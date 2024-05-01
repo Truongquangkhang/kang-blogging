@@ -45,6 +45,7 @@ func main() {
 }
 
 func MigrateUp() error {
+	println("Migrating database...")
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbUser := os.Getenv("DB_USER")
@@ -58,6 +59,7 @@ func MigrateUp() error {
 	if err != nil {
 		log.Fatal(err)
 	}
+	println("Migrating database end")
 	return m.Up()
 }
 
