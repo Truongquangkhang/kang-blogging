@@ -45,6 +45,7 @@ func main() {
 }
 
 func MigrateUp() error {
+	println("Migrating database...")
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbUser := os.Getenv("DB_USER")
@@ -52,12 +53,13 @@ func MigrateUp() error {
 	dbName := os.Getenv("DB_NAME")
 	service := os.Getenv("SERVICE")
 
-	sourceUrl := fmt.Sprintf("file://%s/migrations", service)
+	sourceUrl := fmt.Sprintf("file://%s/migration", service)
 	databaseUrl := fmt.Sprintf("mysql://%s:%s@tcp(%s:%s)/%s", dbUser, dbPass, dbHost, dbPort, dbName)
 	m, err := migrate.New(sourceUrl, databaseUrl)
 	if err != nil {
 		log.Fatal(err)
 	}
+	println("Migrating database end")
 	return m.Up()
 }
 
