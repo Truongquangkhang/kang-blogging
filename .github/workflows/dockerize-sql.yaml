@@ -44,27 +44,24 @@ jobs:
           IMAGE_TAG: m-${{ github.sha }}
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging-sql
 
-#  deploy:
-#    needs: [dockerize]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout to the branch
-#        uses: actions/checkout@v2
-#
-#      - name: Azure Login
-#        uses: azure/login@v1
-#        with:
-#          creds: ${{ secrets.KANGBLOGGING_AZURE_CREDENTIALS }}
-#
-#      - name: Deploy to azure container apps
-#        run: |
-#          az containerapp up \
-#          --name $ACA_NAME \
-#          --image $IMAGE_REPOSITORY:$IMAGE_TAG \
-#          --ingress external \
-#          --target-port $TARGET_PORT
-#        env:
-#          ACA_NAME: kang-blogging
-#          IMAGE_TAG: m-${{ github.sha }}
-#          IMAGE_REPOSITORY: truongquangkhang/kang-blogging
-#          TARGET_PORT: 8080
+  deploy:
+    needs: [dockerize]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.KANGBLOGGING_AZURE_CREDENTIALS }}
+
+      - name: Deploy to azure container apps
+        run: |
+          az containerapp up \
+          --name $ACA_NAME \
+          --image $IMAGE_REPOSITORY:$IMAGE_TAG
+        env:
+          ACA_NAME: kang-blogging-sql
+          IMAGE_TAG: m-${{ github.sha }}
+          IMAGE_REPOSITORY: truongquangkhang/kang-blogging-sql
