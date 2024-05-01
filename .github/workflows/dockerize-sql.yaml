@@ -1,0 +1,70 @@
+name: Dockerized-SQL
+
+on:
+  push:
+    branches:
+      - '*'
+    paths:
+      - 'sql/blogging/**/*'
+
+jobs:
+  dockerize:
+    name: Dockerized
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Dockerized
+        run: |
+          echo 'Building docker image sql $IMAGE_REPOSITORY:$IMAGE_TAG'
+          chmod +x ./scripts/dockerize.sh
+          ./scripts/dockerize.sh $IMAGE_TAG $IMAGE_REPOSITORY $TYPE $SERVICE true
+        env:
+          IMAGE_TAG: m-${{ github.sha }}
+          IMAGE_REPOSITORY: truongquangkhang/kang-blogging-sql
+          TYPE: sql
+          SERVICE: blogging
+
+#      - name: Docker push
+#        run: |
+#          docker push $IMAGE_REPOSITORY:$IMAGE_TAG
+#        env:
+#          IMAGE_TAG: m-${{ github.sha }}
+#          IMAGE_REPOSITORY: truongquangkhang/kang-blogging
+
+#  deploy:
+#    needs: [dockerize]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout to the branch
+#        uses: actions/checkout@v2
+#
+#      - name: Azure Login
+#        uses: azure/login@v1
+#        with:
+#          creds: ${{ secrets.KANGBLOGGING_AZURE_CREDENTIALS }}
+#
+#      - name: Deploy to azure container apps
+#        run: |
+#          az containerapp up \
+#          --name $ACA_NAME \
+#          --image $IMAGE_REPOSITORY:$IMAGE_TAG \
+#          --ingress external \
+#          --target-port $TARGET_PORT
+#        env:
+#          ACA_NAME: kang-blogging
+#          IMAGE_TAG: m-${{ github.sha }}
+#          IMAGE_REPOSITORY: truongquangkhang/kang-blogging
+#          TARGET_PORT: 8080

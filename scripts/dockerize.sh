@@ -6,7 +6,11 @@ readonly type="$3"
 readonly service="$4"
 readonly push_image="$5"
 
-buildDir="internal"
+buildDir="$type"
+if [ "$type" = "app" ]; then
+  buildDir="internal"
+fi
+
 
 docker build \
   --no-cache \
