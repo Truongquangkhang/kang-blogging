@@ -56,9 +56,9 @@ jobs:
         with:
           creds: ${{ secrets.KANGBLOGGING_AZURE_CREDENTIALS }}
 
-      - name: Deploy to azure container apps
+      - name: Update image-tag for container of job
         run: |
-          az containerapp job start -n $ACAJ_NAME -g $AZG_NAME \
+          az containerapp job update -n $ACAJ_NAME -g $AZG_NAME \
           --container-name $ACAJ_NAME \
           --image $IMAGE_REPOSITORY:$IMAGE_TAG
         env:
@@ -66,3 +66,11 @@ jobs:
           ACAJ_NAME: kang-blogging-sql
           IMAGE_TAG: m-${{ github.sha }}
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging-sql
+
+      - name: Start job migrations data
+        run:
+          az containerapp job start -n $ACAJ_NAME -g $AZG_NAME \
+          --container-name $ACAJ_NAME
+        env:
+          AZG_NAME: kang
+          ACAJ_NAME: kang-blogging-sql
