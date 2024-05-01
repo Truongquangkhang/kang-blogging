@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	BlogService_GetBlogs_FullMethodName      = "/blogging.BlogService/GetBlogs"
-	BlogService_GetBlogDetail_FullMethodName = "/blogging.BlogService/GetBlogDetail"
-	BlogService_CreateBlog_FullMethodName    = "/blogging.BlogService/CreateBlog"
+	BlogService_GetBlogs_FullMethodName         = "/blogging.BlogService/GetBlogs"
+	BlogService_GetBlogDetail_FullMethodName    = "/blogging.BlogService/GetBlogDetail"
+	BlogService_CreateBlog_FullMethodName       = "/blogging.BlogService/CreateBlog"
+	BlogService_UpdateBlogDetail_FullMethodName = "/blogging.BlogService/UpdateBlogDetail"
 )
 
 // BlogServiceClient is the client API for BlogService service.
@@ -31,6 +32,7 @@ type BlogServiceClient interface {
 	GetBlogs(ctx context.Context, in *GetBlogsRequest, opts ...grpc.CallOption) (*GetBlogsResponse, error)
 	GetBlogDetail(ctx context.Context, in *GetBlogDetailRequest, opts ...grpc.CallOption) (*GetBlogDetailResponse, error)
 	CreateBlog(ctx context.Context, in *CreateBlogRequest, opts ...grpc.CallOption) (*CreateBlogResponse, error)
+	UpdateBlogDetail(ctx context.Context, in *UpdateBlogDetailRequest, opts ...grpc.CallOption) (*UpdateBlogDetailResponse, error)
 }
 
 type blogServiceClient struct {
@@ -68,6 +70,15 @@ func (c *blogServiceClient) CreateBlog(ctx context.Context, in *CreateBlogReques
 	return out, nil
 }
 
+func (c *blogServiceClient) UpdateBlogDetail(ctx context.Context, in *UpdateBlogDetailRequest, opts ...grpc.CallOption) (*UpdateBlogDetailResponse, error) {
+	out := new(UpdateBlogDetailResponse)
+	err := c.cc.Invoke(ctx, BlogService_UpdateBlogDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BlogServiceServer is the server API for BlogService service.
 // All implementations should embed UnimplementedBlogServiceServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type BlogServiceServer interface {
 	GetBlogs(context.Context, *GetBlogsRequest) (*GetBlogsResponse, error)
 	GetBlogDetail(context.Context, *GetBlogDetailRequest) (*GetBlogDetailResponse, error)
 	CreateBlog(context.Context, *CreateBlogRequest) (*CreateBlogResponse, error)
+	UpdateBlogDetail(context.Context, *UpdateBlogDetailRequest) (*UpdateBlogDetailResponse, error)
 }
 
 // UnimplementedBlogServiceServer should be embedded to have forward compatible implementations.
@@ -89,6 +101,9 @@ func (UnimplementedBlogServiceServer) GetBlogDetail(context.Context, *GetBlogDet
 }
 func (UnimplementedBlogServiceServer) CreateBlog(context.Context, *CreateBlogRequest) (*CreateBlogResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateBlog not implemented")
+}
+func (UnimplementedBlogServiceServer) UpdateBlogDetail(context.Context, *UpdateBlogDetailRequest) (*UpdateBlogDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBlogDetail not implemented")
 }
 
 // UnsafeBlogServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -156,6 +171,24 @@ func _BlogService_CreateBlog_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BlogService_UpdateBlogDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBlogDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BlogServiceServer).UpdateBlogDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BlogService_UpdateBlogDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BlogServiceServer).UpdateBlogDetail(ctx, req.(*UpdateBlogDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BlogService_ServiceDesc is the grpc.ServiceDesc for BlogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -174,6 +207,10 @@ var BlogService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateBlog",
 			Handler:    _BlogService_CreateBlog_Handler,
+		},
+		{
+			MethodName: "UpdateBlogDetail",
+			Handler:    _BlogService_UpdateBlogDetail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -17,15 +17,22 @@ service BlogService {
     };
   }
 
+  rpc CreateBlog(CreateBlogRequest) returns (CreateBlogResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/create-blog"
+      body: "*"
+    };
+  }
+
   rpc GetBlogDetail(GetBlogDetailRequest) returns (GetBlogDetailResponse) {
     option (google.api.http) = {
       get: "/api/v1/blog/{blog_id}"
     };
   }
 
-  rpc CreateBlog(CreateBlogRequest) returns (CreateBlogResponse) {
+  rpc UpdateBlogDetail(UpdateBlogDetailRequest) returns (UpdateBlogDetailResponse) {
     option (google.api.http) = {
-      post: "/api/v1/create-blog"
+      patch: "/api/v1/blog/{blog_id}"
       body: "*"
     };
   }
@@ -80,3 +87,20 @@ message CreateBlogResponse {
   Data data = 3;
 }
 
+message UpdateBlogDetailRequest {
+  string blog_id = 1;
+  google.protobuf.StringValue name = 2;
+  google.protobuf.StringValue description = 3;
+  repeated string category_ids = 4;
+  google.protobuf.StringValue thumbnail = 5;
+  google.protobuf.StringValue content = 6;
+}
+
+message UpdateBlogDetailResponse {
+  message Data {
+    BlogInfo blog = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}

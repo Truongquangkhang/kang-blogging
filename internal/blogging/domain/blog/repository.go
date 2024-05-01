@@ -20,4 +20,10 @@ type Repository interface {
 		ctx context.Context,
 		blogId string,
 	) (*model.Blog, error)
+
+	UpdateBlog(
+		ctx context.Context,
+		blog *model.Blog,
+		categoryIds []string,
+	) (*model.Blog, error)
 }
