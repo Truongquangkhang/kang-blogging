@@ -93,6 +93,9 @@ func newService(ctx context.Context) app.Application {
 			GetBlogDetail: blog.NewGetBlogDetailHandler(
 				blogRepository, logger, metricsClient,
 			),
+			UpdateBlogDetail: blog.NewUpdateBlogDetailHandler(
+				blogRepository, logger, metricsClient,
+			),
 		},
 	}
 }

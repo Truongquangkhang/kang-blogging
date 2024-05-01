@@ -6,7 +6,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-const RESPONSE_EVENT_SCHEMA_LOG_NAME = "nio_v1_nio_response_events"
+const RESPONSE_EVENT_SCHEMA_LOG_NAME = "response_events"
 
 type ResponseEvent struct {
 	TraceId    string                 `json:"trace_id"`
