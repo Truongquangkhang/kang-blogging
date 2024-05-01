@@ -68,7 +68,7 @@ jobs:
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging-sql
 
       - name: Start job migrations data
-        run:
+        run: |
           az containerapp job start -n $ACAJ_NAME -g $AZG_NAME \
           --container-name $ACAJ_NAME
         env:
