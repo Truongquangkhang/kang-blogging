@@ -58,10 +58,11 @@ jobs:
 
       - name: Deploy to azure container apps
         run: |
-          az containerapp up \
-          --name $ACA_NAME \
+          az containerapp job start -n $ACAJ_NAME -g $AZG_NAME \
+          --container-name $ACAJ_NAME \
           --image $IMAGE_REPOSITORY:$IMAGE_TAG
         env:
-          ACA_NAME: kang-blogging-sql
+          AZG_NAME: kang
+          ACAJ_NAME: kang-blogging-sql
           IMAGE_TAG: m-${{ github.sha }}
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging-sql
