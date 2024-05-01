@@ -8,9 +8,9 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 
-RUN mkdir -p $SERVICE/migrations
+RUN mkdir -p $SERVICE/migration
 COPY main.go ./
-COPY $SERVICE/migrations/*.sql ./$SERVICE/migrations/
+COPY $SERVICE/migration/*.sql ./$SERVICE/migration/
 
 RUN go build -o /sql .
 
