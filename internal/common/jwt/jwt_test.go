@@ -31,7 +31,7 @@ func Test_GetIDAndRoleFromJwtToke(t *testing.T) {
 	expectedID := "90debe20-1284-4643-a383-ada0e715dafe"
 	expectedRole := "user"
 	mockSecretKey := "abc"
-	token, err := CreateAccessToken(expectedID, expectedRole, mockSecretKey, 2)
+	token, _ := CreateAccessToken(expectedID, expectedRole, mockSecretKey, 2)
 
 	actualID, actualRole, err := GetIDAndRoleFromJwtToken(token, mockSecretKey)
 	if err != nil {
