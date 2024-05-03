@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"kang-blogging/internal/common/health"
 	"net"
 	"net/http"
 	"os"
@@ -89,7 +90,7 @@ func RunGRPCServerOnAddr(
 		),
 	)
 
-	//grpc_health_v1.RegisterHealthServer(grpcServer, health.NewGrpcHealthChecker())
+	grpc_health_v1.RegisterHealthServer(grpcServer, health.NewGrpcHealthChecker())
 
 	registerServer(grpcServer)
 
