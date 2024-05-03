@@ -28,11 +28,12 @@ func Test_VerifyToken(t *testing.T) {
 }
 
 func Test_GetIDAndRoleFromJwtToke(t *testing.T) {
-	mockJwtToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTQ2NDU5MzgsInJvbGUiOiJ1c2VyIiwidXNlcklkIjoiOTBkZWJlMjAtMTI4NC00NjQzLWEzODMtYWRhMGU3MTVkYWZlIn0.1KMLPNS2ylTTOC7wCyjRBEARrYphDi341zp8f89cuAA"
 	expectedID := "90debe20-1284-4643-a383-ada0e715dafe"
 	expectedRole := "user"
+	mockSecretKey := "abc"
+	token, _ := CreateAccessToken(expectedID, expectedRole, mockSecretKey, 2)
 
-	actualID, actualRole, err := GetIDAndRoleFromJwtToken(mockJwtToken, "abc")
+	actualID, actualRole, err := GetIDAndRoleFromJwtToken(token, mockSecretKey)
 	if err != nil {
 		t.Fatalf("Get an error %v", err)
 	}
