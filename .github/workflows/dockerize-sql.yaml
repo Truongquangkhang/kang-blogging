@@ -74,3 +74,4 @@ jobs:
         env:
           AZG_NAME: kang
           ACAJ_NAME: kang-blogging-sql
+
