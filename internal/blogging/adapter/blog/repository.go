@@ -19,3 +19,5 @@ func NewRepository() *BlogRepository {
 		gdb: gormAdapter.GetDBInstance(),
 	}
 }
+
+// trigger ci/cd
