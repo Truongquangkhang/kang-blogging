@@ -38,7 +38,7 @@ message LoginResponse {
   message Data {
     string access_token = 1;
     string refresh_token =  2;
-    UserInfo user_info = 3;
+    UserInfoMetadata user_info = 3;
   }
   int32 code = 1;
   string message = 2;

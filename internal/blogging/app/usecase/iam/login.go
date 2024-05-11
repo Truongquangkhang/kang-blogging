@@ -8,6 +8,7 @@ import (
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/jwt"
+	"kang-blogging/internal/common/model"
 	util_password "kang-blogging/internal/common/utils/password"
 	"os"
 	"strconv"
@@ -21,6 +22,7 @@ type LoginParams struct {
 type LoginResult struct {
 	AccessToken  string
 	RefreshToken string
+	UserInfo     model.User
 }
 
 type LoginHandler decorator.UsecaseHandler[LoginParams, LoginResult]
@@ -76,6 +78,7 @@ func (l loginHandler) Handle(ctx context.Context, param LoginParams) (LoginResul
 	return LoginResult{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
+		UserInfo:     acc.User,
 	}, nil
 }
 

@@ -4,6 +4,7 @@ import (
 	"context"
 	"kang-blogging/internal/blogging/app/usecase/user"
 	"kang-blogging/internal/blogging/infra"
+	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 )
 
@@ -24,7 +25,7 @@ func (g GrpcService) GetUserDetail(
 		Code:    0,
 		Message: "Success",
 		Data: &blogging.GetUserDetailResponse_Data{
-			Users: mapUserToUserInfoMetadataResponse(rs.User),
+			Users: common.MapUserToUserInfoMetadataResponse(rs.User),
 		},
 	}, nil
 }
