@@ -13,6 +13,7 @@ func (u AccountRepository) GetAccountByUsername(
 ) (*model.Account, error) {
 	var rs *model.Account
 	err := u.gdb.DB().WithContext(ctx).Model(model.Account{}).
+		Preload("User").
 		First(&rs, "username = ?", username).Error
 
 	if err != nil || rs == nil {

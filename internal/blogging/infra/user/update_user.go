@@ -4,6 +4,7 @@ import (
 	"context"
 	"kang-blogging/internal/blogging/app/usecase/user"
 	"kang-blogging/internal/blogging/infra"
+	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/common/utils"
 )
@@ -30,7 +31,7 @@ func (g GrpcService) UpdateUserDetail(
 		Code:    0,
 		Message: "Success",
 		Data: &blogging.UpdateUserDetailResponse_Data{
-			Users: mapUserToUserInfoMetadataResponse(rs.User),
+			Users: common.MapUserToUserInfoMetadataResponse(rs.User),
 		},
 	}, nil
 }
