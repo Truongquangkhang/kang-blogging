@@ -635,12 +635,45 @@ paths:
                             type: array
                             items:
                               $ref: '#/components/schemas/Comment'
-                          replys:
+                          replies:
                             type: array
                             items:
                               $ref: '#/components/schemas/Comment'
                           pagination:
                             $ref: '#/components/schemas/Comment'
+  /api/v1/category:
+    get:
+      tags:
+        - Category
+      description: |-
+        - Get categories.
+      summary: 'Get categories by param'
+      operationId: getCategories
+      parameters:
+        - in: query
+          name: categoryName
+          schema:
+            type: string
+          required: false
+          description: |
+            - Call api without categoryName then return all Categories
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          categories:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Category'
 components:
   schemas:
     BaseAPIResponse:
