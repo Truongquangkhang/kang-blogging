@@ -31,8 +31,9 @@ func (u UserRepository) GetUsers(
 			return nil, 0, errors.NewBadRequestError("invalid search name")
 		}
 	}
-	err := query.Offset(int(offset)).Limit(int(limit)).Find(&users).
-		Count(&total).Error
+	err := query.Offset(int(offset)).
+		Count(&total).
+		Limit(int(limit)).Find(&users).Error
 	if err != nil {
 		return nil, 0, err
 	}
