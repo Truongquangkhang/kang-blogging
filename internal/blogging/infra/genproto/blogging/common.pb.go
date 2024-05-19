@@ -384,6 +384,69 @@ func (x *Category) GetName() string {
 	return ""
 }
 
+type CategoryMetadata struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	BlogCount int32  `protobuf:"varint,3,opt,name=blog_count,json=blogCount,proto3" json:"blog_count,omitempty"`
+}
+
+func (x *CategoryMetadata) Reset() {
+	*x = CategoryMetadata{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_common_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CategoryMetadata) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CategoryMetadata) ProtoMessage() {}
+
+func (x *CategoryMetadata) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_common_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CategoryMetadata.ProtoReflect.Descriptor instead.
+func (*CategoryMetadata) Descriptor() ([]byte, []int) {
+	return file_blogging_common_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CategoryMetadata) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *CategoryMetadata) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *CategoryMetadata) GetBlogCount() int32 {
+	if x != nil {
+		return x.BlogCount
+	}
+	return 0
+}
+
 type Pagination struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -397,7 +460,7 @@ type Pagination struct {
 func (x *Pagination) Reset() {
 	*x = Pagination{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_common_proto_msgTypes[5]
+		mi := &file_blogging_common_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -410,7 +473,7 @@ func (x *Pagination) String() string {
 func (*Pagination) ProtoMessage() {}
 
 func (x *Pagination) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_common_proto_msgTypes[5]
+	mi := &file_blogging_common_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -423,7 +486,7 @@ func (x *Pagination) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Pagination.ProtoReflect.Descriptor instead.
 func (*Pagination) Descriptor() ([]byte, []int) {
-	return file_blogging_common_proto_rawDescGZIP(), []int{5}
+	return file_blogging_common_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Pagination) GetPage() int32 {
@@ -510,14 +573,19 @@ var file_blogging_common_proto_rawDesc = []byte{
 	0x52, 0x06, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x22, 0x2e, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65,
 	0x67, 0x6f, 0x72, 0x79, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x53, 0x0a, 0x0a, 0x50, 0x61, 0x67, 0x69,
-	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61,
-	0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70,
-	0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x42, 0x0c, 0x5a,
-	0x0a, 0x2e, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x55, 0x0a, 0x10, 0x43, 0x61, 0x74, 0x65,
+	0x67, 0x6f, 0x72, 0x79, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x12, 0x1d, 0x0a, 0x0a, 0x62, 0x6c, 0x6f, 0x67, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x62, 0x6c, 0x6f, 0x67, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x22,
+	0x53, 0x0a, 0x0a, 0x50, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a,
+	0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67,
+	0x65, 0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x14,
+	0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x74,
+	0x6f, 0x74, 0x61, 0x6c, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69,
+	0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -532,27 +600,28 @@ func file_blogging_common_proto_rawDescGZIP() []byte {
 	return file_blogging_common_proto_rawDescData
 }
 
-var file_blogging_common_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_blogging_common_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_blogging_common_proto_goTypes = []interface{}{
 	(*UserInfo)(nil),               // 0: blogging.UserInfo
 	(*UserInfoMetadata)(nil),       // 1: blogging.UserInfoMetadata
 	(*BlogInfo)(nil),               // 2: blogging.BlogInfo
 	(*BlogMetadata)(nil),           // 3: blogging.BlogMetadata
 	(*Category)(nil),               // 4: blogging.Category
-	(*Pagination)(nil),             // 5: blogging.Pagination
-	(*wrapperspb.BoolValue)(nil),   // 6: google.protobuf.BoolValue
-	(*wrapperspb.StringValue)(nil), // 7: google.protobuf.StringValue
+	(*CategoryMetadata)(nil),       // 5: blogging.CategoryMetadata
+	(*Pagination)(nil),             // 6: blogging.Pagination
+	(*wrapperspb.BoolValue)(nil),   // 7: google.protobuf.BoolValue
+	(*wrapperspb.StringValue)(nil), // 8: google.protobuf.StringValue
 }
 var file_blogging_common_proto_depIdxs = []int32{
 	0,  // 0: blogging.UserInfo.user_info:type_name -> blogging.UserInfo
 	1,  // 1: blogging.UserInfo.user_followed:type_name -> blogging.UserInfoMetadata
 	1,  // 2: blogging.UserInfo.user_following_me:type_name -> blogging.UserInfoMetadata
-	6,  // 3: blogging.UserInfoMetadata.gender:type_name -> google.protobuf.BoolValue
-	7,  // 4: blogging.UserInfoMetadata.avatar:type_name -> google.protobuf.StringValue
+	7,  // 3: blogging.UserInfoMetadata.gender:type_name -> google.protobuf.BoolValue
+	8,  // 4: blogging.UserInfoMetadata.avatar:type_name -> google.protobuf.StringValue
 	3,  // 5: blogging.BlogInfo.blog_info:type_name -> blogging.BlogMetadata
-	7,  // 6: blogging.BlogInfo.content:type_name -> google.protobuf.StringValue
+	8,  // 6: blogging.BlogInfo.content:type_name -> google.protobuf.StringValue
 	4,  // 7: blogging.BlogMetadata.categories:type_name -> blogging.Category
-	7,  // 8: blogging.BlogMetadata.thumbnail:type_name -> google.protobuf.StringValue
+	8,  // 8: blogging.BlogMetadata.thumbnail:type_name -> google.protobuf.StringValue
 	1,  // 9: blogging.BlogMetadata.author:type_name -> blogging.UserInfoMetadata
 	10, // [10:10] is the sub-list for method output_type
 	10, // [10:10] is the sub-list for method input_type
@@ -628,6 +697,18 @@ func file_blogging_common_proto_init() {
 			}
 		}
 		file_blogging_common_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CategoryMetadata); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_common_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Pagination); i {
 			case 0:
 				return &v.state
@@ -646,7 +727,7 @@ func file_blogging_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_blogging_common_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

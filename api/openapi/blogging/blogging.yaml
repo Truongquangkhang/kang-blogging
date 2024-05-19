@@ -635,10 +635,64 @@ paths:
                             type: array
                             items:
                               $ref: '#/components/schemas/Comment'
-                          replys:
+                          replies:
                             type: array
                             items:
                               $ref: '#/components/schemas/Comment'
+                          pagination:
+                            $ref: '#/components/schemas/Comment'
+  /api/v1/category:
+    get:
+      tags:
+        - Category
+      description: |-
+        - Get categories.
+      summary: 'Get categories by param'
+      operationId: getCategories
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+          description: Current page, for high performance try to use pagination.offset instead! (default 1)
+        - in: query
+          name: pageSize
+          required: true
+          description: Total item in a page (default is 10)
+          schema:
+            type: integer
+        - in: query
+          name: searchName
+          schema:
+            type: string
+          required: false
+          description: |
+            - Call api without categoryName then return all Categories
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+          required: false
+          description: |
+            - Apply sort by (blog, ...)
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          categories:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/CategoryMetadata'
                           pagination:
                             $ref: '#/components/schemas/Comment'
 components:
@@ -740,6 +794,15 @@ components:
           type: string
         name:
           type: string
+    CategoryMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        blogCount:
+          type: integer
     Pagination:
       type: object
       properties:

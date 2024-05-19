@@ -2,14 +2,16 @@ package app
 
 import (
 	"kang-blogging/internal/blogging/app/usecase/blog"
+	"kang-blogging/internal/blogging/app/usecase/category"
 	"kang-blogging/internal/blogging/app/usecase/iam"
 	"kang-blogging/internal/blogging/app/usecase/user"
 )
 
 type Application struct {
-	IAMUsecases IAMUsecases
-	UserUsecase UserUsecase
-	BlogUsecase BlogUsecase
+	IAMUsecases     IAMUsecases
+	UserUsecase     UserUsecase
+	BlogUsecase     BlogUsecase
+	CategoryUsecase CategoryUsecase
 }
 
 type IAMUsecases struct {
@@ -30,4 +32,8 @@ type BlogUsecase struct {
 	GetBlogDetail    blog.GetBlogDetailHandler
 	UpdateBlogDetail blog.UpdateBlogDetailHandler
 	DeleteBlogDetail blog.DeleteBlogDetailHandler
+}
+
+type CategoryUsecase struct {
+	GetCategories category.GetCategoriesHandler
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/infra/blog"
+	"kang-blogging/internal/blogging/infra/category"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/blogging/infra/iam"
 	"kang-blogging/internal/blogging/infra/user"
@@ -34,6 +35,8 @@ func main() {
 			blogging.RegisterUserServiceServer(server, svcUser)
 			svcBlog := blog.NewGrpcService(application.BlogUsecase)
 			blogging.RegisterBlogServiceServer(server, svcBlog)
+			svcCategory := category.NewGrpcService(application.CategoryUsecase)
+			blogging.RegisterCategoryServiceServer(server, svcCategory)
 		},
 		func(mux *runtime.ServeMux, conn *grpc.ClientConn) {
 			err := blogging.RegisterIAMServiceHandler(ctx, mux, conn)
@@ -45,6 +48,10 @@ func main() {
 				logrus.Fatal(err)
 			}
 			err = blogging.RegisterBlogServiceHandler(ctx, mux, conn)
+			if err != nil {
+				logrus.Fatal(err)
+			}
+			err = blogging.RegisterCategoryServiceHandler(ctx, mux, conn)
 			if err != nil {
 				logrus.Fatal(err)
 			}
