@@ -10,4 +10,22 @@ type Repository interface {
 		ctx context.Context,
 		categoryIds []string,
 	) ([]model.Category, error)
+
+	GetCategoriesByParam(
+		ctx context.Context,
+		param ParamGetCategories,
+	) ([]ResultGetCategories, int32, error)
+}
+
+type ParamGetCategories struct {
+	Page         int32
+	PageSize     int32
+	SearchByName *string
+	SortBy       *string
+}
+
+type ResultGetCategories struct {
+	ID        string
+	Name      string
+	BlogCount int32
 }

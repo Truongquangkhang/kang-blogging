@@ -44,7 +44,13 @@ message BlogMetadata {
 
 message Category {
   string id = 1;
-  string name =2;
+  string name = 2;
+}
+
+message CategoryMetadata {
+  string id = 1;
+  string name = 2;
+  int32 blog_count = 3;
 }
 
 message Pagination {

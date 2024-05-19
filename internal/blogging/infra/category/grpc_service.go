@@ -3,9 +3,9 @@ package category
 import "kang-blogging/internal/blogging/app"
 
 type GrpcService struct {
-	usecase app.BlogUsecase
+	usecase app.CategoryUsecase
 }
 
-func NewGrpcService(usecase app.BlogUsecase) GrpcService {
+func NewGrpcService(usecase app.CategoryUsecase) GrpcService {
 	return GrpcService{usecase}
 }

@@ -26,7 +26,7 @@ message GetCategoriesRequest {
 
 message  GetCategoriesResponse {
   message Data {
-    repeated Category categories = 1;
+    repeated CategoryMetadata categories = 1;
     Pagination pagination = 2;
   }
   int32 code = 1;

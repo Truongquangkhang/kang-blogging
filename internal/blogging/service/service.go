@@ -11,6 +11,7 @@ import (
 	"kang-blogging/internal/blogging/adapter/user"
 	"kang-blogging/internal/blogging/app"
 	"kang-blogging/internal/blogging/app/usecase/blog"
+	category2 "kang-blogging/internal/blogging/app/usecase/category"
 	"kang-blogging/internal/blogging/app/usecase/iam"
 	user2 "kang-blogging/internal/blogging/app/usecase/user"
 	"kang-blogging/internal/common/db"
@@ -98,6 +99,11 @@ func newService(ctx context.Context) app.Application {
 			),
 			DeleteBlogDetail: blog.NewDeleteBlogDetailHandler(
 				blogRepository, logger, metricsClient,
+			),
+		},
+		CategoryUsecase: app.CategoryUsecase{
+			GetCategories: category2.NewGetCategoriesHandler(
+				categoryRepository, logger, metricsClient,
 			),
 		},
 	}

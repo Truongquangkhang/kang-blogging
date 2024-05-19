@@ -6,5 +6,5 @@ type Category struct {
 }
 
 func (Category) TableName() string {
-	return "Categories"
+	return "categories"
 }
