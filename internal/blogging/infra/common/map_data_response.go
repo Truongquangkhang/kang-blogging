@@ -31,6 +31,17 @@ func MapToCategoriesMetadata(categories []category2.ResultGetCategories) []*blog
 	return response
 }
 
+func MapModelCommentToResponse(comment model.Comment) *blogging.Comment {
+	return &blogging.Comment{
+		Id:         comment.ID,
+		Content:    comment.Content,
+		IsToxicity: comment.IsToxicity,
+		CreatedAt:  comment.CreatedAt.Unix(),
+		UpdatedAt:  comment.UpdatedAt.Unix(),
+		User:       MapUserToUserInfoMetadataResponse(comment.User),
+	}
+}
+
 func MapToPaginationResponse(pagination model.Pagination) *blogging.Pagination {
 	return &blogging.Pagination{
 		Page:     pagination.Page,
