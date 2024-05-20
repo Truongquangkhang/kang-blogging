@@ -53,6 +53,20 @@ message CategoryMetadata {
   int32 blog_count = 3;
 }
 
+message Comment {
+  string id = 1;
+  string content = 2;
+  bool  is_toxicity = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
+  UserInfoMetadata user = 6;
+}
+
+message CommentWithReplies {
+  Comment comment = 1;
+  repeated Comment replies = 2;
+}
+
 message Pagination {
   int32 page = 1;
   int32 page_size = 2;

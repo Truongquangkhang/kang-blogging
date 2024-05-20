@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package blogging;
+
+option go_package = "./blogging";
+
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "blogging/common.proto";
+
+service CommentService {
+  rpc GetBlogComments(GetBlogCommentsRequest) returns (GetBlogCommentsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/comment"
+    };
+  }
+}
+
+message GetBlogCommentsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string blog_id = 3;
+}
+
+message  GetBlogCommentsResponse {
+  message Data {
+    repeated CommentWithReplies comments = 1;
+    Pagination pagination = 2;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}

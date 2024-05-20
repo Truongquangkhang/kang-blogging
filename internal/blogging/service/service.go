@@ -7,11 +7,13 @@ import (
 	blog2 "kang-blogging/internal/blogging/adapter/blog"
 	"kang-blogging/internal/blogging/adapter/blog_categories"
 	"kang-blogging/internal/blogging/adapter/category"
+	"kang-blogging/internal/blogging/adapter/comment"
 	"kang-blogging/internal/blogging/adapter/role"
 	"kang-blogging/internal/blogging/adapter/user"
 	"kang-blogging/internal/blogging/app"
 	"kang-blogging/internal/blogging/app/usecase/blog"
 	category2 "kang-blogging/internal/blogging/app/usecase/category"
+	comment2 "kang-blogging/internal/blogging/app/usecase/comment"
 	"kang-blogging/internal/blogging/app/usecase/iam"
 	user2 "kang-blogging/internal/blogging/app/usecase/user"
 	"kang-blogging/internal/common/db"
@@ -57,6 +59,7 @@ func newService(ctx context.Context) app.Application {
 	blogRepository := blog2.NewRepository()
 	categoryRepository := category.NewRepository()
 	blogCategoriesRepository := blog_categories.NewRepository()
+	commentRepository := comment.NewRepository()
 	logger := logrus.NewEntry(logrus.StandardLogger())
 	metricsClient := metrics.NoOp{}
 
@@ -104,6 +107,11 @@ func newService(ctx context.Context) app.Application {
 		CategoryUsecase: app.CategoryUsecase{
 			GetCategories: category2.NewGetCategoriesHandler(
 				categoryRepository, logger, metricsClient,
+			),
+		},
+		CommentUsecase: app.CommentUsecase{
+			GetBlogComments: comment2.NewGetBlogCommentsHandler(
+				commentRepository, logger, metricsClient,
 			),
 		},
 	}

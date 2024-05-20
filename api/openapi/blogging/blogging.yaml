@@ -588,18 +588,14 @@ paths:
       operationId: getComment
       parameters:
         - in: query
-          name: blog_ids
+          name: blog_id
           schema:
-            type: array
-            items:
-              type: string
+            type: string
           required: false
         - in: query
-          name: author_ids
+          name: user_id
           schema:
-            type: array
-            items:
-              type: string
+            type: string
           required: false
         - in: query
           name: is_toxicity
@@ -634,13 +630,15 @@ paths:
                           comments:
                             type: array
                             items:
-                              $ref: '#/components/schemas/Comment'
-                          replies:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/Comment'
+                              properties:
+                                comment:
+                                  $ref: '#/components/schemas/Comment'
+                                replies:
+                                  type: array
+                                  items:
+                                    $ref: '#/components/schemas/Comment'
                           pagination:
-                            $ref: '#/components/schemas/Comment'
+                            $ref: '#/components/schemas/Pagination'
   /api/v1/category:
     get:
       tags:
@@ -727,19 +725,23 @@ components:
           description: 'HTML of a content'
     Comment:
       type: object
+      required:
+        - id
+        - content
+        - is_toxicity
       properties:
+        id:
+          type: string
         content:
           type: string
-        author:
-          $ref: '#/components/schemas/UserInfoMetadata'
-        created_at:
-          type: integer
-        edit_at:
-          type: integer
         is_toxicity:
           type: boolean
-        is_deleted:
-          type: boolean
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+        user:
+          $ref: '#/components/schemas/UserInfoMetadata'
     UserInfoMetadata:
       type: object
       properties:

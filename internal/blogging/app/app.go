@@ -3,6 +3,7 @@ package app
 import (
 	"kang-blogging/internal/blogging/app/usecase/blog"
 	"kang-blogging/internal/blogging/app/usecase/category"
+	"kang-blogging/internal/blogging/app/usecase/comment"
 	"kang-blogging/internal/blogging/app/usecase/iam"
 	"kang-blogging/internal/blogging/app/usecase/user"
 )
@@ -12,6 +13,7 @@ type Application struct {
 	UserUsecase     UserUsecase
 	BlogUsecase     BlogUsecase
 	CategoryUsecase CategoryUsecase
+	CommentUsecase  CommentUsecase
 }
 
 type IAMUsecases struct {
@@ -36,4 +38,8 @@ type BlogUsecase struct {
 
 type CategoryUsecase struct {
 	GetCategories category.GetCategoriesHandler
+}
+
+type CommentUsecase struct {
+	GetBlogComments comment.GetBlogCommentsHandler
 }
