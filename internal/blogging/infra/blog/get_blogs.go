@@ -57,6 +57,7 @@ func buildGetBlogsResponseData(rs blog.GetBlogsResult) *blogging.GetBlogsRespons
 				Avatar:      utils.WrapperStringFromString(b.User.Avatar),
 				Gender:      utils.WrapperBoolFromBool(b.User.Gender),
 			},
+			TotalBlogComments: b.TotalBlogComments,
 		})
 	}
 	pagination := &blogging.Pagination{
