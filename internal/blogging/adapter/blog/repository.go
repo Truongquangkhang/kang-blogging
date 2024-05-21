@@ -9,7 +9,7 @@ type BlogRepository struct {
 	gdb gormAdapter.DBAdapter
 }
 
-const repoName = "UserRepository"
+const repoName = "BlogRepository"
 
 var logger *logrus.Entry = logrus.StandardLogger().
 	WithField("logger", repoName)
@@ -19,5 +19,3 @@ func NewRepository() *BlogRepository {
 		gdb: gormAdapter.GetDBInstance(),
 	}
 }
-
-// trigger ci/cd

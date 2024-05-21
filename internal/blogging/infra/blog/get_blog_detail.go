@@ -54,6 +54,7 @@ func buildGetBlogDetailResponseData(rs blog.GetBlogDetailResult) *blogging.GetBl
 					Avatar:      utils.WrapperStringFromString(b.User.Avatar),
 					Gender:      utils.WrapperBoolFromBool(b.User.Gender),
 				},
+				TotalBlogComments: b.TotalBlogComments,
 			},
 			Content: utils.WrapperStringFromString(b.Content),
 		},

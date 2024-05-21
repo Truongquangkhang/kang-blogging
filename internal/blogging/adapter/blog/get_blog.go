@@ -35,10 +35,17 @@ func (r BlogRepository) GetBlogsByParam(
 		query = query.Joins("join blog_categories on blog_categories.blog_id = blogs.id").
 			Where("blog_categories.category_id IN (?)", param.CategoryIds)
 	}
-	err := query.Preload("User").Preload("Categories").
+	//query.Joins("left join blog_comments on blog_comments.blog_id = blogs.id").
+	//	Select("COUNT(*) as total_blog_comments")
+	err := query.
+		Preload("User").Preload("Categories").
 		Count(&total).Offset(int(offset)).Limit(int(limit)).
+		Select("blogs.*, count(blog_comments.id) as total_blog_comments").
+		Joins("left join blog_comments on blog_comments.blog_id = blogs.id").
+		Group("blogs.id").
 		Find(&blogs).Error
 
+	//logger.Info(query)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -40,6 +40,7 @@ message BlogMetadata {
   google.protobuf.StringValue thumbnail = 5;
   int64 created_at = 6;
   UserInfoMetadata author = 7;
+  int32 total_blog_comments = 8;
 }
 
 message Category {
