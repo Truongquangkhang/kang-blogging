@@ -10,7 +10,7 @@ import (
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "google.golang.org/protobuf/types/known/wrapperspb"
+	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
 )
@@ -148,6 +148,132 @@ func (x *GetBlogCommentsResponse) GetData() *GetBlogCommentsResponse_Data {
 	return nil
 }
 
+type CreateBlogCommentsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	BlogId         string                  `protobuf:"bytes,1,opt,name=blog_id,json=blogId,proto3" json:"blog_id,omitempty"`
+	Content        string                  `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
+	ReplyCommentId *wrapperspb.StringValue `protobuf:"bytes,3,opt,name=reply_comment_id,json=replyCommentId,proto3" json:"reply_comment_id,omitempty"`
+}
+
+func (x *CreateBlogCommentsRequest) Reset() {
+	*x = CreateBlogCommentsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_comment_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateBlogCommentsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateBlogCommentsRequest) ProtoMessage() {}
+
+func (x *CreateBlogCommentsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_comment_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateBlogCommentsRequest.ProtoReflect.Descriptor instead.
+func (*CreateBlogCommentsRequest) Descriptor() ([]byte, []int) {
+	return file_blogging_comment_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateBlogCommentsRequest) GetBlogId() string {
+	if x != nil {
+		return x.BlogId
+	}
+	return ""
+}
+
+func (x *CreateBlogCommentsRequest) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *CreateBlogCommentsRequest) GetReplyCommentId() *wrapperspb.StringValue {
+	if x != nil {
+		return x.ReplyCommentId
+	}
+	return nil
+}
+
+type CreateBlogCommentsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code    int32                            `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message string                           `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Data    *CreateBlogCommentsResponse_Data `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *CreateBlogCommentsResponse) Reset() {
+	*x = CreateBlogCommentsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_comment_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateBlogCommentsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateBlogCommentsResponse) ProtoMessage() {}
+
+func (x *CreateBlogCommentsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_comment_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateBlogCommentsResponse.ProtoReflect.Descriptor instead.
+func (*CreateBlogCommentsResponse) Descriptor() ([]byte, []int) {
+	return file_blogging_comment_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CreateBlogCommentsResponse) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *CreateBlogCommentsResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *CreateBlogCommentsResponse) GetData() *CreateBlogCommentsResponse_Data {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
 type GetBlogCommentsResponse_Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -160,7 +286,7 @@ type GetBlogCommentsResponse_Data struct {
 func (x *GetBlogCommentsResponse_Data) Reset() {
 	*x = GetBlogCommentsResponse_Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_comment_proto_msgTypes[2]
+		mi := &file_blogging_comment_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -173,7 +299,7 @@ func (x *GetBlogCommentsResponse_Data) String() string {
 func (*GetBlogCommentsResponse_Data) ProtoMessage() {}
 
 func (x *GetBlogCommentsResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_comment_proto_msgTypes[2]
+	mi := &file_blogging_comment_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -199,6 +325,53 @@ func (x *GetBlogCommentsResponse_Data) GetComments() []*CommentWithReplies {
 func (x *GetBlogCommentsResponse_Data) GetPagination() *Pagination {
 	if x != nil {
 		return x.Pagination
+	}
+	return nil
+}
+
+type CreateBlogCommentsResponse_Data struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Comment *Comment `protobuf:"bytes,1,opt,name=comment,proto3" json:"comment,omitempty"`
+}
+
+func (x *CreateBlogCommentsResponse_Data) Reset() {
+	*x = CreateBlogCommentsResponse_Data{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_comment_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CreateBlogCommentsResponse_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateBlogCommentsResponse_Data) ProtoMessage() {}
+
+func (x *CreateBlogCommentsResponse_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_comment_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateBlogCommentsResponse_Data.ProtoReflect.Descriptor instead.
+func (*CreateBlogCommentsResponse_Data) Descriptor() ([]byte, []int) {
+	return file_blogging_comment_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *CreateBlogCommentsResponse_Data) GetComment() *Comment {
+	if x != nil {
+		return x.Comment
 	}
 	return nil
 }
@@ -235,17 +408,48 @@ var file_blogging_comment_proto_rawDesc = []byte{
 	0x6e, 0x74, 0x73, 0x12, 0x34, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
 	0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69,
 	0x6e, 0x67, 0x2e, 0x50, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0a, 0x70,
-	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0x81, 0x01, 0x0a, 0x0e, 0x43, 0x6f,
-	0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x6f, 0x0a, 0x0f,
-	0x47, 0x65, 0x74, 0x42, 0x6c, 0x6f, 0x67, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12,
-	0x20, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x42, 0x6c,
+	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x96, 0x01, 0x0a, 0x19, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x42, 0x6c, 0x6f, 0x67, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x62, 0x6c, 0x6f, 0x67, 0x5f,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x62, 0x6c, 0x6f, 0x67, 0x49, 0x64,
+	0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x12, 0x46, 0x0a, 0x10, 0x72, 0x65,
+	0x70, 0x6c, 0x79, 0x5f, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c,
+	0x75, 0x65, 0x52, 0x0e, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74,
+	0x49, 0x64, 0x22, 0xbe, 0x01, 0x0a, 0x1a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x42, 0x6c, 0x6f,
+	0x67, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52,
+	0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12,
+	0x3d, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e,
+	0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x42,
+	0x6c, 0x6f, 0x67, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x1a, 0x33,
+	0x0a, 0x04, 0x44, 0x61, 0x74, 0x61, 0x12, 0x2b, 0x0a, 0x07, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e,
+	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69,
+	0x6e, 0x67, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x07, 0x63, 0x6f, 0x6d, 0x6d,
+	0x65, 0x6e, 0x74, 0x32, 0x9c, 0x02, 0x0a, 0x0e, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x7e, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x42, 0x6c, 0x6f,
+	0x67, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x20, 0x2e, 0x62, 0x6c, 0x6f, 0x67,
+	0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x42, 0x6c, 0x6f, 0x67, 0x43, 0x6f, 0x6d, 0x6d,
+	0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x62, 0x6c,
+	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x42, 0x6c, 0x6f, 0x67, 0x43, 0x6f,
+	0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x12, 0x1e, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
+	0x62, 0x6c, 0x6f, 0x67, 0x2f, 0x7b, 0x62, 0x6c, 0x6f, 0x67, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x63,
+	0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x89, 0x01, 0x0a, 0x11, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x42, 0x6c, 0x6f, 0x67, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x23, 0x2e, 0x62,
+	0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x42, 0x6c,
 	0x6f, 0x67, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x21, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74,
-	0x42, 0x6c, 0x6f, 0x67, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x17, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x11, 0x12, 0x0f, 0x2f, 0x61,
-	0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x42, 0x0c, 0x5a,
-	0x0a, 0x2e, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x74, 0x1a, 0x24, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x42, 0x6c, 0x6f, 0x67, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x29, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x23, 0x3a,
+	0x01, 0x2a, 0x22, 0x1e, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x62, 0x6c, 0x6f, 0x67,
+	0x2f, 0x7b, 0x62, 0x6c, 0x6f, 0x67, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x65,
+	0x6e, 0x74, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -260,25 +464,35 @@ func file_blogging_comment_proto_rawDescGZIP() []byte {
 	return file_blogging_comment_proto_rawDescData
 }
 
-var file_blogging_comment_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_blogging_comment_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_blogging_comment_proto_goTypes = []interface{}{
-	(*GetBlogCommentsRequest)(nil),       // 0: blogging.GetBlogCommentsRequest
-	(*GetBlogCommentsResponse)(nil),      // 1: blogging.GetBlogCommentsResponse
-	(*GetBlogCommentsResponse_Data)(nil), // 2: blogging.GetBlogCommentsResponse.Data
-	(*CommentWithReplies)(nil),           // 3: blogging.CommentWithReplies
-	(*Pagination)(nil),                   // 4: blogging.Pagination
+	(*GetBlogCommentsRequest)(nil),          // 0: blogging.GetBlogCommentsRequest
+	(*GetBlogCommentsResponse)(nil),         // 1: blogging.GetBlogCommentsResponse
+	(*CreateBlogCommentsRequest)(nil),       // 2: blogging.CreateBlogCommentsRequest
+	(*CreateBlogCommentsResponse)(nil),      // 3: blogging.CreateBlogCommentsResponse
+	(*GetBlogCommentsResponse_Data)(nil),    // 4: blogging.GetBlogCommentsResponse.Data
+	(*CreateBlogCommentsResponse_Data)(nil), // 5: blogging.CreateBlogCommentsResponse.Data
+	(*wrapperspb.StringValue)(nil),          // 6: google.protobuf.StringValue
+	(*CommentWithReplies)(nil),              // 7: blogging.CommentWithReplies
+	(*Pagination)(nil),                      // 8: blogging.Pagination
+	(*Comment)(nil),                         // 9: blogging.Comment
 }
 var file_blogging_comment_proto_depIdxs = []int32{
-	2, // 0: blogging.GetBlogCommentsResponse.data:type_name -> blogging.GetBlogCommentsResponse.Data
-	3, // 1: blogging.GetBlogCommentsResponse.Data.comments:type_name -> blogging.CommentWithReplies
-	4, // 2: blogging.GetBlogCommentsResponse.Data.pagination:type_name -> blogging.Pagination
-	0, // 3: blogging.CommentService.GetBlogComments:input_type -> blogging.GetBlogCommentsRequest
-	1, // 4: blogging.CommentService.GetBlogComments:output_type -> blogging.GetBlogCommentsResponse
-	4, // [4:5] is the sub-list for method output_type
-	3, // [3:4] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	4, // 0: blogging.GetBlogCommentsResponse.data:type_name -> blogging.GetBlogCommentsResponse.Data
+	6, // 1: blogging.CreateBlogCommentsRequest.reply_comment_id:type_name -> google.protobuf.StringValue
+	5, // 2: blogging.CreateBlogCommentsResponse.data:type_name -> blogging.CreateBlogCommentsResponse.Data
+	7, // 3: blogging.GetBlogCommentsResponse.Data.comments:type_name -> blogging.CommentWithReplies
+	8, // 4: blogging.GetBlogCommentsResponse.Data.pagination:type_name -> blogging.Pagination
+	9, // 5: blogging.CreateBlogCommentsResponse.Data.comment:type_name -> blogging.Comment
+	0, // 6: blogging.CommentService.GetBlogComments:input_type -> blogging.GetBlogCommentsRequest
+	2, // 7: blogging.CommentService.CreateBlogComment:input_type -> blogging.CreateBlogCommentsRequest
+	1, // 8: blogging.CommentService.GetBlogComments:output_type -> blogging.GetBlogCommentsResponse
+	3, // 9: blogging.CommentService.CreateBlogComment:output_type -> blogging.CreateBlogCommentsResponse
+	8, // [8:10] is the sub-list for method output_type
+	6, // [6:8] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_blogging_comment_proto_init() }
@@ -313,7 +527,43 @@ func file_blogging_comment_proto_init() {
 			}
 		}
 		file_blogging_comment_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateBlogCommentsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_comment_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateBlogCommentsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_comment_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetBlogCommentsResponse_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_comment_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateBlogCommentsResponse_Data); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -331,7 +581,7 @@ func file_blogging_comment_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_blogging_comment_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

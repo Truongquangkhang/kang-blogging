@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	CommentService_GetBlogComments_FullMethodName = "/blogging.CommentService/GetBlogComments"
+	CommentService_GetBlogComments_FullMethodName   = "/blogging.CommentService/GetBlogComments"
+	CommentService_CreateBlogComment_FullMethodName = "/blogging.CommentService/CreateBlogComment"
 )
 
 // CommentServiceClient is the client API for CommentService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CommentServiceClient interface {
 	GetBlogComments(ctx context.Context, in *GetBlogCommentsRequest, opts ...grpc.CallOption) (*GetBlogCommentsResponse, error)
+	CreateBlogComment(ctx context.Context, in *CreateBlogCommentsRequest, opts ...grpc.CallOption) (*CreateBlogCommentsResponse, error)
 }
 
 type commentServiceClient struct {
@@ -46,11 +48,21 @@ func (c *commentServiceClient) GetBlogComments(ctx context.Context, in *GetBlogC
 	return out, nil
 }
 
+func (c *commentServiceClient) CreateBlogComment(ctx context.Context, in *CreateBlogCommentsRequest, opts ...grpc.CallOption) (*CreateBlogCommentsResponse, error) {
+	out := new(CreateBlogCommentsResponse)
+	err := c.cc.Invoke(ctx, CommentService_CreateBlogComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CommentServiceServer is the server API for CommentService service.
 // All implementations should embed UnimplementedCommentServiceServer
 // for forward compatibility
 type CommentServiceServer interface {
 	GetBlogComments(context.Context, *GetBlogCommentsRequest) (*GetBlogCommentsResponse, error)
+	CreateBlogComment(context.Context, *CreateBlogCommentsRequest) (*CreateBlogCommentsResponse, error)
 }
 
 // UnimplementedCommentServiceServer should be embedded to have forward compatible implementations.
@@ -59,6 +71,9 @@ type UnimplementedCommentServiceServer struct {
 
 func (UnimplementedCommentServiceServer) GetBlogComments(context.Context, *GetBlogCommentsRequest) (*GetBlogCommentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBlogComments not implemented")
+}
+func (UnimplementedCommentServiceServer) CreateBlogComment(context.Context, *CreateBlogCommentsRequest) (*CreateBlogCommentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateBlogComment not implemented")
 }
 
 // UnsafeCommentServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -90,6 +105,24 @@ func _CommentService_GetBlogComments_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CommentService_CreateBlogComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateBlogCommentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentServiceServer).CreateBlogComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentService_CreateBlogComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentServiceServer).CreateBlogComment(ctx, req.(*CreateBlogCommentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CommentService_ServiceDesc is the grpc.ServiceDesc for CommentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -100,6 +133,10 @@ var CommentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBlogComments",
 			Handler:    _CommentService_GetBlogComments_Handler,
+		},
+		{
+			MethodName: "CreateBlogComment",
+			Handler:    _CommentService_CreateBlogComment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

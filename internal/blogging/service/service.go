@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/adapter/account"
 	blog2 "kang-blogging/internal/blogging/adapter/blog"
 	"kang-blogging/internal/blogging/adapter/blog_categories"
+	"kang-blogging/internal/blogging/adapter/blog_comments"
 	"kang-blogging/internal/blogging/adapter/category"
 	"kang-blogging/internal/blogging/adapter/comment"
 	"kang-blogging/internal/blogging/adapter/role"
@@ -60,6 +61,7 @@ func newService(ctx context.Context) app.Application {
 	categoryRepository := category.NewRepository()
 	blogCategoriesRepository := blog_categories.NewRepository()
 	commentRepository := comment.NewRepository()
+	blogCommentRepository := blog_comments.NewRepository()
 	logger := logrus.NewEntry(logrus.StandardLogger())
 	metricsClient := metrics.NoOp{}
 
@@ -112,6 +114,9 @@ func newService(ctx context.Context) app.Application {
 		CommentUsecase: app.CommentUsecase{
 			GetBlogComments: comment2.NewGetBlogCommentsHandler(
 				commentRepository, logger, metricsClient,
+			),
+			CreateBlogComment: comment2.NewCreateBlogCommentHandler(
+				commentRepository, blogCommentRepository, logger, metricsClient,
 			),
 		},
 	}

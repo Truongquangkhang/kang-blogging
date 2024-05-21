@@ -5,7 +5,6 @@ package blogging;
 option go_package = "./blogging";
 
 import "google/api/annotations.proto";
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "blogging/common.proto";
 
