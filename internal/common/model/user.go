@@ -18,6 +18,8 @@ type User struct {
 	CreatedAt   time.Time  `gorm:"not null;default:now();column:created_at"`
 	UpdatedAt   time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP;column:updated_at"`
 	DeletedAt   *time.Time `gorm:"column:deleted_at"`
+	Blogs       []Blog     `gorm:"foreignKey:AuthorID;references:ID"`
+	TotalBlogs  int32
 }
 
 func (User) TableName() string {

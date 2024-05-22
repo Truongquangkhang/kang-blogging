@@ -12,9 +12,8 @@ import "google/protobuf/wrappers.proto";
 //}
 
 message UserInfo{
-  UserInfo user_info = 1;
-  repeated UserInfoMetadata user_followed = 2;
-  repeated UserInfoMetadata user_following_me =3;
+  UserInfoMetadata user_info = 1;
+  repeated BlogMetadata blogs = 2;
 }
 
 message UserInfoMetadata {
