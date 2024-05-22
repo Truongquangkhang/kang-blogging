@@ -34,7 +34,7 @@ func (g GrpcService) GetUsers(
 		Code:    0,
 		Message: "Success",
 		Data: &blogging.GetUsersResponse_Data{
-			Users: usersMetadata,
+			User: usersMetadata,
 			Pagination: &blogging.Pagination{
 				Page:     rs.Pagination.Page,
 				PageSize: rs.Pagination.PageSize,
