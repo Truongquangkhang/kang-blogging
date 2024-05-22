@@ -39,9 +39,9 @@ func (db *adapter) Open(config MysqlConfig) error {
 	newLogger := gormLogger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
 		gormLogger.Config{
-			SlowThreshold: time.Second,       // Slow SQL threshold
-			LogLevel:      gormLogger.Silent, // Log level
-			Colorful:      false,             // Disable color
+			SlowThreshold: time.Second,     // Slow SQL threshold
+			LogLevel:      gormLogger.Info, // Log level
+			Colorful:      false,           // Disable color
 		},
 	)
 

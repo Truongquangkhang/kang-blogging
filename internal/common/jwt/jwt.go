@@ -21,10 +21,12 @@ func CreateAccessToken(userId string, role string, secretKey string, expireHours
 	return tokenString, nil
 }
 
-func CreateRefreshToken(secretKey string, expireHours int) (string, error) {
+func CreateRefreshToken(userId string, role string, secretKey string, expireHours int) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
-			"exp": time.Now().Add(time.Duration(expireHours) * time.Hour).Unix(),
+			"userId": userId,
+			"role":   role,
+			"exp":    time.Now().Add(time.Duration(expireHours) * time.Hour).Unix(),
 		})
 
 	tokenString, err := token.SignedString([]byte(secretKey))

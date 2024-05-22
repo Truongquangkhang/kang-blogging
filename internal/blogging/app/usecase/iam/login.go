@@ -70,7 +70,7 @@ func (l loginHandler) Handle(ctx context.Context, param LoginParams) (LoginResul
 	if err != nil {
 		return LoginResult{}, err
 	}
-	refreshToken, err := jwt.CreateRefreshToken(secretKey, expireHoursRefreshTokenm)
+	refreshToken, err := jwt.CreateRefreshToken(acc.ID, constants.USER_ROLE, secretKey, expireHoursRefreshTokenm)
 	if err != nil {
 		return LoginResult{}, err
 	}

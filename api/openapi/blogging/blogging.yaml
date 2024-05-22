@@ -159,6 +159,43 @@ paths:
                   value:
                     code: '500_000'
                     message: Internal Server Error
+  /api/v1/iam/refresh-access-token:
+    post:
+      tags:
+        - IAM
+      description: |-
+        - refresh your access token.
+      summary: 'Refresh access token'
+      operationId: refreshAccessToken
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          access_token:
+                            type: string
+        '500':
+          description: |-
+            500000: `Internal Server Error`: Internal Server Error
+          content:
+            application/json:
+              examples:
+                500_000 - Server error:
+                  summary: 500_000 - Server error
+                  description: internal error
+                  value:
+                    code: '500_000'
+                    message: Internal Server Error
   /api/v1/iam/check-exist-username:
     get:
       tags:
