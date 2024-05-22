@@ -25,7 +25,7 @@ func (g GrpcService) GetUserDetail(
 		Code:    0,
 		Message: "Success",
 		Data: &blogging.GetUserDetailResponse_Data{
-			Users: common.MapUserToUserInfoMetadataResponse(rs.User),
+			User: common.MapToUserInfoResponse(rs.User),
 		},
 	}, nil
 }
