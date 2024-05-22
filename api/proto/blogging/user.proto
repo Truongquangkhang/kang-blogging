@@ -52,7 +52,7 @@ message GetUserDetailRequest {
 
 message GetUserDetailResponse {
   message Data {
-    UserInfo users = 1;
+    UserInfo user = 1;
   }
   int32 code = 1;
   string message = 2;
