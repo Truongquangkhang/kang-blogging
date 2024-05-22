@@ -90,7 +90,8 @@ func (g createBlogCommentHandler) Handle(ctx context.Context, param CreateBlogCo
 }
 
 func (p *CreateBlogCommentParams) Validate() error {
-	if p.UserID == "" || p.Content == "" || p.BlogID == "" {
+	emptyStr := ""
+	if p.UserID == "" || p.Content == "" || p.BlogID == "" || p.ReplyCommentID == &emptyStr {
 		return errors.NewBadRequestError("Invalid params")
 	}
 	return nil
