@@ -76,6 +76,9 @@ func newService(ctx context.Context) app.Application {
 			CheckExistUsername: iam.NewCheckExistUsernameHandler(
 				accountRepository, logger, metricsClient,
 			),
+			RefreshAccessToken: iam.NewRefreshAccessTokenHandler(
+				logger, metricsClient,
+			),
 		},
 		UserUsecase: app.UserUsecase{
 			GetUsers: user2.NewGetUserHandler(

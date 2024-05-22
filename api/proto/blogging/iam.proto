@@ -27,6 +27,12 @@ service IAMService {
       get: "/api/v1/iam/check-exist-username"
     };
   }
+  rpc RefreshAccessToken(RefreshAccessTokenRequest) returns (RefreshAccessTokenResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/iam/refresh-access-token"
+      body: "*"
+    };
+  }
 }
 
 message LoginRequest {
@@ -69,6 +75,18 @@ message CheckExistUsernameRequest{
 message CheckExistUsernameResponse {
   message Data {
     bool alreadyExist = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message RefreshAccessTokenRequest {
+}
+
+message RefreshAccessTokenResponse {
+  message Data {
+    string access_token = 1;
   }
   int32 code = 1;
   string message = 2;
