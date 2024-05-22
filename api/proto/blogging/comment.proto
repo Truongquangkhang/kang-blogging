@@ -11,7 +11,13 @@ import "blogging/common.proto";
 service CommentService {
   rpc GetBlogComments(GetBlogCommentsRequest) returns (GetBlogCommentsResponse) {
     option (google.api.http) = {
-      get: "/api/v1/comment"
+      get: "/api/v1/blog/{blog_id}/comment"
+    };
+  }
+  rpc CreateBlogComment(CreateBlogCommentsRequest) returns (CreateBlogCommentsResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/blog/{blog_id}/comment"
+      body: "*"
     };
   }
 }
@@ -26,6 +32,21 @@ message  GetBlogCommentsResponse {
   message Data {
     repeated CommentWithReplies comments = 1;
     Pagination pagination = 2;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message CreateBlogCommentsRequest {
+  string blog_id = 1;
+  string content = 2;
+  google.protobuf.StringValue reply_comment_id = 3;
+}
+
+message  CreateBlogCommentsResponse {
+  message Data {
+    Comment comment = 1;
   }
   int32 code = 1;
   string message = 2;

@@ -577,31 +577,15 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/BaseAPIResponse'
-  /api/v1/comment:
+  /api/v1/blog/{blog_id}/comment:
     get:
       tags:
         - Comment
       description: |-
-        - Get comments.
-        - If call api without param then get all comment
+        - Get comments of a blog
       summary: 'Get comment by param'
       operationId: getComment
       parameters:
-        - in: query
-          name: blog_id
-          schema:
-            type: string
-          required: false
-        - in: query
-          name: user_id
-          schema:
-            type: string
-          required: false
-        - in: query
-          name: is_toxicity
-          schema:
-            type: boolean
-          required: false
         - in: query
           name: page
           required: true
@@ -639,6 +623,41 @@ paths:
                                     $ref: '#/components/schemas/Comment'
                           pagination:
                             $ref: '#/components/schemas/Pagination'
+    post:
+      tags:
+        - Comment
+      description: |-
+        - Create new a comment into the blog.
+      summary: 'Create comment'
+      operationId: createComment
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  format: markdown
+                reply_comment_id:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          comment:
+                            $ref: '#/components/schemas/Comment'
   /api/v1/category:
     get:
       tags:

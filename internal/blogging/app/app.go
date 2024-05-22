@@ -41,5 +41,6 @@ type CategoryUsecase struct {
 }
 
 type CommentUsecase struct {
-	GetBlogComments comment.GetBlogCommentsHandler
+	GetBlogComments   comment.GetBlogCommentsHandler
+	CreateBlogComment comment.CreateBlogCommentHandler
 }
