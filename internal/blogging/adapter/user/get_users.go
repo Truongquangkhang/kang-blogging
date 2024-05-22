@@ -32,6 +32,9 @@ func (u UserRepository) GetUsers(
 		}
 	}
 	err := query.Offset(int(offset)).
+		Select("users.*, count(blogs.id) as total_blogs").
+		Joins("left join blogs on users.id = blogs.author_id").
+		Group("users.id").
 		Count(&total).
 		Limit(int(limit)).Find(&users).Error
 	if err != nil {
