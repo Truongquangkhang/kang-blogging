@@ -16,7 +16,7 @@ type Blog struct {
 	DeletedAt         *time.Time `gorm:"column:deleted_at"`
 	User              *User      `gorm:"foreignkey:AuthorID"`
 	Categories        []Category `gorm:"many2many:blog_categories;"`
-	TotalBlogComments int32
+	TotalBlogComments *int32
 }
 
 func (Blog) TableName() string {

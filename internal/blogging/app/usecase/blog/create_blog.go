@@ -113,6 +113,11 @@ func (c createBlogHandler) Handle(ctx context.Context, param CreateBlogParams) (
 		return CreateBlogResult{}, err
 	}
 
+	blog, err = c.blogRepo.GetBlogByID(ctx, blog.ID)
+	if err != nil {
+		return CreateBlogResult{}, err
+	}
+
 	return CreateBlogResult{
 		Blog:           *blog,
 		BlogCategories: categories,
