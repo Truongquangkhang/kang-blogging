@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package blogging;
+
+option go_package = "./blogging";
+
+import "google/api/annotations.proto";
+
+service ImageService {
+  rpc UploadImage( UploadImageRequest) returns (UploadImageResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/image/upload"
+      body: "*"
+    };
+  }
+}
+
+message UploadImageRequest {
+  bytes image = 1;
+}
+
+message  UploadImageResponse {
+  message Data {
+    string url = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}

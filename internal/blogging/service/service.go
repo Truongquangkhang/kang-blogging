@@ -16,6 +16,7 @@ import (
 	category2 "kang-blogging/internal/blogging/app/usecase/category"
 	comment2 "kang-blogging/internal/blogging/app/usecase/comment"
 	"kang-blogging/internal/blogging/app/usecase/iam"
+	"kang-blogging/internal/blogging/app/usecase/image"
 	user2 "kang-blogging/internal/blogging/app/usecase/user"
 	"kang-blogging/internal/common/db"
 	metrics "kang-blogging/internal/common/metric"
@@ -120,6 +121,11 @@ func newService(ctx context.Context) app.Application {
 			),
 			CreateBlogComment: comment2.NewCreateBlogCommentHandler(
 				commentRepository, blogCommentRepository, logger, metricsClient,
+			),
+		},
+		ImageUsecase: app.ImageUsecase{
+			UploadImage: image.NewUploadImageHandler(
+				logger, metricsClient,
 			),
 		},
 	}

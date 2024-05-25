@@ -5,6 +5,7 @@ import (
 	"kang-blogging/internal/blogging/app/usecase/category"
 	"kang-blogging/internal/blogging/app/usecase/comment"
 	"kang-blogging/internal/blogging/app/usecase/iam"
+	"kang-blogging/internal/blogging/app/usecase/image"
 	"kang-blogging/internal/blogging/app/usecase/user"
 )
 
@@ -14,6 +15,7 @@ type Application struct {
 	BlogUsecase     BlogUsecase
 	CategoryUsecase CategoryUsecase
 	CommentUsecase  CommentUsecase
+	ImageUsecase    ImageUsecase
 }
 
 type IAMUsecases struct {
@@ -44,4 +46,8 @@ type CategoryUsecase struct {
 type CommentUsecase struct {
 	GetBlogComments   comment.GetBlogCommentsHandler
 	CreateBlogComment comment.CreateBlogCommentHandler
+}
+
+type ImageUsecase struct {
+	UploadImage image.UploadImageHandler
 }

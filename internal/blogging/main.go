@@ -2,19 +2,19 @@ package main
 
 import (
 	"context"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
 	"kang-blogging/internal/blogging/infra/blog"
 	"kang-blogging/internal/blogging/infra/category"
 	"kang-blogging/internal/blogging/infra/comment"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/blogging/infra/iam"
+	"kang-blogging/internal/blogging/infra/image"
 	"kang-blogging/internal/blogging/infra/user"
 	"kang-blogging/internal/blogging/service"
 	"kang-blogging/internal/common/logs"
 	"kang-blogging/internal/common/server"
-
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"google.golang.org/grpc"
 )
 
 func main() {
@@ -40,6 +40,9 @@ func main() {
 			blogging.RegisterCategoryServiceServer(server, svcCategory)
 			svcComment := comment.NewGrpcService(application.CommentUsecase)
 			blogging.RegisterCommentServiceServer(server, svcComment)
+			svcImage := image.NewGrpcService(application.ImageUsecase)
+			blogging.RegisterImageServiceServer(server, svcImage)
+
 		},
 		func(mux *runtime.ServeMux, conn *grpc.ClientConn) {
 			err := blogging.RegisterIAMServiceHandler(ctx, mux, conn)
@@ -59,6 +62,10 @@ func main() {
 				logrus.Fatal(err)
 			}
 			err = blogging.RegisterCommentServiceHandler(ctx, mux, conn)
+			if err != nil {
+				logrus.Fatal(err)
+			}
+			err = blogging.RegisterImageServiceHandler(ctx, mux, conn)
 			if err != nil {
 				logrus.Fatal(err)
 			}
