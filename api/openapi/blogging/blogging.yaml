@@ -437,6 +437,14 @@ paths:
               - author
               - content
         - in: query
+          name: sort_by
+          required: false
+          description: "sort blogs"
+          schema:
+            enum:
+              - latest
+              - total_comments
+        - in: query
           name: page
           required: true
           schema:

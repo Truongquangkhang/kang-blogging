@@ -6,7 +6,9 @@ import (
 	"kang-blogging/internal/blogging/domain/blog"
 	"kang-blogging/internal/blogging/domain/user"
 	"kang-blogging/internal/common/decorator"
+	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/model"
+	"kang-blogging/internal/common/utils"
 	"strings"
 )
 
@@ -17,6 +19,7 @@ type GetBlogsParams struct {
 	SearchBy    *string
 	CategoryIds *string
 	AuthorIds   *string
+	SortBy      *string
 }
 
 type GetBlogsResult struct {
@@ -75,6 +78,7 @@ func (g getBogsHandler) Handle(ctx context.Context, param GetBlogsParams) (GetBl
 		SearchBy:    param.SearchBy,
 		AuthorIds:   authorIds,
 		CategoryIds: categoryIds,
+		SortBy:      param.SortBy,
 	})
 	if err != nil {
 		return GetBlogsResult{}, err
@@ -96,6 +100,13 @@ func (p *GetBlogsParams) Validate() error {
 	}
 	if p.PageSize <= 0 {
 		p.PageSize = 10
+	}
+	if p.SortBy == nil {
+		p.SortBy = utils.ToStringPointerValue("updated_at")
+	} else {
+		if *p.SortBy != "updated_at" && *p.SortBy != "total_comment" {
+			return errors.NewBadRequestError("invalid params")
+		}
 	}
 	return nil
 }

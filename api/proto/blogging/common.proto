@@ -40,6 +40,7 @@ message BlogMetadata {
   int64 created_at = 6;
   UserInfoMetadata author = 7;
   int32 total_blog_comments = 8;
+  int64 updated_at = 9;
 }
 
 message Category {

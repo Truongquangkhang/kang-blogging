@@ -50,6 +50,7 @@ message GetBlogsRequest {
   google.protobuf.StringValue search_by = 4;
   int32 page = 5;
   int32 page_size = 6;
+  google.protobuf.StringValue sort_by = 7;
 }
 
 message GetBlogsResponse {

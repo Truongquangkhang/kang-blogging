@@ -20,6 +20,7 @@ func (g GrpcService) GetBlogs(
 		SearchName:  utils.WrapperValueString(request.SearchName),
 		AuthorIds:   utils.WrapperValueString(request.AuthorIds),
 		CategoryIds: utils.WrapperValueString(request.CategoryIds),
+		SortBy:      utils.WrapperValueString(request.SortBy),
 	}
 	rs, err := g.usecase.GetBlogs.Handle(ctx, param)
 	if err != nil {

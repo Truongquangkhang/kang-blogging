@@ -35,8 +35,15 @@ func (r BlogRepository) GetBlogsByParam(
 		query = query.Joins("join blog_categories on blog_categories.blog_id = blogs.id").
 			Where("blog_categories.category_id IN (?)", param.CategoryIds)
 	}
-	//query.Joins("left join blog_comments on blog_comments.blog_id = blogs.id").
-	//	Select("COUNT(*) as total_blog_comments")
+	if param.SortBy != nil {
+		switch *param.SortBy {
+		case "updated_at":
+			query = query.Order("updated_at desc")
+		case "total_comment":
+			query = query.Order("total_blog_comments desc")
+		}
+	}
+
 	err := query.
 		Preload("User").Preload("Categories").
 		Count(&total).Offset(int(offset)).Limit(int(limit)).

@@ -7,4 +7,5 @@ type BlogsParams struct {
 	SearchBy    *string
 	CategoryIds []string
 	AuthorIds   []string
+	SortBy      *string
 }

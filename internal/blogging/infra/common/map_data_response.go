@@ -5,7 +5,6 @@ import (
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/common/model"
 	"kang-blogging/internal/common/utils"
-	"time"
 )
 
 func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata {
@@ -48,7 +47,8 @@ func MapBlogModelToBlogMetadataResponse(b *model.Blog) *blogging.BlogMetadata {
 		Name:        b.Title,
 		Description: *b.Summary,
 		Thumbnail:   utils.WrapperStringFromString(b.Thumbnail),
-		CreatedAt:   time.Now().Unix(),
+		CreatedAt:   b.CreatedAt.Unix(),
+		UpdatedAt:   b.UpdatedAt.Unix(),
 		Categories:  categories,
 		Author: &blogging.UserInfoMetadata{
 			Id:          b.User.ID,
