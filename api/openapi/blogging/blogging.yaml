@@ -857,6 +857,9 @@ components:
         total_blogs:
           type: integer
           example: 3
+        total_discussions:
+          type: integer
+          example: 10
         is_active:
           type: boolean
           default: true
