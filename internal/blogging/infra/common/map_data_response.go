@@ -9,13 +9,15 @@ import (
 
 func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata {
 	return &blogging.UserInfoMetadata{
-		Id:          u.ID,
-		Name:        u.Name,
-		DisplayName: u.DisplayName,
-		Email:       u.Email,
-		TotalBlogs:  u.TotalBlogs,
-		Avatar:      utils.WrapperStringFromString(u.Avatar),
-		Gender:      utils.WrapperBoolFromBool(u.Gender),
+		Id:            u.ID,
+		Name:          u.Name,
+		DisplayName:   u.DisplayName,
+		Email:         u.Email,
+		TotalBlogs:    u.TotalBlogs,
+		Avatar:        utils.WrapperStringFromString(u.Avatar),
+		Gender:        utils.WrapperBoolFromBool(u.Gender),
+		TotalComments: utils.WrapperInt32FromInt32(u.TotalComments),
+		Description:   utils.WrapperStringFromString(u.Description),
 	}
 }
 
@@ -43,21 +45,14 @@ func MapBlogModelToBlogMetadataResponse(b *model.Blog) *blogging.BlogMetadata {
 		})
 	}
 	return &blogging.BlogMetadata{
-		Id:          b.ID,
-		Name:        b.Title,
-		Description: *b.Summary,
-		Thumbnail:   utils.WrapperStringFromString(b.Thumbnail),
-		CreatedAt:   b.CreatedAt.Unix(),
-		UpdatedAt:   b.UpdatedAt.Unix(),
-		Categories:  categories,
-		Author: &blogging.UserInfoMetadata{
-			Id:          b.User.ID,
-			Name:        b.User.Name,
-			DisplayName: b.User.DisplayName,
-			Email:       b.User.Email,
-			Avatar:      utils.WrapperStringFromString(b.User.Avatar),
-			Gender:      utils.WrapperBoolFromBool(b.User.Gender),
-		},
+		Id:                b.ID,
+		Name:              b.Title,
+		Description:       *b.Summary,
+		Thumbnail:         utils.WrapperStringFromString(b.Thumbnail),
+		CreatedAt:         b.CreatedAt.Unix(),
+		UpdatedAt:         b.UpdatedAt.Unix(),
+		Categories:        categories,
+		Author:            MapUserToUserInfoMetadataResponse(*b.User),
 		TotalBlogComments: utils.ToInt32Value(b.TotalBlogComments),
 	}
 }
