@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"kang-blogging/internal/common/server/httperr"
 	"net/http"
 	"os"
 	"time"
@@ -45,7 +44,7 @@ func RegisterFileServiceHandler(gwmux *runtime.ServeMux) {
 				file, handler.Filename, os.Getenv("CLOUDINARY_EAGER"), time.Now().Unix(),
 			)
 			if err != nil {
-				httperr.RespondWithError(err, w, req)
+				fmt.Fprintf(w, "catch an error when upload image to cloudinary: %v", err)
 			} else {
 				response := UploadImageResponse{
 					Code:    0,
