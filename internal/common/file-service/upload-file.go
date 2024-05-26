@@ -43,7 +43,7 @@ func RegisterFileServiceHandler(gwmux *runtime.ServeMux) {
 			defer func(file multipart.File) {
 				err := file.Close()
 				if err != nil {
-
+					return
 				}
 			}(file)
 
