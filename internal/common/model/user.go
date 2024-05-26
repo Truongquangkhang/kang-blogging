@@ -10,6 +10,7 @@ type User struct {
 	RoleID        string     `gorm:"type:varchar(40);index;not null;column:role_id"`
 	Name          string     `gorm:"type:varchar(255);not null;column:name"`
 	Email         string     `gorm:"type:varchar(255);not null;column:email"`
+	Description   *string    `gorm:"type:text;column:description"`
 	PhoneNumber   *string    `gorm:"type:varchar(255);column:phone_number"`
 	DisplayName   string     `gorm:"type:varchar(255);column:display_name"`
 	Gender        *bool      `gorm:"type:bool;column:gender;default:false"`

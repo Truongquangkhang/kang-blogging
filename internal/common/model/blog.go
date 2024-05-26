@@ -10,7 +10,7 @@ type Blog struct {
 	Title             string     `gorm:"type:varchar(255);not null;column:title"`
 	Summary           *string    `gorm:"type:varchar(255);column:summary"`
 	Thumbnail         *string    `gorm:"type:varchar(255);column:thumbnail"`
-	Content           *string    `gorm:"type:varchar(255);column:content"`
+	Content           *string    `gorm:"type:text;column:content"`
 	CreatedAt         time.Time  `gorm:"not null;default:now();column:created_at"`
 	UpdatedAt         time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP;column:updated_at"`
 	DeletedAt         *time.Time `gorm:"column:deleted_at"`

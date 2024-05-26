@@ -860,6 +860,9 @@ components:
         total_discussions:
           type: integer
           example: 10
+        description:
+          type: string
+          example: "im TQK"
         is_active:
           type: boolean
           default: true

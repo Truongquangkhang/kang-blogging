@@ -25,6 +25,7 @@ message UserInfoMetadata {
   google.protobuf.BoolValue gender = 6;
   google.protobuf.StringValue avatar = 7;
   google.protobuf.Int32Value total_comments = 8;
+  google.protobuf.StringValue description = 9;
 }
 
 message BlogInfo {
