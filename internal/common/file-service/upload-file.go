@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"time"
@@ -21,18 +22,30 @@ type UploadImageResponse struct {
 }
 
 func RegisterFileServiceHandler(gwmux *runtime.ServeMux) {
-	gwmux.HandlePath(
+	err := gwmux.HandlePath(
 		"POST", "/api/v1/image/upload",
 		func(w http.ResponseWriter, req *http.Request, _ map[string]string) {
-			req.ParseMultipartForm(10 << 20)
+			err := req.ParseMultipartForm(10 << 20)
+			if err != nil {
+				return
+			}
 
 			// Get handler for filename, size and headers
 			file, handler, err := req.FormFile("image")
 			if err != nil {
-				fmt.Fprintf(w, "Error Retrieving the File: %v", err)
+				_, err := fmt.Fprintf(w, "Error Retrieving the File: %v", err)
+				if err != nil {
+					return
+				}
 				return
 			}
-			defer file.Close()
+
+			defer func(file multipart.File) {
+				err := file.Close()
+				if err != nil {
+
+				}
+			}(file)
 
 			cloudinary := Cloudinary{
 				Url:       os.Getenv("CLOUDINARY_URL"),
@@ -44,7 +57,10 @@ func RegisterFileServiceHandler(gwmux *runtime.ServeMux) {
 				file, handler.Filename, os.Getenv("CLOUDINARY_EAGER"), time.Now().Unix(),
 			)
 			if err != nil {
-				fmt.Fprintf(w, "catch an error when upload image to cloudinary: %v", err)
+				_, err := fmt.Fprintf(w, "catch an error when upload image to cloudinary: %v", err)
+				if err != nil {
+					return
+				}
 			} else {
 				response := UploadImageResponse{
 					Code:    0,
@@ -54,7 +70,14 @@ func RegisterFileServiceHandler(gwmux *runtime.ServeMux) {
 					},
 				}
 				w.Header().Set("Content-Type", "application/json")
-				json.NewEncoder(w).Encode(response)
+				err := json.NewEncoder(w).Encode(response)
+				if err != nil {
+					return
+				}
 			}
 		})
+	if err != nil {
+		fmt.Printf("Error Retrieving the File: %v", err)
+		return
+	}
 }

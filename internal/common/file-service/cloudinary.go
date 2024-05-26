@@ -64,7 +64,6 @@ func (c *Cloudinary) UploadImage(file multipart.File, fileName string, eager str
 	if err != nil {
 		return nil, fmt.Errorf("error sending upload request: %v", err)
 	}
-	fmt.Println(resp)
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
