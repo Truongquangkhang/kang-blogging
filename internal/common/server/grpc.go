@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	file_service "kang-blogging/internal/common/file-service"
 	"kang-blogging/internal/common/health"
 	"net"
 	"net/http"
@@ -112,6 +113,7 @@ func ServingGRPCGatewayOnAddr(
 	gwmux := runtime.NewServeMux(runtime.WithHealthzEndpoint(grpc_health_v1.NewHealthClient(conn)))
 	registerHandler(gwmux, conn)
 	registerPrometheusMetricsHandler(gwmux)
+	file_service.RegisterFileServiceHandler(gwmux)
 
 	server := &http.Server{
 		Addr:              addr,

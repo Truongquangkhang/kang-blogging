@@ -4,7 +4,7 @@ info:
   description: blogging management
   version: v1.0.0
 servers:
-  - url: 'https://localhost:10080'
+  - url: 'https://localhost:8080'
     description: local
 paths:
   /api/v1/iam/login:
@@ -757,6 +757,33 @@ paths:
                               $ref: '#/components/schemas/CategoryMetadata'
                           pagination:
                             $ref: '#/components/schemas/Comment'
+  /api/v1/upload-image:
+    post:
+      tags:
+        - Image
+      description: |-
+        - Upload a image via api.
+      summary: 'Upload image'
+      operationId: uploadImage
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          image:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Success
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  image:
+                    type: string
+                    format: binary
 components:
   schemas:
     BaseAPIResponse:

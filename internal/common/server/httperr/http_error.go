@@ -12,6 +12,7 @@ import (
 func RespondWithError(err error, w http.ResponseWriter, r *http.Request) {
 	logger := logs.GetLogEntry(r).WithError(err)
 	w.Header().Set(httpheader.CONTENT_TYPE, httpheader.CONTENT_TYPE_APPLICATION_JSON)
+	//w.Header().Set(httpheader.CONTENT_TYPE, httpheader.CONTENT_TYPE_MULTIPART_FORM_DATA)
 	baseError, ok := err.(errors.BaseError)
 	if !ok {
 		logger.WithField("error-msg", err.Error()).Error(errors.ERRCODE_INTERNAL_ERROR)
