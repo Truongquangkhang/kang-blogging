@@ -38,7 +38,7 @@ message GetUsersRequest {
 
 message  GetUsersResponse {
   message Data {
-    repeated UserInfoMetadata user = 1;
+    repeated UserInfoMetadata users = 1;
     Pagination pagination = 2;
   }
   int32 code = 1;

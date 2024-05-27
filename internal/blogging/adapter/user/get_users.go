@@ -31,13 +31,12 @@ func (u UserRepository) GetUsers(
 			return nil, 0, errors.NewBadRequestError("invalid search name")
 		}
 	}
-	err := query.Offset(int(offset)).
+	err := query.
 		Select("users.*, count(blogs.id) as total_blogs, count(comments.id) as total_comments").
 		Joins("left join blogs on users.id = blogs.author_id").
 		Joins("left join comments on users.id = comments.user_id").
-		Group("users.id").
-		Count(&total).
-		Limit(int(limit)).Find(&users).Error
+		Group("users.id").Count(&total).
+		Offset(int(offset)).Limit(int(limit)).Find(&users).Error
 	if err != nil {
 		return nil, 0, err
 	}
