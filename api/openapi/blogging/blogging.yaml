@@ -867,6 +867,9 @@ components:
           type: boolean
           default: true
           example: true
+        created_at:
+          type: integer
+          example: 123
     BlogMetadata:
       type: object
       properties:

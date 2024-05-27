@@ -13,19 +13,21 @@ import "google/protobuf/wrappers.proto";
 
 message UserInfo{
   UserInfoMetadata user_info = 1;
-  repeated BlogMetadata blogs = 2;
+  string email = 2;
+  google.protobuf.BoolValue gender = 3;
+  google.protobuf.Int64Value date_of_birth =4;
+  int64 created_at = 5;
+  repeated BlogMetadata blogs = 6;
 }
 
 message UserInfoMetadata {
   string id = 1;
   string name = 2;
-  string email = 3;
-  string display_name = 4;
-  int32 total_blogs = 5;
-  google.protobuf.BoolValue gender = 6;
-  google.protobuf.StringValue avatar = 7;
-  google.protobuf.Int32Value total_comments = 8;
-  google.protobuf.StringValue description = 9;
+  string display_name = 3;
+  int32 total_blogs = 4;
+  google.protobuf.StringValue avatar = 5;
+  google.protobuf.Int32Value total_comments = 6;
+  google.protobuf.StringValue description = 7;
 }
 
 message BlogInfo {

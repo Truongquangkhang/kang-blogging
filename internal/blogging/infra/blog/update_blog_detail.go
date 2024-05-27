@@ -4,6 +4,7 @@ import (
 	"golang.org/x/net/context"
 	"kang-blogging/internal/blogging/app/usecase/blog"
 	"kang-blogging/internal/blogging/infra"
+	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/common/utils"
 )
@@ -57,14 +58,7 @@ func buildUpdateBlogDetailResponseData(rs blog.UpdateBlogDetailResult) *blogging
 				Thumbnail:   utils.WrapperStringFromString(b.Thumbnail),
 				CreatedAt:   b.CreatedAt.Unix(),
 				Categories:  categories,
-				Author: &blogging.UserInfoMetadata{
-					Id:          b.User.ID,
-					Name:        b.User.Name,
-					DisplayName: b.User.DisplayName,
-					Email:       b.User.Email,
-					Avatar:      utils.WrapperStringFromString(b.User.Avatar),
-					Gender:      utils.WrapperBoolFromBool(b.User.Gender),
-				},
+				Author:      common.MapUserToUserInfoMetadataResponse(*b.User),
 			},
 			Content: utils.WrapperStringFromString(b.Content),
 		},

@@ -12,10 +12,8 @@ func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata 
 		Id:            u.ID,
 		Name:          u.Name,
 		DisplayName:   u.DisplayName,
-		Email:         u.Email,
 		TotalBlogs:    u.TotalBlogs,
 		Avatar:        utils.WrapperStringFromString(u.Avatar),
-		Gender:        utils.WrapperBoolFromBool(u.Gender),
 		TotalComments: utils.WrapperInt32FromInt32(u.TotalComments),
 		Description:   utils.WrapperStringFromString(u.Description),
 	}
@@ -23,8 +21,12 @@ func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata 
 
 func MapToUserInfoResponse(u model.User) *blogging.UserInfo {
 	return &blogging.UserInfo{
-		UserInfo: MapUserToUserInfoMetadataResponse(u),
-		Blogs:    MapToListBlogMetadataResponse(u.Blogs),
+		UserInfo:    MapUserToUserInfoMetadataResponse(u),
+		Email:       u.Email,
+		Gender:      utils.WrapperBoolFromBool(u.Gender),
+		DateOfBirth: utils.WrapperInt64FromInt64(u.BirthOfDay),
+		CreatedAt:   u.CreatedAt.Unix(),
+		Blogs:       MapToListBlogMetadataResponse(u.Blogs),
 	}
 }
 
