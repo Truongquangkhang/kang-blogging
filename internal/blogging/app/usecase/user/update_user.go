@@ -17,6 +17,7 @@ type UpdateUserParams struct {
 	Avatar      *string
 	PhoneNumber *string
 	Gender      *bool
+	Description *string
 }
 
 type UpdateUserResult struct {
@@ -91,6 +92,9 @@ func mapUserUpdate(p UpdateUserParams, user *model.User) *model.User {
 	}
 	if p.Gender != nil {
 		user.Gender = p.Gender
+	}
+	if p.Description != nil {
+		user.Description = p.Description
 	}
 	return user
 }

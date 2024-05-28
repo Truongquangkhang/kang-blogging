@@ -10,7 +10,7 @@ func (u UserRepository) InsertUser(
 	user *model.User,
 ) (*model.User, error) {
 	err := u.gdb.DB().WithContext(ctx).
-		Omit("TotalBlogs").
+		Omit("TotalBlogs", "TotalComments").
 		Create(&user).Error
 	if err != nil {
 		return nil, err

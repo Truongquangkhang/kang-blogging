@@ -2,7 +2,6 @@ package blog
 
 import (
 	"context"
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/blog"
 	"kang-blogging/internal/blogging/domain/blog_categories"
@@ -77,13 +76,21 @@ func (c createBlogHandler) Handle(ctx context.Context, param CreateBlogParams) (
 	}
 	// get author info
 	author, err := c.userRepo.GetUserByID(ctx, param.AuthorId)
-	if err != nil || author == nil {
+	if err != nil {
 		return CreateBlogResult{}, err
+	}
+
+	if author == nil {
+		return CreateBlogResult{}, errors.NewNotFoundError("user not found")
 	}
 	// get categories
 	categories, err := c.categoryRepo.GetCategories(ctx, param.CategoryIds)
-	if err != nil || len(categories) == 0 {
-		return CreateBlogResult{}, fmt.Errorf("catch an error while get categories: %w", err)
+	if err != nil {
+		return CreateBlogResult{}, err
+	}
+
+	if len(categories) == 0 {
+		return CreateBlogResult{}, errors.NewBadRequestError("Invalid categories")
 	}
 	// insert blog
 	blogId := utils.GenUUID()
