@@ -23,7 +23,11 @@ func (r BlogRepository) UpdateBlog(
 		blog.Categories = categories
 	}
 
-	err := r.gdb.DB().WithContext(ctx).Save(blog).Error
+	err := r.gdb.DB().WithContext(ctx).
+		Model(&model.Blog{}).
+		Omit("TotalBlogComments").
+		Where("id = ?", blog.ID).
+		Save(blog).Error
 	if err != nil {
 		return nil, err
 	}

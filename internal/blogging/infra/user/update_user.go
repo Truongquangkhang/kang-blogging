@@ -21,6 +21,7 @@ func (g GrpcService) UpdateUserDetail(
 		Name:        utils.WrapperValueString(request.Name),
 		PhoneNumber: utils.WrapperValueString(request.PhoneNumber),
 		Gender:      utils.WrapperValueBool(request.Gender),
+		Description: utils.WrapperValueString(request.Description),
 	}
 	rs, err := g.usecase.UpdateUser.Handle(ctx, params)
 	if err != nil {
@@ -31,7 +32,7 @@ func (g GrpcService) UpdateUserDetail(
 		Code:    0,
 		Message: "Success",
 		Data: &blogging.UpdateUserDetailResponse_Data{
-			Users: common.MapUserToUserInfoMetadataResponse(rs.User),
+			User: common.MapUserToUserInfoMetadataResponse(rs.User),
 		},
 	}, nil
 }
