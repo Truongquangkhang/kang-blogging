@@ -12,6 +12,14 @@ func (u UserRepository) GetUserByID(
 	id string,
 ) (*model.User, error) {
 	var rs *model.User
+	var countComments int32
+	errCountComment := u.gdb.DB().WithContext(ctx).Model(&model.Comment{}).
+		Select("COUNT(1)").Where("user_id = ?", id).
+		Scan(&countComments).Error
+	if errCountComment != nil {
+		return nil, errCountComment
+	}
+
 	err := u.gdb.DB().WithContext(ctx).Model(model.User{}).
 		First(&rs, "id = ?", id).Error
 
@@ -21,5 +29,6 @@ func (u UserRepository) GetUserByID(
 		}
 		return nil, err
 	}
+	rs.TotalComments = &countComments
 	return rs, nil
 }

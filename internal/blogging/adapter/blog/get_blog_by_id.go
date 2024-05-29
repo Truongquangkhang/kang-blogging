@@ -14,8 +14,8 @@ func (r BlogRepository) GetBlogByID(
 	var blog *model.Blog
 	err := r.gdb.DB().WithContext(ctx).
 		Preload("User").Preload("Categories").
-		Select("blogs.*, count(blog_comments.id) as total_blog_comments").
-		Joins("left join blog_comments on blog_comments.blog_id = blogs.id").
+		Select("blogs.*, count(comments.id) as total_blog_comments").
+		Joins("left join comments on comments.blog_id = blogs.id").
 		Group("blogs.id").
 		Where("blogs.id = ?", blogId).First(&blog).Error
 	if err != nil || blog == nil {

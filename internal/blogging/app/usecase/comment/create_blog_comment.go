@@ -3,7 +3,6 @@ package comment
 import (
 	"context"
 	"github.com/sirupsen/logrus"
-	"kang-blogging/internal/blogging/domain/blog_comments"
 	"kang-blogging/internal/blogging/domain/comment"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
@@ -25,26 +24,20 @@ type CreateBlogCommentResult struct {
 type CreateBlogCommentHandler decorator.UsecaseHandler[CreateBlogCommentParams, CreateBlogCommentResult]
 
 type createBlogCommentHandler struct {
-	commentRepo      comment.Repository
-	blogCommentsRepo blog_comments.Repository
+	commentRepo comment.Repository
 }
 
 func NewCreateBlogCommentHandler(
 	commentRepo comment.Repository,
-	blogCommentsRepo blog_comments.Repository,
 	logger *logrus.Entry,
 	metrics decorator.MetricsClient,
 ) CreateBlogCommentHandler {
 	if commentRepo == nil {
 		panic("commentRepo is nil")
 	}
-	if blogCommentsRepo == nil {
-		panic("blogCommentsRepo is nil")
-	}
 	return decorator.ApplyUsecaseDecorators[CreateBlogCommentParams, CreateBlogCommentResult](
 		createBlogCommentHandler{
-			commentRepo:      commentRepo,
-			blogCommentsRepo: blogCommentsRepo,
+			commentRepo: commentRepo,
 		},
 		logger,
 		metrics,
@@ -69,17 +62,12 @@ func (g createBlogCommentHandler) Handle(ctx context.Context, param CreateBlogCo
 		ReplyCommentID: param.ReplyCommentID,
 		IsToxicity:     false,
 		UserID:         param.UserID,
+		BlogID:         param.BlogID,
 	})
-	responseComment, err := g.commentRepo.GetCommentById(ctx, commentId)
 	if err != nil {
 		return CreateBlogCommentResult{}, err
 	}
-	// insert blog responseComment
-	_, err = g.blogCommentsRepo.InsertBlogComment(ctx, &model.BlogComment{
-		ID:        utils.GenUUID(),
-		CommentID: commentId,
-		BlogID:    param.BlogID,
-	})
+	responseComment, err := g.commentRepo.GetCommentById(ctx, commentId)
 	if err != nil {
 		return CreateBlogCommentResult{}, err
 	}

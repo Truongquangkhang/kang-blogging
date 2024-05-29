@@ -20,6 +20,11 @@ service CommentService {
       body: "*"
     };
   }
+  rpc GetCommentsByParam(GetCommentsByParamRequest) returns (GetCommentsByParamResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/comment"
+    };
+  }
 }
 
 message GetBlogCommentsRequest {
@@ -47,6 +52,30 @@ message CreateBlogCommentsRequest {
 message  CreateBlogCommentsResponse {
   message Data {
     Comment comment = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message GetCommentsByParamRequest {
+  int32 page = 1;
+  int32 pageSize = 2;
+  google.protobuf.StringValue searchName = 3;
+  google.protobuf.StringValue sortBy = 4;
+  google.protobuf.BoolValue isToxicity = 5;
+  google.protobuf.StringValue user_ids = 6;
+}
+
+message GetCommentsByParamResponse {
+  message CommentItem {
+    Comment comment_info = 1;
+    string blog_id = 2;
+    google.protobuf.StringValue reply_comment_id = 3;
+  }
+  message Data {
+    repeated CommentItem comments = 1;
+    Pagination pagination = 2;
   }
   int32 code = 1;
   string message = 2;

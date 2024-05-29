@@ -16,6 +16,9 @@ type Repository interface {
 	GetCommentById(
 		ctx context.Context, commentId string,
 	) (*model.Comment, error)
+	GetCommentsByParams(
+		ctx context.Context, params ParamsGetComments,
+	) ([]model.Comment, int32, error)
 }
 
 type ParamGetBlogComments struct {
@@ -27,4 +30,13 @@ type ParamGetBlogComments struct {
 type ResultGetBlogComments struct {
 	Comment model.Comment
 	Replies []model.Comment
+}
+
+type ParamsGetComments struct {
+	Page       int32
+	PageSize   int32
+	SearchName *string
+	SortBy     *string
+	IsToxicity *bool
+	UserIds    []string
 }
