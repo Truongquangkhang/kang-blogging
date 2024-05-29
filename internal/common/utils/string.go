@@ -1,5 +1,7 @@
 package utils
 
+import "strings"
+
 func ToStringValue(str *string) string {
 	if str == nil {
 		return ""
@@ -12,4 +14,11 @@ func ToStringPointerValue(str string) *string {
 		return nil
 	}
 	return &str
+}
+
+func SplitStringSeparateCommaToSlice(str *string) []string {
+	if str == nil {
+		return []string{}
+	}
+	return strings.Split(*str, ",")
 }
