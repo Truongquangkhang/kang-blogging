@@ -71,6 +71,14 @@ func MapToCategoriesMetadata(categories []category2.ResultGetCategories) []*blog
 	return response
 }
 
+func MapListModelCommentToResponse(comments []model.Comment) []*blogging.Comment {
+	var result []*blogging.Comment
+	for _, comment := range comments {
+		result = append(result, MapModelCommentToResponse(comment))
+	}
+	return result
+}
+
 func MapModelCommentToResponse(comment model.Comment) *blogging.Comment {
 	return &blogging.Comment{
 		Id:         comment.ID,

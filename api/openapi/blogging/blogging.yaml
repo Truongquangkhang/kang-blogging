@@ -855,6 +855,78 @@ paths:
                   image:
                     type: string
                     format: binary
+  /api/v1/admin/dashboard:
+    get:
+      tags:
+        - Admin-management
+      description: |-
+        - Api support for admins manage system.
+      summary: 'DaskBoard'
+      operationId: dashboard
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+          description: Current page, for high performance try to use pagination.offset instead! (default 1)
+        - in: query
+          name: pageSize
+          required: true
+          description: Total item in a page (default is 10)
+          schema:
+            type: integer
+        - in: query
+          name: searchName
+          schema:
+            type: string
+          required: false
+          description: |
+            - Call api without categoryName then return all Categories
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+          required: false
+          description: |
+            - Apply sort by (blog, ...)
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          total_blogs:
+                            type: integer
+                          total_comments:
+                            type: integer
+                          total_categories:
+                            type: integer
+                          total_users:
+                            type: integer
+                          users_increase_in_day:
+                            type: integer
+                          blogs_increase_in_day:
+                            type: integer
+                          comments_increase_in_day:
+                            type: integer
+                          latest_blogs:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/BlogMetadata'
+                          latest_comments:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/Comment"
 components:
   schemas:
     BaseAPIResponse:

@@ -6,16 +6,18 @@ import (
 	"kang-blogging/internal/blogging/app/usecase/comment"
 	"kang-blogging/internal/blogging/app/usecase/iam"
 	"kang-blogging/internal/blogging/app/usecase/image"
+	"kang-blogging/internal/blogging/app/usecase/management"
 	"kang-blogging/internal/blogging/app/usecase/user"
 )
 
 type Application struct {
-	IAMUsecases     IAMUsecases
-	UserUsecase     UserUsecase
-	BlogUsecase     BlogUsecase
-	CategoryUsecase CategoryUsecase
-	CommentUsecase  CommentUsecase
-	ImageUsecase    ImageUsecase
+	IAMUsecases       IAMUsecases
+	UserUsecase       UserUsecase
+	BlogUsecase       BlogUsecase
+	CategoryUsecase   CategoryUsecase
+	CommentUsecase    CommentUsecase
+	ImageUsecase      ImageUsecase
+	ManagementUsecase ManagementUsecase
 }
 
 type IAMUsecases struct {
@@ -51,4 +53,8 @@ type CommentUsecase struct {
 
 type ImageUsecase struct {
 	UploadImage image.UploadImageHandler
+}
+
+type ManagementUsecase struct {
+	GetDashboard management.GetDashboardHandler
 }
