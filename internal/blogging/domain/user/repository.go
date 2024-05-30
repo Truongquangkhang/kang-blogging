@@ -25,4 +25,8 @@ type Repository interface {
 		ctx context.Context,
 		user *model.User,
 	) (*model.User, error)
+
+	GetInfoFromMultiTable(
+		ctx context.Context,
+	) (*SystemInfo, error)
 }

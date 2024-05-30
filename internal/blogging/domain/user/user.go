@@ -19,3 +19,13 @@ type UserParams struct {
 	Following    *bool
 	FollowedByMe *bool
 }
+
+type SystemInfo struct {
+	TotalBlogs           int32
+	TotalComments        int32
+	TotalUsers           int32
+	TotalCategories      int32
+	BlogIncreaseInDay    int32
+	CommentIncreaseInDay int32
+	UserIncreaseInDay    int32
+}
