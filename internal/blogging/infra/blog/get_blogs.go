@@ -14,13 +14,15 @@ func (g GrpcService) GetBlogs(
 	request *blogging.GetBlogsRequest,
 ) (*blogging.GetBlogsResponse, error) {
 	param := blog.GetBlogsParams{
-		Page:        request.Page,
-		PageSize:    request.PageSize,
-		SearchBy:    utils.WrapperValueString(request.SearchBy),
-		SearchName:  utils.WrapperValueString(request.SearchName),
-		AuthorIds:   utils.WrapperValueString(request.AuthorIds),
-		CategoryIds: utils.WrapperValueString(request.CategoryIds),
-		SortBy:      utils.WrapperValueString(request.SortBy),
+		Page:         request.Page,
+		PageSize:     request.PageSize,
+		SearchBy:     utils.WrapperValueString(request.SearchBy),
+		SearchName:   utils.WrapperValueString(request.SearchName),
+		AuthorIds:    utils.WrapperValueString(request.AuthorIds),
+		CategoryIds:  utils.WrapperValueString(request.CategoryIds),
+		SortBy:       utils.WrapperValueString(request.SortBy),
+		IsDeprecated: utils.WrapperValueBool(request.IsDeprecated),
+		Published:    utils.WrapperValueBool(request.Published),
 	}
 	rs, err := g.usecase.GetBlogs.Handle(ctx, param)
 	if err != nil {

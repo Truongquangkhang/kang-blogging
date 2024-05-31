@@ -15,6 +15,7 @@ type GetUsersParams struct {
 	SearchBy     *string
 	Following    *bool
 	FollowedByMe *bool
+	IsActive     *bool
 }
 
 type GetUsersResult struct {

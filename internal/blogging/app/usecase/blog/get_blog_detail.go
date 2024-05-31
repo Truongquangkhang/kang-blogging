@@ -4,12 +4,15 @@ import (
 	"github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"kang-blogging/internal/blogging/domain/blog"
+	"kang-blogging/internal/common/constants"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/model"
 )
 
 type GetBlogDetailParams struct {
+	UserID *string
 	BlogID string
 }
 
@@ -52,6 +55,18 @@ func (g getBlogDetailHandler) Handle(ctx context.Context, param GetBlogDetailPar
 	}
 	if rs == nil {
 		return GetBlogDetailResult{}, errors.NewNotFoundError("blog not found")
+	}
+	if rs.IsDeprecated {
+		return GetBlogDetailResult{}, errors.NewNotFoundError("blog is deprecated")
+	}
+	if !rs.Published {
+		authorId, role, err := jwt.GetIDAndRoleFromRequest(ctx)
+		if err != nil {
+			return GetBlogDetailResult{}, err
+		}
+		if *role != constants.ADMIN_ROLE && *authorId != rs.AuthorID {
+			return GetBlogDetailResult{}, errors.NewNotFoundError("blog not found")
+		}
 	}
 	return GetBlogDetailResult{
 		Blog: rs,

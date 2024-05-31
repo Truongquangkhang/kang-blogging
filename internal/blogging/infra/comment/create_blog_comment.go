@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/utils"
 )
 
@@ -13,7 +14,7 @@ func (g GrpcService) CreateBlogComment(
 	ctx context.Context,
 	request *blogging.CreateBlogCommentsRequest,
 ) (*blogging.CreateBlogCommentsResponse, error) {
-	userId, _, err := infra.GetIDAndRoleFromJwtToken(ctx)
+	userId, _, err := jwt.GetIDAndRoleFromRequest(ctx)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}

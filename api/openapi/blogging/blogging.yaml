@@ -383,6 +383,9 @@ paths:
                   type: string
                 phone_number:
                   type: string
+                is_active:
+                  type: boolean
+                  default: true
       responses:
         '200':
           description: Success

@@ -16,6 +16,7 @@ func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata 
 		Avatar:        utils.WrapperStringFromString(u.Avatar),
 		TotalComments: utils.WrapperInt32FromInt32(u.TotalComments),
 		Description:   utils.WrapperStringFromString(u.Description),
+		IsActive:      u.IsActive,
 	}
 }
 
@@ -27,6 +28,13 @@ func MapToUserInfoResponse(u model.User) *blogging.UserInfo {
 		DateOfBirth: utils.WrapperInt64FromInt64(u.BirthOfDay),
 		CreatedAt:   u.CreatedAt.Unix(),
 		Blogs:       MapToListBlogMetadataResponse(u.Blogs),
+	}
+}
+
+func MapToBlogInfoResponse(blog *model.Blog) *blogging.BlogInfo {
+	return &blogging.BlogInfo{
+		BlogInfo: MapBlogModelToBlogMetadataResponse(blog),
+		Content:  utils.WrapperStringFromString(blog.Content),
 	}
 }
 
@@ -56,6 +64,8 @@ func MapBlogModelToBlogMetadataResponse(b *model.Blog) *blogging.BlogMetadata {
 		Categories:        categories,
 		Author:            MapUserToUserInfoMetadataResponse(*b.User),
 		TotalBlogComments: utils.ToInt32Value(b.TotalBlogComments),
+		IsDeprecated:      b.IsDeprecated,
+		Published:         b.Published,
 	}
 }
 

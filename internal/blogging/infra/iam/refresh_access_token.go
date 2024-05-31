@@ -5,13 +5,14 @@ import (
 	"kang-blogging/internal/blogging/app/usecase/iam"
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/jwt"
 )
 
 func (g GrpcService) RefreshAccessToken(
 	ctx context.Context,
 	request *blogging.RefreshAccessTokenRequest,
 ) (*blogging.RefreshAccessTokenResponse, error) {
-	userId, role, err := infra.GetIDAndRoleFromJwtToken(ctx)
+	userId, role, err := jwt.GetIDAndRoleFromRequest(ctx)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}

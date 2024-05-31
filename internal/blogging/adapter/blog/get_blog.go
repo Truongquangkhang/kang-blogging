@@ -35,6 +35,12 @@ func (r BlogRepository) GetBlogsByParam(
 		query = query.Joins("join blog_categories on blog_categories.blog_id = blogs.id").
 			Where("blog_categories.category_id IN (?)", param.CategoryIds)
 	}
+	if param.Published != nil {
+		query = query.Where("published = ?", *param.Published)
+	}
+	if param.IsDeprecated != nil {
+		query = query.Where("is_deprecated = ?", *param.IsDeprecated)
+	}
 	if param.SortBy != nil {
 		switch *param.SortBy {
 		case "updated_at":

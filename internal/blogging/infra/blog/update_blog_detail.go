@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/utils"
 )
 
@@ -13,7 +14,7 @@ func (g GrpcService) UpdateBlogDetail(
 	ctx context.Context,
 	request *blogging.UpdateBlogDetailRequest,
 ) (*blogging.UpdateBlogDetailResponse, error) {
-	authorId, _, err := infra.GetIDAndRoleFromJwtToken(ctx)
+	authorId, _, err := jwt.GetIDAndRoleFromRequest(ctx)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}
@@ -26,6 +27,7 @@ func (g GrpcService) UpdateBlogDetail(
 		Thumbnail:   utils.WrapperValueString(request.Thumbnail),
 		Content:     utils.WrapperValueString(request.Content),
 		CategoryIDs: request.CategoryIds,
+		Published:   utils.WrapperValueBool(request.Published),
 	}
 
 	rs, err := g.usecase.UpdateBlogDetail.Handle(ctx, param)
@@ -36,31 +38,8 @@ func (g GrpcService) UpdateBlogDetail(
 	return &blogging.UpdateBlogDetailResponse{
 		Code:    0,
 		Message: "Success",
-		Data:    buildUpdateBlogDetailResponseData(rs),
-	}, nil
-}
-
-func buildUpdateBlogDetailResponseData(rs blog.UpdateBlogDetailResult) *blogging.UpdateBlogDetailResponse_Data {
-	b := rs.Blog
-	var categories []*blogging.Category
-	for _, category := range b.Categories {
-		categories = append(categories, &blogging.Category{
-			Id:   category.ID,
-			Name: category.Name,
-		})
-	}
-	return &blogging.UpdateBlogDetailResponse_Data{
-		Blog: &blogging.BlogInfo{
-			BlogInfo: &blogging.BlogMetadata{
-				Id:          b.ID,
-				Name:        b.Title,
-				Description: *b.Summary,
-				Thumbnail:   utils.WrapperStringFromString(b.Thumbnail),
-				CreatedAt:   b.CreatedAt.Unix(),
-				Categories:  categories,
-				Author:      common.MapUserToUserInfoMetadataResponse(*b.User),
-			},
-			Content: utils.WrapperStringFromString(b.Content),
+		Data: &blogging.UpdateBlogDetailResponse_Data{
+			Blog: common.MapToBlogInfoResponse(rs.Blog),
 		},
-	}
+	}, nil
 }
