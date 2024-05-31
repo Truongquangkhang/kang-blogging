@@ -18,6 +18,7 @@ type UserParams struct {
 	SearchBy     *string
 	Following    *bool
 	FollowedByMe *bool
+	IsActive     *bool
 }
 
 type SystemInfo struct {
