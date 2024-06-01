@@ -16,6 +16,7 @@ type User struct {
 	Gender        *bool      `gorm:"type:bool;column:gender;default:false"`
 	Avatar        *string    `gorm:"type:varchar(255);column:avatar"`
 	BirthOfDay    *int64     `gorm:"type:bigint;column:birth_of_day"`
+	IsActive      bool       `gorm:"type:bool;column:is_active;default:true"`
 	CreatedAt     time.Time  `gorm:"not null;default:now();column:created_at"`
 	UpdatedAt     time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP;column:updated_at"`
 	DeletedAt     *time.Time `gorm:"column:deleted_at"`

@@ -18,6 +18,7 @@ func (g GrpcService) GetUsers(
 		PageSize:   request.PageSize,
 		SearchName: utils.WrapperValueString(request.SearchName),
 		SearchBy:   utils.WrapperValueString(request.SearchBy),
+		IsActive:   utils.WrapperValueBool(request.IsActive),
 	}
 
 	rs, err := g.usecase.GetUsers.Handle(ctx, params)

@@ -3,6 +3,11 @@ package jwt
 import (
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc/metadata"
+	"kang-blogging/internal/common/errors"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -48,6 +53,28 @@ func VerifyToken(tokenString string, secretKey string) error {
 		return fmt.Errorf("invalid token")
 	}
 	return nil
+}
+
+func GetIDAndRoleFromRequest(ctx context.Context) (*string, *string, error) {
+	secretKey := os.Getenv("JWT_SECRET_KEY")
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return nil, nil, errors.NewAuthorizationError("get an error when get data from header")
+	}
+	authorizations := md.Get("authorization")
+	if len(authorizations) < 1 {
+		return nil, nil, errors.NewAuthorizationError("bearer token not found")
+	}
+	bearerToken := strings.TrimPrefix(authorizations[0], "Bearer ")
+
+	if err := VerifyToken(bearerToken, secretKey); err != nil {
+		return nil, nil, errors.NewAuthorizationDefaultError()
+	}
+	id, role, err := GetIDAndRoleFromJwtToken(bearerToken, secretKey)
+	if err != nil {
+		return nil, nil, errors.NewAuthorizationDefaultError()
+	}
+	return &id, &role, err
 }
 
 func GetIDAndRoleFromJwtToken(jwtToken string, secretKey string) (string, string, error) {

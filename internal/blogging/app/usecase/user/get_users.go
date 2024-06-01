@@ -15,6 +15,7 @@ type GetUsersParams struct {
 	SearchBy     *string
 	Following    *bool
 	FollowedByMe *bool
+	IsActive     *bool
 }
 
 type GetUsersResult struct {
@@ -56,6 +57,7 @@ func (g getUsersHandler) Handle(ctx context.Context, param GetUsersParams) (GetU
 		Following:    param.Following,
 		FollowedByMe: param.FollowedByMe,
 		SearchName:   param.SearchName,
+		IsActive:     param.IsActive,
 	})
 	if err != nil {
 		return GetUsersResult{}, err

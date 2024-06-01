@@ -51,6 +51,8 @@ message GetBlogsRequest {
   int32 page = 5;
   int32 page_size = 6;
   google.protobuf.StringValue sort_by = 7;
+  google.protobuf.BoolValue published = 8;
+  google.protobuf.BoolValue is_deprecated = 9;
 }
 
 message GetBlogsResponse {
@@ -100,6 +102,7 @@ message UpdateBlogDetailRequest {
   repeated string category_ids = 4;
   google.protobuf.StringValue thumbnail = 5;
   google.protobuf.StringValue content = 6;
+  google.protobuf.BoolValue published = 7;
 }
 
 message UpdateBlogDetailResponse {

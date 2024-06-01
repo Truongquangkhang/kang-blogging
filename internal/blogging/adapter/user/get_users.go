@@ -31,6 +31,9 @@ func (u UserRepository) GetUsers(
 			return nil, 0, errors.NewBadRequestError("invalid search name")
 		}
 	}
+	if params.IsActive != nil {
+		query = query.Where("is_active = ?", *params.IsActive)
+	}
 	err := query.
 		Select("users.*, count(blogs.id) as total_blogs, count(comments.id) as total_comments").
 		Joins("left join blogs on users.id = blogs.author_id").

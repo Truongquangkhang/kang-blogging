@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/utils"
 )
 
@@ -14,7 +15,7 @@ func (g GrpcService) CreateBlog(
 	request *blogging.CreateBlogRequest,
 ) (*blogging.CreateBlogResponse, error) {
 	// validate auth token and get data
-	authorId, _, err := infra.GetIDAndRoleFromJwtToken(ctx)
+	authorId, _, err := jwt.GetIDAndRoleFromRequest(ctx)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}

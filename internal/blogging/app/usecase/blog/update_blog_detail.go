@@ -17,6 +17,7 @@ type UpdateBlogDetailParams struct {
 	CategoryIDs []string
 	Thumbnail   *string
 	Content     *string
+	Published   *bool
 }
 
 type UpdateBlogDetailResult struct {
@@ -89,6 +90,9 @@ func (g updateBlogDetailHandler) updateBlog(
 	}
 	if param.Content != nil {
 		blog.Content = param.Content
+	}
+	if param.Published != nil {
+		blog.Published = *param.Published
 	}
 	rs, err := g.blogRepo.UpdateBlog(ctx, blog, param.CategoryIDs)
 	if err != nil {

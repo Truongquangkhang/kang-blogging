@@ -13,13 +13,15 @@ import (
 )
 
 type GetBlogsParams struct {
-	Page        int32
-	PageSize    int32
-	SearchName  *string
-	SearchBy    *string
-	CategoryIds *string
-	AuthorIds   *string
-	SortBy      *string
+	Page         int32
+	PageSize     int32
+	SearchName   *string
+	SearchBy     *string
+	CategoryIds  *string
+	AuthorIds    *string
+	SortBy       *string
+	Published    *bool
+	IsDeprecated *bool
 }
 
 type GetBlogsResult struct {
@@ -72,13 +74,15 @@ func (g getBogsHandler) Handle(ctx context.Context, param GetBlogsParams) (GetBl
 	}
 
 	blogs, total, err := g.blogRepo.GetBlogsByParam(ctx, blog.BlogsParams{
-		Page:        param.Page,
-		PageSize:    param.PageSize,
-		SearchName:  param.SearchName,
-		SearchBy:    param.SearchBy,
-		AuthorIds:   authorIds,
-		CategoryIds: categoryIds,
-		SortBy:      param.SortBy,
+		Page:         param.Page,
+		PageSize:     param.PageSize,
+		SearchName:   param.SearchName,
+		SearchBy:     param.SearchBy,
+		AuthorIds:    authorIds,
+		CategoryIds:  categoryIds,
+		SortBy:       param.SortBy,
+		Published:    param.Published,
+		IsDeprecated: param.IsDeprecated,
 	})
 	if err != nil {
 		return GetBlogsResult{}, err

@@ -34,6 +34,7 @@ message GetUsersRequest {
   google.protobuf.StringValue search_by = 4;
   google.protobuf.BoolValue following = 5;
   google.protobuf.BoolValue followed_by_me = 6;
+  google.protobuf.BoolValue is_active = 7;
 }
 
 message  GetUsersResponse {

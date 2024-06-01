@@ -28,6 +28,7 @@ message UserInfoMetadata {
   google.protobuf.StringValue avatar = 5;
   google.protobuf.Int32Value total_comments = 6;
   google.protobuf.StringValue description = 7;
+  bool is_active = 8;
 }
 
 message BlogInfo {
@@ -45,6 +46,8 @@ message BlogMetadata {
   UserInfoMetadata author = 7;
   int32 total_blog_comments = 8;
   int64 updated_at = 9;
+  bool published = 10;
+  bool is_deprecated = 11;
 }
 
 message Category {
