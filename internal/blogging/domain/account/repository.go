@@ -17,4 +17,9 @@ type Repository interface {
 		ctx context.Context,
 		username string,
 	) (*model.Account, error)
+
+	GetRoleUserByID(
+		ctx context.Context,
+		id string,
+	) (*model.Role, error)
 }

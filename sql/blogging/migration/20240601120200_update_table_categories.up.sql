@@ -1,0 +1,4 @@
+ALTER TABLE categories
+    ADD COLUMN description text NULL,
+    ADD `created_at` datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+    ADD `updated_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP;

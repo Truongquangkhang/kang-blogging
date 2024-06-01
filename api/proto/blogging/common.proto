@@ -53,6 +53,7 @@ message BlogMetadata {
 message Category {
   string id = 1;
   string name = 2;
+  google.protobuf.StringValue description = 3;
 }
 
 message CategoryMetadata {
