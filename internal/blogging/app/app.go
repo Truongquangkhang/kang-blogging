@@ -42,7 +42,9 @@ type BlogUsecase struct {
 }
 
 type CategoryUsecase struct {
-	GetCategories category.GetCategoriesHandler
+	GetCategories  category.GetCategoriesHandler
+	CreateCategory category.CreateCategoryHandler
+	UpdateCategory category.UpdateCategoryHandler
 }
 
 type CommentUsecase struct {

@@ -15,6 +15,16 @@ type Repository interface {
 		ctx context.Context,
 		param ParamGetCategories,
 	) ([]ResultGetCategories, int32, error)
+
+	InsertCategory(
+		ctx context.Context,
+		category model.Category,
+	) (*model.Category, error)
+
+	UpdateCategory(
+		ctx context.Context,
+		category model.Category,
+	) (*model.Category, error)
 }
 
 type ParamGetCategories struct {

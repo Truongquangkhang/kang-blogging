@@ -831,6 +831,63 @@ paths:
                               $ref: '#/components/schemas/CategoryMetadata'
                           pagination:
                             $ref: '#/components/schemas/Comment'
+    post:
+      tags:
+        - Category
+      description: |-
+        - Create a category.
+      summary: 'Create category'
+      operationId: createCategory
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+    patch:
+      tags:
+        - Category
+      description: |-
+        - Update a category.
+      summary: 'Update category'
+      operationId: updateCategory
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
   /api/v1/upload-image:
     post:
       tags:

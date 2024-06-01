@@ -14,6 +14,18 @@ service CategoryService {
       get: "/api/v1/category"
     };
   }
+  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse){
+    option (google.api.http) = {
+      post: "/api/v1/category"
+      body: "*"
+    };
+  }
+  rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse){
+    option (google.api.http) = {
+      patch: "/api/v1/category/{category_id}"
+      body: "*"
+    };
+  }
 }
 
 message GetCategoriesRequest {
@@ -28,6 +40,35 @@ message  GetCategoriesResponse {
   message Data {
     repeated CategoryMetadata categories = 1;
     Pagination pagination = 2;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message CreateCategoryRequest {
+  string name = 1;
+  google.protobuf.StringValue description = 2;
+}
+
+message CreateCategoryResponse {
+  message Data {
+    Category category = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message UpdateCategoryRequest {
+  string category_id = 1;
+  google.protobuf.StringValue name = 2;
+  google.protobuf.StringValue description = 3;
+}
+
+message UpdateCategoryResponse {
+  message Data {
+    Category category = 1;
   }
   int32 code = 1;
   string message = 2;

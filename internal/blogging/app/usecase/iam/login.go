@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/account"
-	"kang-blogging/internal/common/constants"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/jwt"
@@ -62,15 +61,20 @@ func (l loginHandler) Handle(ctx context.Context, param LoginParams) (LoginResul
 		return LoginResult{}, errors.NewBadRequestError("invalid username or password")
 	}
 
+	role, err := l.accountRepo.GetRoleUserByID(ctx, acc.ID)
+	if err != nil {
+		return LoginResult{}, err
+	}
+
 	secretKey := os.Getenv("JWT_SECRET_KEY")
 	expireHoursAccessToken, _ := strconv.Atoi(os.Getenv("JWT_EXPIRE_HOURS_ACCESS_TOKEN"))
 	expireHoursRefreshTokenm, _ := strconv.Atoi(os.Getenv("JWT_EXPIRE_HOURS_REFRESH_TOKEN"))
 
-	accessToken, err := jwt.CreateAccessToken(acc.ID, constants.USER_ROLE, secretKey, expireHoursAccessToken)
+	accessToken, err := jwt.CreateAccessToken(acc.ID, role.Name, secretKey, expireHoursAccessToken)
 	if err != nil {
 		return LoginResult{}, err
 	}
-	refreshToken, err := jwt.CreateRefreshToken(acc.ID, constants.USER_ROLE, secretKey, expireHoursRefreshTokenm)
+	refreshToken, err := jwt.CreateRefreshToken(acc.ID, role.Name, secretKey, expireHoursRefreshTokenm)
 	if err != nil {
 		return LoginResult{}, err
 	}

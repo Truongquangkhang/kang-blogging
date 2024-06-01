@@ -113,6 +113,12 @@ func newService(ctx context.Context) app.Application {
 			GetCategories: category2.NewGetCategoriesHandler(
 				categoryRepository, logger, metricsClient,
 			),
+			CreateCategory: category2.NewCreateCategoryHandler(
+				categoryRepository, logger, metricsClient,
+			),
+			UpdateCategory: category2.NewUpdateCategoryHandler(
+				categoryRepository, logger, metricsClient,
+			),
 		},
 		CommentUsecase: app.CommentUsecase{
 			GetBlogComments: comment2.NewGetBlogCommentsHandler(
