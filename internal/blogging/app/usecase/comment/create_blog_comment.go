@@ -2,6 +2,7 @@ package comment
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/comment"
@@ -61,24 +62,22 @@ func (g createBlogCommentHandler) Handle(ctx context.Context, param CreateBlogCo
 	}
 
 	isToxicity := false
+	var predictionJson *string
 	mustDetectComment, err := strconv.ParseBool(os.Getenv("TOXICITY_DETECTION_USE"))
 	if err == nil && mustDetectComment {
 		prediction, err := g.detectionClient.DetectToxicComment(ctx, param.Content)
 		if err != nil || prediction == nil {
 			logrus.Error("Failed to detect toxicity comment", err)
 		} else {
+			marshall, err := json.Marshal(prediction)
+			if err != nil {
+				logrus.Error("Failed to marshal toxicity comment", err)
+			}
 			isToxicity = prediction.IsToxicComment
+			predictionJson = utils.ToStringPointerValue(fmt.Sprintf("%s", string(marshall)))
 		}
-		fmt.Println(prediction)
 	}
 
-	// detect a comment
-	prediction, err := g.detectionClient.DetectToxicComment(ctx, param.Content)
-	if err != nil {
-		return CreateBlogCommentResult{}, err
-	}
-
-	println(prediction)
 	commentId := utils.GenUUID()
 	level := 0
 	if param.ReplyCommentID != nil {
@@ -93,6 +92,7 @@ func (g createBlogCommentHandler) Handle(ctx context.Context, param CreateBlogCo
 		IsToxicity:     isToxicity,
 		UserID:         param.UserID,
 		BlogID:         param.BlogID,
+		Prediction:     predictionJson,
 	})
 	if err != nil {
 		return CreateBlogCommentResult{}, err
