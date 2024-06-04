@@ -22,9 +22,10 @@ type Repository interface {
 }
 
 type ParamGetBlogComments struct {
-	Page     int32
-	PageSize int32
-	BlogID   string
+	Page       int32
+	PageSize   int32
+	BlogID     string
+	IsToxicity *bool
 }
 
 type ResultGetBlogComments struct {

@@ -9,6 +9,7 @@ import (
 	"kang-blogging/internal/blogging/adapter/category"
 	"kang-blogging/internal/blogging/adapter/comment"
 	"kang-blogging/internal/blogging/adapter/role"
+	"kang-blogging/internal/blogging/adapter/toxicity_detection_client"
 	"kang-blogging/internal/blogging/adapter/user"
 	"kang-blogging/internal/blogging/app"
 	"kang-blogging/internal/blogging/app/usecase/blog"
@@ -55,6 +56,7 @@ func newService(ctx context.Context) app.Application {
 		panic(err)
 	}
 
+	// repo
 	userRepository := user.NewRepository()
 	accountRepository := account.NewRepository()
 	roleRepository := role.NewRepository()
@@ -64,6 +66,9 @@ func newService(ctx context.Context) app.Application {
 	commentRepository := comment.NewRepository()
 	logger := logrus.NewEntry(logrus.StandardLogger())
 	metricsClient := metrics.NoOp{}
+
+	// adapter client
+	detectionClient := toxicity_detection_client.NewToxicityDetectionClient()
 
 	return app.Application{
 		IAMUsecases: app.IAMUsecases{
@@ -125,7 +130,7 @@ func newService(ctx context.Context) app.Application {
 				commentRepository, logger, metricsClient,
 			),
 			CreateBlogComment: comment2.NewCreateBlogCommentHandler(
-				commentRepository, logger, metricsClient,
+				commentRepository, detectionClient, logger, metricsClient,
 			),
 			GetComments: comment2.NewGetCommentsHandler(
 				commentRepository, logger, metricsClient,
