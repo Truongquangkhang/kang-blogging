@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/domain/comment"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/model"
+	"kang-blogging/internal/common/utils"
 )
 
 type GetBlogCommentsParams struct {
@@ -49,9 +50,10 @@ func (g getBlogCommentsHandler) Handle(ctx context.Context, param GetBlogComment
 	}
 
 	comments, total, err := g.commentRepo.GetBlogComments(ctx, comment.ParamGetBlogComments{
-		Page:     param.Page,
-		PageSize: param.PageSize,
-		BlogID:   param.BlogID,
+		Page:       param.Page,
+		PageSize:   param.PageSize,
+		BlogID:     param.BlogID,
+		IsToxicity: utils.ToPointer(false),
 	})
 	if err != nil {
 		return GetBlogCommentsResult{}, err

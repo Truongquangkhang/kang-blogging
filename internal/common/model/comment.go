@@ -10,6 +10,7 @@ type Comment struct {
 	IsToxicity     bool       `gorm:"column:is_toxicity"`
 	Level          int        `gorm:"column:level"`
 	ReplyCommentID *string    `gorm:"column:reply_comment_id"`
+	Prediction     *string    `gorm:"column:prediction"`
 	CreatedAt      time.Time  `gorm:"not null;default:now();column:created_at"`
 	UpdatedAt      time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP;column:updated_at"`
 	DeletedAt      *time.Time `gorm:"column:deleted_at"`

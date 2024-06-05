@@ -13,11 +13,16 @@ func (r *CommentRepository) GetBlogComments(
 	var comments []model.Comment
 	var count int64
 	limit, offset := utils.PagePageSizeToLimitOffset(param.Page, param.PageSize)
-	err := r.gdb.DB().WithContext(ctx).Model(&model.Comment{}).
-		Preload("User").
-		Where("blog_id = ?", param.BlogID).
+	query := r.gdb.DB().WithContext(ctx).Model(&model.Comment{}).Preload("User")
+
+	if param.IsToxicity != nil {
+		query = query.Where("is_toxicity=?", *param.IsToxicity)
+	}
+
+	err := query.Where("blog_id = ?", param.BlogID).
 		Count(&count).
-		Limit(int(limit)).Offset(int(offset)).Find(&comments).Error
+		Limit(int(limit)).Offset(int(offset)).
+		Find(&comments).Error
 
 	if err != nil {
 		return nil, 0, err

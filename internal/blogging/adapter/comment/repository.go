@@ -28,7 +28,7 @@ func (r *CommentRepository) GetCommentById(
 	ctx context.Context, commentId string,
 ) (*model.Comment, error) {
 	var comment *model.Comment
-	err := r.gdb.DB().WithContext(ctx).Preload("User").Where("id = ?", commentId).First(&comment).Error
+	err := r.gdb.DB().WithContext(ctx).Where("id = ?", commentId).First(&comment).Error
 	if err != nil || comment == nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
