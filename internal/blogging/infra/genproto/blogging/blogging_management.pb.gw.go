@@ -49,6 +49,24 @@ func local_request_BloggingManagementService_GetDashboard_0(ctx context.Context,
 
 }
 
+func request_BloggingManagementService_GetPolicies_0(ctx context.Context, marshaler runtime.Marshaler, client BloggingManagementServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetPoliciesRequest
+	var metadata runtime.ServerMetadata
+
+	msg, err := client.GetPolicies(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_BloggingManagementService_GetPolicies_0(ctx context.Context, marshaler runtime.Marshaler, server BloggingManagementServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetPoliciesRequest
+	var metadata runtime.ServerMetadata
+
+	msg, err := server.GetPolicies(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
 // RegisterBloggingManagementServiceHandlerServer registers the http handlers for service BloggingManagementService to "mux".
 // UnaryRPC     :call BloggingManagementServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -77,6 +95,31 @@ func RegisterBloggingManagementServiceHandlerServer(ctx context.Context, mux *ru
 		}
 
 		forward_BloggingManagementService_GetDashboard_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_BloggingManagementService_GetPolicies_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/blogging.BloggingManagementService/GetPolicies", runtime.WithHTTPPathPattern("/api/v1/management/policy"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_BloggingManagementService_GetPolicies_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_BloggingManagementService_GetPolicies_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -143,13 +186,39 @@ func RegisterBloggingManagementServiceHandlerClient(ctx context.Context, mux *ru
 
 	})
 
+	mux.Handle("GET", pattern_BloggingManagementService_GetPolicies_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/blogging.BloggingManagementService/GetPolicies", runtime.WithHTTPPathPattern("/api/v1/management/policy"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_BloggingManagementService_GetPolicies_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_BloggingManagementService_GetPolicies_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	return nil
 }
 
 var (
 	pattern_BloggingManagementService_GetDashboard_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "management", "dashboard"}, ""))
+
+	pattern_BloggingManagementService_GetPolicies_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "management", "policy"}, ""))
 )
 
 var (
 	forward_BloggingManagementService_GetDashboard_0 = runtime.ForwardResponseMessage
+
+	forward_BloggingManagementService_GetPolicies_0 = runtime.ForwardResponseMessage
 )

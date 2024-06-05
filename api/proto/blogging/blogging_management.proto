@@ -14,6 +14,12 @@ service BloggingManagementService {
       get: "/api/v1/management/dashboard"
     };
   }
+
+  rpc GetPolicies(GetPoliciesRequest) returns (GetPoliciesResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/management/policy"
+    };
+  }
 }
 
 message GetDashboardRequest {
@@ -30,6 +36,19 @@ message  GetDashboardResponse {
     int32 users_increase_in_day = 7;
     repeated BlogMetadata latest_blogs = 8;
     repeated Comment latest_comments = 9;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message GetPoliciesRequest {
+
+}
+
+message GetPoliciesResponse {
+  message Data {
+    repeated Policy policies = 1;
   }
   int32 code = 1;
   string message = 2;

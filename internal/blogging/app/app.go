@@ -59,4 +59,5 @@ type ImageUsecase struct {
 
 type ManagementUsecase struct {
 	GetDashboard management.GetDashboardHandler
+	GetPolicies  management.GetPoliciesHandler
 }

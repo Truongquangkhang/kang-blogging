@@ -987,6 +987,57 @@ paths:
                             type: array
                             items:
                               $ref: "#/components/schemas/Comment"
+  /api/v1/policy:
+    get:
+      tags:
+        - Admin-management
+      description: |-
+        - Get policies of system
+      summary: 'Get Policies'
+      operationId: getPolicies
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          policies:
+                            type: array
+                            items:
+                              $ref: "#/components/schemas/Policy"
+    patch:
+      tags:
+        - Admin-management
+      description: |-
+        - Update policies of system
+      summary: 'Update Policies'
+      operationId: updatePolicies
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          policies:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Policy"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
 components:
   schemas:
     BaseAPIResponse:
@@ -1098,6 +1149,13 @@ components:
         id:
           type: string
         name:
+          type: string
+    Policy:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
           type: string
     CategoryMetadata:
       type: object
