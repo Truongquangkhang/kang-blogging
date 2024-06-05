@@ -6,3 +6,7 @@ func ToInt32Value(v *int32) int32 {
 	}
 	return *v
 }
+
+func ToInt32Pointer(v int32) *int32 {
+	return &v
+}
