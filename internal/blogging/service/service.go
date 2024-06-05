@@ -150,6 +150,9 @@ func newService(ctx context.Context) app.Application {
 			GetPolicies: management.NewGetPoliciesHandler(
 				policyRepository, logger, metricsClient,
 			),
+			UpdatePolicies: management.NewUpdatePoliciesHandler(
+				policyRepository, logger, metricsClient,
+			),
 		},
 	}
 }

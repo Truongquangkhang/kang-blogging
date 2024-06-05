@@ -9,4 +9,9 @@ type Repository interface {
 	GetPolicies(
 		ctx context.Context,
 	) ([]model.Policy, error)
+
+	UpdatePolicies(
+		ctx context.Context,
+		policies []model.Policy,
+	) ([]model.Policy, error)
 }

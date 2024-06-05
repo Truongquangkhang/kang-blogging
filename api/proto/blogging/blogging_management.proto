@@ -20,6 +20,13 @@ service BloggingManagementService {
       get: "/api/v1/management/policy"
     };
   }
+
+  rpc UpdatePolicies(UpdatePoliciesRequest) returns (UpdatePoliciesResponse) {
+    option (google.api.http) = {
+      patch: "/api/v1/management/policy"
+      body: "*"
+    };
+  }
 }
 
 message GetDashboardRequest {
@@ -53,4 +60,13 @@ message GetPoliciesResponse {
   int32 code = 1;
   string message = 2;
   Data data = 3;
+}
+
+message UpdatePoliciesRequest {
+  repeated Policy policies = 1;
+}
+
+message UpdatePoliciesResponse {
+  int32 code = 1;
+  string message = 2;
 }
