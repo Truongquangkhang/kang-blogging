@@ -130,7 +130,7 @@ func newService(ctx context.Context) app.Application {
 				commentRepository, logger, metricsClient,
 			),
 			CreateBlogComment: comment2.NewCreateBlogCommentHandler(
-				commentRepository, detectionClient, logger, metricsClient,
+				commentRepository, userRepository, detectionClient, logger, metricsClient,
 			),
 			GetComments: comment2.NewGetCommentsHandler(
 				commentRepository, logger, metricsClient,

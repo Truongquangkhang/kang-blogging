@@ -7,12 +7,14 @@ import (
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/comment"
 	"kang-blogging/internal/blogging/domain/detection_client"
+	"kang-blogging/internal/blogging/domain/user"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/model"
 	"kang-blogging/internal/common/utils"
 	"os"
 	"strconv"
+	"time"
 )
 
 type CreateBlogCommentParams struct {
@@ -30,11 +32,13 @@ type CreateBlogCommentHandler decorator.UsecaseHandler[CreateBlogCommentParams, 
 
 type createBlogCommentHandler struct {
 	commentRepo     comment.Repository
+	userRepo        user.Repository
 	detectionClient detection_client.IClientAdapter
 }
 
 func NewCreateBlogCommentHandler(
 	commentRepo comment.Repository,
+	userRepo user.Repository,
 	detectionClient detection_client.IClientAdapter,
 	logger *logrus.Entry,
 	metrics decorator.MetricsClient,
@@ -45,10 +49,14 @@ func NewCreateBlogCommentHandler(
 	if detectionClient == nil {
 		panic("detectionClient is nil")
 	}
+	if userRepo == nil {
+		panic("userRepo is nil")
+	}
 	return decorator.ApplyUsecaseDecorators[CreateBlogCommentParams, CreateBlogCommentResult](
 		createBlogCommentHandler{
 			commentRepo:     commentRepo,
 			detectionClient: detectionClient,
+			userRepo:        userRepo,
 		},
 		logger,
 		metrics,
@@ -60,7 +68,14 @@ func (g createBlogCommentHandler) Handle(ctx context.Context, param CreateBlogCo
 	if err != nil {
 		return CreateBlogCommentResult{}, err
 	}
-
+	u, err := g.userRepo.GetUserByID(ctx, param.UserID)
+	if err != nil {
+		return CreateBlogCommentResult{}, err
+	}
+	if utils.PointerInt64ToValue(u.ExpireWarningTime) >= time.Now().Unix() ||
+		!u.IsActive {
+		return CreateBlogCommentResult{}, errors.NewBadRequestError("You have been banned comment. PLease try again later")
+	}
 	isToxicity := false
 	var predictionJson *string
 	mustDetectComment, err := strconv.ParseBool(os.Getenv("TOXICITY_DETECTION_USE"))
@@ -97,6 +112,11 @@ func (g createBlogCommentHandler) Handle(ctx context.Context, param CreateBlogCo
 	if err != nil {
 		return CreateBlogCommentResult{}, err
 	}
+
+	if isToxicity {
+		return CreateBlogCommentResult{}, errors.NewBadRequestError("Your comment is toxicity")
+	}
+
 	responseComment, err := g.commentRepo.GetCommentById(ctx, commentId)
 	if err != nil {
 		return CreateBlogCommentResult{}, err
