@@ -123,6 +123,209 @@ func (x *GetDashboardResponse) GetData() *GetDashboardResponse_Data {
 	return nil
 }
 
+type GetPoliciesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *GetPoliciesRequest) Reset() {
+	*x = GetPoliciesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_blogging_management_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetPoliciesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPoliciesRequest) ProtoMessage() {}
+
+func (x *GetPoliciesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_blogging_management_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPoliciesRequest.ProtoReflect.Descriptor instead.
+func (*GetPoliciesRequest) Descriptor() ([]byte, []int) {
+	return file_blogging_blogging_management_proto_rawDescGZIP(), []int{2}
+}
+
+type GetPoliciesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code    int32                     `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message string                    `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Data    *GetPoliciesResponse_Data `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *GetPoliciesResponse) Reset() {
+	*x = GetPoliciesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_blogging_management_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetPoliciesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPoliciesResponse) ProtoMessage() {}
+
+func (x *GetPoliciesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_blogging_management_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPoliciesResponse.ProtoReflect.Descriptor instead.
+func (*GetPoliciesResponse) Descriptor() ([]byte, []int) {
+	return file_blogging_blogging_management_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetPoliciesResponse) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *GetPoliciesResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetPoliciesResponse) GetData() *GetPoliciesResponse_Data {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type UpdatePoliciesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Policies []*Policy `protobuf:"bytes,1,rep,name=policies,proto3" json:"policies,omitempty"`
+}
+
+func (x *UpdatePoliciesRequest) Reset() {
+	*x = UpdatePoliciesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_blogging_management_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdatePoliciesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdatePoliciesRequest) ProtoMessage() {}
+
+func (x *UpdatePoliciesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_blogging_management_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdatePoliciesRequest.ProtoReflect.Descriptor instead.
+func (*UpdatePoliciesRequest) Descriptor() ([]byte, []int) {
+	return file_blogging_blogging_management_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdatePoliciesRequest) GetPolicies() []*Policy {
+	if x != nil {
+		return x.Policies
+	}
+	return nil
+}
+
+type UpdatePoliciesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code    int32  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (x *UpdatePoliciesResponse) Reset() {
+	*x = UpdatePoliciesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_blogging_management_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdatePoliciesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdatePoliciesResponse) ProtoMessage() {}
+
+func (x *UpdatePoliciesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_blogging_management_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdatePoliciesResponse.ProtoReflect.Descriptor instead.
+func (*UpdatePoliciesResponse) Descriptor() ([]byte, []int) {
+	return file_blogging_blogging_management_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UpdatePoliciesResponse) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *UpdatePoliciesResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 type GetDashboardResponse_Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -142,7 +345,7 @@ type GetDashboardResponse_Data struct {
 func (x *GetDashboardResponse_Data) Reset() {
 	*x = GetDashboardResponse_Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_blogging_management_proto_msgTypes[2]
+		mi := &file_blogging_blogging_management_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -155,7 +358,7 @@ func (x *GetDashboardResponse_Data) String() string {
 func (*GetDashboardResponse_Data) ProtoMessage() {}
 
 func (x *GetDashboardResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_blogging_management_proto_msgTypes[2]
+	mi := &file_blogging_blogging_management_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -234,6 +437,53 @@ func (x *GetDashboardResponse_Data) GetLatestComments() []*Comment {
 	return nil
 }
 
+type GetPoliciesResponse_Data struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Policies []*Policy `protobuf:"bytes,1,rep,name=policies,proto3" json:"policies,omitempty"`
+}
+
+func (x *GetPoliciesResponse_Data) Reset() {
+	*x = GetPoliciesResponse_Data{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_blogging_management_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetPoliciesResponse_Data) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPoliciesResponse_Data) ProtoMessage() {}
+
+func (x *GetPoliciesResponse_Data) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_blogging_management_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPoliciesResponse_Data.ProtoReflect.Descriptor instead.
+func (*GetPoliciesResponse_Data) Descriptor() ([]byte, []int) {
+	return file_blogging_blogging_management_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *GetPoliciesResponse_Data) GetPolicies() []*Policy {
+	if x != nil {
+		return x.Policies
+	}
+	return nil
+}
+
 var File_blogging_blogging_management_proto protoreflect.FileDescriptor
 
 var file_blogging_blogging_management_proto_rawDesc = []byte{
@@ -281,18 +531,54 @@ var file_blogging_blogging_management_proto_rawDesc = []byte{
 	0x73, 0x12, 0x3a, 0x0a, 0x0f, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x63, 0x6f, 0x6d, 0x6d,
 	0x65, 0x6e, 0x74, 0x73, 0x18, 0x09, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x62, 0x6c, 0x6f,
 	0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x0e, 0x6c,
-	0x61, 0x74, 0x65, 0x73, 0x74, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x32, 0x90, 0x01,
-	0x0a, 0x19, 0x42, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65,
-	0x6d, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x73, 0x0a, 0x0c, 0x47,
-	0x65, 0x74, 0x44, 0x61, 0x73, 0x68, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x12, 0x1d, 0x2e, 0x62, 0x6c,
-	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x44, 0x61, 0x73, 0x68, 0x62, 0x6f,
-	0x61, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x62, 0x6c, 0x6f,
-	0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x44, 0x61, 0x73, 0x68, 0x62, 0x6f, 0x61,
-	0x72, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x24, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x1e, 0x12, 0x1c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x6e, 0x61,
-	0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x2f, 0x64, 0x61, 0x73, 0x68, 0x62, 0x6f, 0x61, 0x72, 0x64,
-	0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x74, 0x65, 0x73, 0x74, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x22, 0x14, 0x0a,
+	0x12, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x22, 0xb1, 0x01, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63,
+	0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x63,
+	0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12,
+	0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x36, 0x0a, 0x04, 0x64, 0x61, 0x74,
+	0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69,
+	0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74,
+	0x61, 0x1a, 0x34, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61, 0x12, 0x2c, 0x0a, 0x08, 0x70, 0x6f, 0x6c,
+	0x69, 0x63, 0x69, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x62, 0x6c,
+	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x52, 0x08, 0x70,
+	0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x22, 0x45, 0x0a, 0x15, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x2c, 0x0a, 0x08, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x10, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x50, 0x6f,
+	0x6c, 0x69, 0x63, 0x79, 0x52, 0x08, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x22, 0x46,
+	0x0a, 0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07,
+	0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d,
+	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x32, 0xfa, 0x02, 0x0a, 0x19, 0x42, 0x6c, 0x6f, 0x67, 0x67,
+	0x69, 0x6e, 0x67, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x12, 0x73, 0x0a, 0x0c, 0x47, 0x65, 0x74, 0x44, 0x61, 0x73, 0x68, 0x62,
+	0x6f, 0x61, 0x72, 0x64, 0x12, 0x1d, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e,
+	0x47, 0x65, 0x74, 0x44, 0x61, 0x73, 0x68, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47,
+	0x65, 0x74, 0x44, 0x61, 0x73, 0x68, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x24, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1e, 0x12, 0x1c, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x2f,
+	0x64, 0x61, 0x73, 0x68, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x12, 0x6d, 0x0a, 0x0b, 0x47, 0x65, 0x74,
+	0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x12, 0x1c, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67,
+	0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e,
+	0x67, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1b, 0x12, 0x19, 0x2f,
+	0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e,
+	0x74, 0x2f, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x12, 0x79, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x65, 0x73, 0x12, 0x1f, 0x2e, 0x62, 0x6c, 0x6f,
+	0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x6c, 0x69,
+	0x63, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x62, 0x6c,
+	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x6f, 0x6c,
+	0x69, 0x63, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x24, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x1e, 0x3a, 0x01, 0x2a, 0x32, 0x19, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76,
+	0x31, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x2f, 0x70, 0x6f, 0x6c,
+	0x69, 0x63, 0x79, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e,
+	0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -307,25 +593,38 @@ func file_blogging_blogging_management_proto_rawDescGZIP() []byte {
 	return file_blogging_blogging_management_proto_rawDescData
 }
 
-var file_blogging_blogging_management_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_blogging_blogging_management_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_blogging_blogging_management_proto_goTypes = []interface{}{
 	(*GetDashboardRequest)(nil),       // 0: blogging.GetDashboardRequest
 	(*GetDashboardResponse)(nil),      // 1: blogging.GetDashboardResponse
-	(*GetDashboardResponse_Data)(nil), // 2: blogging.GetDashboardResponse.Data
-	(*BlogMetadata)(nil),              // 3: blogging.BlogMetadata
-	(*Comment)(nil),                   // 4: blogging.Comment
+	(*GetPoliciesRequest)(nil),        // 2: blogging.GetPoliciesRequest
+	(*GetPoliciesResponse)(nil),       // 3: blogging.GetPoliciesResponse
+	(*UpdatePoliciesRequest)(nil),     // 4: blogging.UpdatePoliciesRequest
+	(*UpdatePoliciesResponse)(nil),    // 5: blogging.UpdatePoliciesResponse
+	(*GetDashboardResponse_Data)(nil), // 6: blogging.GetDashboardResponse.Data
+	(*GetPoliciesResponse_Data)(nil),  // 7: blogging.GetPoliciesResponse.Data
+	(*Policy)(nil),                    // 8: blogging.Policy
+	(*BlogMetadata)(nil),              // 9: blogging.BlogMetadata
+	(*Comment)(nil),                   // 10: blogging.Comment
 }
 var file_blogging_blogging_management_proto_depIdxs = []int32{
-	2, // 0: blogging.GetDashboardResponse.data:type_name -> blogging.GetDashboardResponse.Data
-	3, // 1: blogging.GetDashboardResponse.Data.latest_blogs:type_name -> blogging.BlogMetadata
-	4, // 2: blogging.GetDashboardResponse.Data.latest_comments:type_name -> blogging.Comment
-	0, // 3: blogging.BloggingManagementService.GetDashboard:input_type -> blogging.GetDashboardRequest
-	1, // 4: blogging.BloggingManagementService.GetDashboard:output_type -> blogging.GetDashboardResponse
-	4, // [4:5] is the sub-list for method output_type
-	3, // [3:4] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	6,  // 0: blogging.GetDashboardResponse.data:type_name -> blogging.GetDashboardResponse.Data
+	7,  // 1: blogging.GetPoliciesResponse.data:type_name -> blogging.GetPoliciesResponse.Data
+	8,  // 2: blogging.UpdatePoliciesRequest.policies:type_name -> blogging.Policy
+	9,  // 3: blogging.GetDashboardResponse.Data.latest_blogs:type_name -> blogging.BlogMetadata
+	10, // 4: blogging.GetDashboardResponse.Data.latest_comments:type_name -> blogging.Comment
+	8,  // 5: blogging.GetPoliciesResponse.Data.policies:type_name -> blogging.Policy
+	0,  // 6: blogging.BloggingManagementService.GetDashboard:input_type -> blogging.GetDashboardRequest
+	2,  // 7: blogging.BloggingManagementService.GetPolicies:input_type -> blogging.GetPoliciesRequest
+	4,  // 8: blogging.BloggingManagementService.UpdatePolicies:input_type -> blogging.UpdatePoliciesRequest
+	1,  // 9: blogging.BloggingManagementService.GetDashboard:output_type -> blogging.GetDashboardResponse
+	3,  // 10: blogging.BloggingManagementService.GetPolicies:output_type -> blogging.GetPoliciesResponse
+	5,  // 11: blogging.BloggingManagementService.UpdatePolicies:output_type -> blogging.UpdatePoliciesResponse
+	9,  // [9:12] is the sub-list for method output_type
+	6,  // [6:9] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_blogging_blogging_management_proto_init() }
@@ -360,7 +659,67 @@ func file_blogging_blogging_management_proto_init() {
 			}
 		}
 		file_blogging_blogging_management_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetPoliciesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_blogging_management_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetPoliciesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_blogging_management_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdatePoliciesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_blogging_management_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdatePoliciesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_blogging_management_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetDashboardResponse_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_blogging_management_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetPoliciesResponse_Data); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -378,7 +737,7 @@ func file_blogging_blogging_management_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_blogging_blogging_management_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

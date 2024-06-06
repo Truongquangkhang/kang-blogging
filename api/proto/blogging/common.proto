@@ -76,6 +76,11 @@ message CommentWithReplies {
   repeated Comment replies = 2;
 }
 
+message Policy {
+  string name = 1;
+  string value = 2;
+}
+
 message Pagination {
   int32 page = 1;
   int32 page_size = 2;

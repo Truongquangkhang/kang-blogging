@@ -1,6 +1,7 @@
 package common
 
 import (
+	"fmt"
 	category2 "kang-blogging/internal/blogging/domain/category"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/common/model"
@@ -114,4 +115,19 @@ func MapToPaginationResponse(pagination model.Pagination) *blogging.Pagination {
 		PageSize: pagination.PageSize,
 		Total:    pagination.Total,
 	}
+}
+
+func MapToPolicyResponse(policy *model.Policy) *blogging.Policy {
+	return &blogging.Policy{
+		Name:  utils.ToStringValue(policy.Type),
+		Value: fmt.Sprint(utils.PointerInt64ToValue(policy.Value)),
+	}
+}
+
+func MapToPoliciesResponse(policies []model.Policy) []*blogging.Policy {
+	var result []*blogging.Policy
+	for _, policy := range policies {
+		result = append(result, MapToPolicyResponse(&policy))
+	}
+	return result
 }

@@ -19,7 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	BloggingManagementService_GetDashboard_FullMethodName = "/blogging.BloggingManagementService/GetDashboard"
+	BloggingManagementService_GetDashboard_FullMethodName   = "/blogging.BloggingManagementService/GetDashboard"
+	BloggingManagementService_GetPolicies_FullMethodName    = "/blogging.BloggingManagementService/GetPolicies"
+	BloggingManagementService_UpdatePolicies_FullMethodName = "/blogging.BloggingManagementService/UpdatePolicies"
 )
 
 // BloggingManagementServiceClient is the client API for BloggingManagementService service.
@@ -27,6 +29,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BloggingManagementServiceClient interface {
 	GetDashboard(ctx context.Context, in *GetDashboardRequest, opts ...grpc.CallOption) (*GetDashboardResponse, error)
+	GetPolicies(ctx context.Context, in *GetPoliciesRequest, opts ...grpc.CallOption) (*GetPoliciesResponse, error)
+	UpdatePolicies(ctx context.Context, in *UpdatePoliciesRequest, opts ...grpc.CallOption) (*UpdatePoliciesResponse, error)
 }
 
 type bloggingManagementServiceClient struct {
@@ -46,11 +50,31 @@ func (c *bloggingManagementServiceClient) GetDashboard(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *bloggingManagementServiceClient) GetPolicies(ctx context.Context, in *GetPoliciesRequest, opts ...grpc.CallOption) (*GetPoliciesResponse, error) {
+	out := new(GetPoliciesResponse)
+	err := c.cc.Invoke(ctx, BloggingManagementService_GetPolicies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bloggingManagementServiceClient) UpdatePolicies(ctx context.Context, in *UpdatePoliciesRequest, opts ...grpc.CallOption) (*UpdatePoliciesResponse, error) {
+	out := new(UpdatePoliciesResponse)
+	err := c.cc.Invoke(ctx, BloggingManagementService_UpdatePolicies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BloggingManagementServiceServer is the server API for BloggingManagementService service.
 // All implementations should embed UnimplementedBloggingManagementServiceServer
 // for forward compatibility
 type BloggingManagementServiceServer interface {
 	GetDashboard(context.Context, *GetDashboardRequest) (*GetDashboardResponse, error)
+	GetPolicies(context.Context, *GetPoliciesRequest) (*GetPoliciesResponse, error)
+	UpdatePolicies(context.Context, *UpdatePoliciesRequest) (*UpdatePoliciesResponse, error)
 }
 
 // UnimplementedBloggingManagementServiceServer should be embedded to have forward compatible implementations.
@@ -59,6 +83,12 @@ type UnimplementedBloggingManagementServiceServer struct {
 
 func (UnimplementedBloggingManagementServiceServer) GetDashboard(context.Context, *GetDashboardRequest) (*GetDashboardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDashboard not implemented")
+}
+func (UnimplementedBloggingManagementServiceServer) GetPolicies(context.Context, *GetPoliciesRequest) (*GetPoliciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPolicies not implemented")
+}
+func (UnimplementedBloggingManagementServiceServer) UpdatePolicies(context.Context, *UpdatePoliciesRequest) (*UpdatePoliciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePolicies not implemented")
 }
 
 // UnsafeBloggingManagementServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -90,6 +120,42 @@ func _BloggingManagementService_GetDashboard_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BloggingManagementService_GetPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPoliciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BloggingManagementServiceServer).GetPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BloggingManagementService_GetPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BloggingManagementServiceServer).GetPolicies(ctx, req.(*GetPoliciesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BloggingManagementService_UpdatePolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePoliciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BloggingManagementServiceServer).UpdatePolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BloggingManagementService_UpdatePolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BloggingManagementServiceServer).UpdatePolicies(ctx, req.(*UpdatePoliciesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BloggingManagementService_ServiceDesc is the grpc.ServiceDesc for BloggingManagementService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -100,6 +166,14 @@ var BloggingManagementService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDashboard",
 			Handler:    _BloggingManagementService_GetDashboard_Handler,
+		},
+		{
+			MethodName: "GetPolicies",
+			Handler:    _BloggingManagementService_GetPolicies_Handler,
+		},
+		{
+			MethodName: "UpdatePolicies",
+			Handler:    _BloggingManagementService_UpdatePolicies_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -14,6 +14,19 @@ service BloggingManagementService {
       get: "/api/v1/management/dashboard"
     };
   }
+
+  rpc GetPolicies(GetPoliciesRequest) returns (GetPoliciesResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/management/policy"
+    };
+  }
+
+  rpc UpdatePolicies(UpdatePoliciesRequest) returns (UpdatePoliciesResponse) {
+    option (google.api.http) = {
+      patch: "/api/v1/management/policy"
+      body: "*"
+    };
+  }
 }
 
 message GetDashboardRequest {
@@ -34,4 +47,26 @@ message  GetDashboardResponse {
   int32 code = 1;
   string message = 2;
   Data data = 3;
+}
+
+message GetPoliciesRequest {
+
+}
+
+message GetPoliciesResponse {
+  message Data {
+    repeated Policy policies = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message UpdatePoliciesRequest {
+  repeated Policy policies = 1;
+}
+
+message UpdatePoliciesResponse {
+  int32 code = 1;
+  string message = 2;
 }
