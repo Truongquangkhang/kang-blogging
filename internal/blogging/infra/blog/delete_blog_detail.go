@@ -5,6 +5,8 @@ import (
 	"kang-blogging/internal/blogging/app/usecase/blog"
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/constants"
+	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/jwt"
 )
 
@@ -12,9 +14,12 @@ func (g GrpcService) DeleteBlogDetail(
 	ctx context.Context,
 	request *blogging.DeleteBlogDetailRequest,
 ) (*blogging.DeleteBlogDetailResponse, error) {
-	authorId, _, err := jwt.GetIDAndRoleFromRequest(ctx)
+	authorId, role, err := jwt.GetIDAndRoleFromRequest(ctx)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
+	}
+	if *role != constants.ADMIN_ROLE {
+		return nil, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
 	}
 	param := blog.DeleteBlogDetailParams{
 		DeletedById: *authorId,

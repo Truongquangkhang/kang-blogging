@@ -7,7 +7,6 @@ import (
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/model"
-	"time"
 )
 
 type DeleteBlogDetailParams struct {
@@ -55,12 +54,10 @@ func (g deleteBlogDetailHandler) Handle(ctx context.Context, param DeleteBlogDet
 	if rs == nil {
 		return DeleteBlogDetailResult{}, errors.NewNotFoundError("blog not found")
 	}
-	if rs.AuthorID != param.DeletedById {
-		return DeleteBlogDetailResult{}, errors.NewForbiddenDefaultError()
-	}
-	now := time.Now()
-	rs.DeletedAt = &now
-	rs, err = g.blogRepo.UpdateBlog(ctx, rs, []string{})
+	//if rs.AuthorID != param.DeletedById {
+	//	return DeleteBlogDetailResult{}, errors.NewForbiddenDefaultError()
+	//}
+	err = g.blogRepo.DeprecatedBlog(ctx, rs.ID)
 	if err != nil {
 		return DeleteBlogDetailResult{}, err
 	}

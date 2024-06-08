@@ -53,7 +53,7 @@ message CreateCategoryRequest {
 
 message CreateCategoryResponse {
   message Data {
-    Category category = 1;
+      Category category = 1;
   }
   int32 code = 1;
   string message = 2;
