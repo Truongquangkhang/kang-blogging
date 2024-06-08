@@ -10,14 +10,15 @@ import (
 
 func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata {
 	return &blogging.UserInfoMetadata{
-		Id:            u.ID,
-		Name:          u.Name,
-		DisplayName:   u.DisplayName,
-		TotalBlogs:    u.TotalBlogs,
-		Avatar:        utils.WrapperStringFromString(u.Avatar),
-		TotalComments: utils.WrapperInt32FromInt32(u.TotalComments),
-		Description:   utils.WrapperStringFromString(u.Description),
-		IsActive:      u.IsActive,
+		Id:              u.ID,
+		Name:            u.Name,
+		DisplayName:     u.DisplayName,
+		TotalBlogs:      u.TotalBlogs,
+		Avatar:          utils.WrapperStringFromString(u.Avatar),
+		TotalComments:   utils.WrapperInt32FromInt32(u.TotalComments),
+		Description:     utils.WrapperStringFromString(u.Description),
+		IsActive:        u.IsActive,
+		TotalViolations: u.TotalViolation,
 	}
 }
 

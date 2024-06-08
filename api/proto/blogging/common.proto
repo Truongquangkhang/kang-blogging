@@ -29,6 +29,7 @@ message UserInfoMetadata {
   google.protobuf.Int32Value total_comments = 6;
   google.protobuf.StringValue description = 7;
   bool is_active = 8;
+  int32 total_violations = 9;
 }
 
 message BlogInfo {

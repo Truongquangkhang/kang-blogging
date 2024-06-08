@@ -5,7 +5,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/user"
 	"kang-blogging/internal/common/decorator"
+	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/model"
+	"kang-blogging/internal/common/utils"
 )
 
 type GetUsersParams struct {
@@ -16,6 +18,7 @@ type GetUsersParams struct {
 	Following    *bool
 	FollowedByMe *bool
 	IsActive     *bool
+	SortBy       *string
 }
 
 type GetUsersResult struct {
@@ -58,6 +61,7 @@ func (g getUsersHandler) Handle(ctx context.Context, param GetUsersParams) (GetU
 		FollowedByMe: param.FollowedByMe,
 		SearchName:   param.SearchName,
 		IsActive:     param.IsActive,
+		SortBy:       param.SortBy,
 	})
 	if err != nil {
 		return GetUsersResult{}, err
@@ -79,6 +83,14 @@ func (p *GetUsersParams) Validate() error {
 	}
 	if p.PageSize <= 0 {
 		p.PageSize = 10
+	}
+	if p.SortBy == nil {
+		p.SortBy = utils.ToStringPointerValue("created_at")
+	} else {
+		if *p.SortBy != "created_at" && *p.SortBy != "total_violation" &&
+			*p.SortBy != "total_blog" && *p.SortBy != "total_comment" {
+			return errors.NewBadRequestError("invalid params")
+		}
 	}
 	return nil
 }

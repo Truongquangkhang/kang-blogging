@@ -34,14 +34,34 @@ func (u UserRepository) GetUsers(
 	if params.IsActive != nil {
 		query = query.Where("is_active = ?", *params.IsActive)
 	}
-	err := query.
-		Select("users.*, count(blogs.id) as total_blogs, count(comments.id) as total_comments").
+
+	errCount := query.Count(&total).Error
+	if errCount != nil {
+		return nil, 0, errCount
+	}
+	if params.SortBy != nil {
+		switch *params.SortBy {
+		case "created_at":
+			query = query.Order("users.created_at DESC")
+		case "total_violation":
+			query = query.Order("total_violation DESC")
+		case "total_blog":
+			query.Order("total_blogs DESC")
+		case "total_comment":
+			query.Order("total_comments DESC")
+		default:
+			return nil, 0, errors.NewBadRequestError("invalid search name")
+		}
+	}
+	errQuery := query.
+		Select("users.*, count(distinct(blogs.id)) as total_blogs, count(distinct(comments.id)) as total_comments").
 		Joins("left join blogs on users.id = blogs.author_id").
 		Joins("left join comments on users.id = comments.user_id").
-		Group("users.id").Count(&total).
+		Group("users.id").
 		Offset(int(offset)).Limit(int(limit)).Find(&users).Error
-	if err != nil {
-		return nil, 0, err
+
+	if errQuery != nil {
+		return nil, 0, errQuery
 	}
 	return users, int32(total), nil
 }
