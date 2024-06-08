@@ -19,6 +19,7 @@ type UserParams struct {
 	Following    *bool
 	FollowedByMe *bool
 	IsActive     *bool
+	SortBy       *string
 }
 
 type SystemInfo struct {
