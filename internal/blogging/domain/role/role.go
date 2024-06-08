@@ -10,4 +10,14 @@ type Repository interface {
 		ctx context.Context,
 		roleNames []string,
 	) (map[string]model.Role, error)
+
+	GetRoleById(
+		ctx context.Context,
+		roleId string,
+	) (*model.Role, error)
+
+	GetRoleByUserId(
+		ctx context.Context,
+		userId string,
+	) (*model.Role, error)
 }

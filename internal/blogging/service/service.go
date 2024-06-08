@@ -110,7 +110,7 @@ func newService(ctx context.Context) app.Application {
 				blogRepository, logger, metricsClient,
 			),
 			UpdateBlogDetail: blog.NewUpdateBlogDetailHandler(
-				blogRepository, logger, metricsClient,
+				blogRepository, roleRepository, logger, metricsClient,
 			),
 			DeleteBlogDetail: blog.NewDeleteBlogDetailHandler(
 				blogRepository, logger, metricsClient,
