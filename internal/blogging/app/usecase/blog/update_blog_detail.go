@@ -4,6 +4,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"kang-blogging/internal/blogging/domain/blog"
+	"kang-blogging/internal/blogging/domain/role"
+	"kang-blogging/internal/common/constants"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/model"
@@ -28,19 +30,25 @@ type UpdateBlogDetailHandler decorator.UsecaseHandler[UpdateBlogDetailParams, Up
 
 type updateBlogDetailHandler struct {
 	blogRepo blog.Repository
+	roleRepo role.Repository
 }
 
 func NewUpdateBlogDetailHandler(
 	blogRepo blog.Repository,
+	roleRepo role.Repository,
 	logger *logrus.Entry,
 	metrics decorator.MetricsClient,
 ) UpdateBlogDetailHandler {
 	if blogRepo == nil {
 		panic("blogRepo is nil")
 	}
+	if roleRepo == nil {
+		panic("roleRepo is nil")
+	}
 	return decorator.ApplyUsecaseDecorators[UpdateBlogDetailParams, UpdateBlogDetailResult](
 		updateBlogDetailHandler{
 			blogRepo: blogRepo,
+			roleRepo: roleRepo,
 		},
 		logger,
 		metrics,
@@ -61,7 +69,13 @@ func (g updateBlogDetailHandler) Handle(ctx context.Context, param UpdateBlogDet
 		return UpdateBlogDetailResult{}, errors.NewNotFoundError("blog not found")
 	}
 	if rs.AuthorID != param.AuthorID {
-		return UpdateBlogDetailResult{}, errors.NewForbiddenDefaultError()
+		r, err := g.roleRepo.GetRoleByUserId(ctx, param.AuthorID)
+		if err != nil {
+			return UpdateBlogDetailResult{}, err
+		}
+		if r == nil || r.Name != constants.ADMIN_ROLE {
+			return UpdateBlogDetailResult{}, errors.NewForbiddenDefaultError()
+		}
 	}
 
 	rs, err = g.updateBlog(ctx, param, rs)

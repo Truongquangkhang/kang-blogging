@@ -20,3 +20,25 @@ func (u RoleRepository) GetMapNameToRole(
 	}
 	return mapRole, nil
 }
+
+func (u RoleRepository) GetRoleById(
+	ctx context.Context,
+	roleId string,
+) (*model.Role, error) {
+	var rs model.Role
+	err := u.gdb.DB().WithContext(ctx).Model(&model.Role{}).
+		First(&rs, "id = ?", roleId).Error
+	return &rs, err
+}
+
+func (u RoleRepository) GetRoleByUserId(
+	ctx context.Context,
+	userId string,
+) (*model.Role, error) {
+	var rs model.Role
+	err := u.gdb.DB().WithContext(ctx).Model(&model.Role{}).
+		Select("roles.*").
+		Joins("inner join users on users.role_id = roles.id").
+		Where("users.id = ?", userId).First(&rs).Error
+	return &rs, err
+}
