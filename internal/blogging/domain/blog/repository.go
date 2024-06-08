@@ -26,4 +26,9 @@ type Repository interface {
 		blog *model.Blog,
 		categoryIds []string,
 	) (*model.Blog, error)
+
+	DeprecatedBlog(
+		ctx context.Context,
+		blogId string,
+	) error
 }
