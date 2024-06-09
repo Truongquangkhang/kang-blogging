@@ -29,4 +29,10 @@ type Repository interface {
 	GetInfoFromMultiTable(
 		ctx context.Context,
 	) (*SystemInfo, error)
+
+	ChangeStatus(
+		ctx context.Context,
+		userId string,
+		currentStatus bool,
+	) error
 }

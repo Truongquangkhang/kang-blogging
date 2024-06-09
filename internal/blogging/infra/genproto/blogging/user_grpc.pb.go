@@ -22,6 +22,7 @@ const (
 	UserService_GetUsers_FullMethodName         = "/blogging.UserService/GetUsers"
 	UserService_GetUserDetail_FullMethodName    = "/blogging.UserService/GetUserDetail"
 	UserService_UpdateUserDetail_FullMethodName = "/blogging.UserService/UpdateUserDetail"
+	UserService_DeleteUserDetail_FullMethodName = "/blogging.UserService/DeleteUserDetail"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -31,6 +32,7 @@ type UserServiceClient interface {
 	GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error)
 	GetUserDetail(ctx context.Context, in *GetUserDetailRequest, opts ...grpc.CallOption) (*GetUserDetailResponse, error)
 	UpdateUserDetail(ctx context.Context, in *UpdateUserDetailRequest, opts ...grpc.CallOption) (*UpdateUserDetailResponse, error)
+	DeleteUserDetail(ctx context.Context, in *DeleteUserDetailRequest, opts ...grpc.CallOption) (*DeleteUserDetailResponse, error)
 }
 
 type userServiceClient struct {
@@ -68,6 +70,15 @@ func (c *userServiceClient) UpdateUserDetail(ctx context.Context, in *UpdateUser
 	return out, nil
 }
 
+func (c *userServiceClient) DeleteUserDetail(ctx context.Context, in *DeleteUserDetailRequest, opts ...grpc.CallOption) (*DeleteUserDetailResponse, error) {
+	out := new(DeleteUserDetailResponse)
+	err := c.cc.Invoke(ctx, UserService_DeleteUserDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations should embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type UserServiceServer interface {
 	GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error)
 	GetUserDetail(context.Context, *GetUserDetailRequest) (*GetUserDetailResponse, error)
 	UpdateUserDetail(context.Context, *UpdateUserDetailRequest) (*UpdateUserDetailResponse, error)
+	DeleteUserDetail(context.Context, *DeleteUserDetailRequest) (*DeleteUserDetailResponse, error)
 }
 
 // UnimplementedUserServiceServer should be embedded to have forward compatible implementations.
@@ -89,6 +101,9 @@ func (UnimplementedUserServiceServer) GetUserDetail(context.Context, *GetUserDet
 }
 func (UnimplementedUserServiceServer) UpdateUserDetail(context.Context, *UpdateUserDetailRequest) (*UpdateUserDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserDetail not implemented")
+}
+func (UnimplementedUserServiceServer) DeleteUserDetail(context.Context, *DeleteUserDetailRequest) (*DeleteUserDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserDetail not implemented")
 }
 
 // UnsafeUserServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -156,6 +171,24 @@ func _UserService_UpdateUserDetail_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_DeleteUserDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).DeleteUserDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_DeleteUserDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).DeleteUserDetail(ctx, req.(*DeleteUserDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -174,6 +207,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUserDetail",
 			Handler:    _UserService_UpdateUserDetail_Handler,
+		},
+		{
+			MethodName: "DeleteUserDetail",
+			Handler:    _UserService_DeleteUserDetail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

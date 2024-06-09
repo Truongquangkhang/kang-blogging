@@ -25,6 +25,11 @@ service UserService {
       body: "*"
     };
   };
+  rpc DeleteUserDetail(DeleteUserDetailRequest) returns (DeleteUserDetailResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/user/{user_id}"
+    };
+  }
 }
 
 message GetUsersRequest {
@@ -79,4 +84,13 @@ message UpdateUserDetailResponse {
   int32 code = 1;
   string message = 2;
   Data data = 3;
+}
+
+message DeleteUserDetailRequest {
+  string user_id = 1;
+}
+
+message DeleteUserDetailResponse {
+  int32 code = 1;
+  string message = 2;
 }

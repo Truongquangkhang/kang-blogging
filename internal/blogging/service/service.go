@@ -97,6 +97,9 @@ func newService(ctx context.Context) app.Application {
 			UpdateUser: user2.NewUpdateUserHandler(
 				userRepository, logger, metricsClient,
 			),
+			DeleteUserDetail: user2.NewDeleteUserDetailHandler(
+				userRepository, roleRepository, logger, metricsClient,
+			),
 		},
 		BlogUsecase: app.BlogUsecase{
 			GetBlogs: blog.NewGetBlogsHandler(
