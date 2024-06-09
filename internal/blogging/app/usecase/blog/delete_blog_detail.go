@@ -70,7 +70,6 @@ func (g deleteBlogDetailHandler) Handle(ctx context.Context, param DeleteBlogDet
 		if r == nil || r.Name != constants.ADMIN_ROLE {
 			return DeleteBlogDetailResult{}, errors.NewForbiddenDefaultError()
 		}
-		return DeleteBlogDetailResult{}, errors.NewForbiddenDefaultError()
 	}
 	err = g.blogRepo.ChangeDeprecatedBlog(ctx, rs.ID, rs.IsDeprecated)
 	if err != nil {
