@@ -464,6 +464,108 @@ func (x *UpdateUserDetailResponse) GetData() *UpdateUserDetailResponse_Data {
 	return nil
 }
 
+type DeleteUserDetailRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+}
+
+func (x *DeleteUserDetailRequest) Reset() {
+	*x = DeleteUserDetailRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_user_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteUserDetailRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserDetailRequest) ProtoMessage() {}
+
+func (x *DeleteUserDetailRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_user_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserDetailRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUserDetailRequest) Descriptor() ([]byte, []int) {
+	return file_blogging_user_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DeleteUserDetailRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type DeleteUserDetailResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code    int32  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (x *DeleteUserDetailResponse) Reset() {
+	*x = DeleteUserDetailResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_user_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteUserDetailResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserDetailResponse) ProtoMessage() {}
+
+func (x *DeleteUserDetailResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_user_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserDetailResponse.ProtoReflect.Descriptor instead.
+func (*DeleteUserDetailResponse) Descriptor() ([]byte, []int) {
+	return file_blogging_user_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DeleteUserDetailResponse) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DeleteUserDetailResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 type GetUsersResponse_Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -476,7 +578,7 @@ type GetUsersResponse_Data struct {
 func (x *GetUsersResponse_Data) Reset() {
 	*x = GetUsersResponse_Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_user_proto_msgTypes[6]
+		mi := &file_blogging_user_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -489,7 +591,7 @@ func (x *GetUsersResponse_Data) String() string {
 func (*GetUsersResponse_Data) ProtoMessage() {}
 
 func (x *GetUsersResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_user_proto_msgTypes[6]
+	mi := &file_blogging_user_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -530,7 +632,7 @@ type GetUserDetailResponse_Data struct {
 func (x *GetUserDetailResponse_Data) Reset() {
 	*x = GetUserDetailResponse_Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_user_proto_msgTypes[7]
+		mi := &file_blogging_user_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -543,7 +645,7 @@ func (x *GetUserDetailResponse_Data) String() string {
 func (*GetUserDetailResponse_Data) ProtoMessage() {}
 
 func (x *GetUserDetailResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_user_proto_msgTypes[7]
+	mi := &file_blogging_user_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -577,7 +679,7 @@ type UpdateUserDetailResponse_Data struct {
 func (x *UpdateUserDetailResponse_Data) Reset() {
 	*x = UpdateUserDetailResponse_Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_user_proto_msgTypes[8]
+		mi := &file_blogging_user_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -590,7 +692,7 @@ func (x *UpdateUserDetailResponse_Data) String() string {
 func (*UpdateUserDetailResponse_Data) ProtoMessage() {}
 
 func (x *UpdateUserDetailResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_user_proto_msgTypes[8]
+	mi := &file_blogging_user_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -719,29 +821,45 @@ var file_blogging_user_proto_rawDesc = []byte{
 	0x61, 0x12, 0x2e, 0x0a, 0x04, 0x75, 0x73, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
 	0x1a, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x49,
 	0x6e, 0x66, 0x6f, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x52, 0x04, 0x75, 0x73, 0x65,
-	0x72, 0x32, 0xd6, 0x02, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x12, 0x57, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73, 0x12, 0x19, 0x2e,
-	0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72,
-	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67,
-	0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x0e, 0x12, 0x0c, 0x2f, 0x61,
-	0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x12, 0x70, 0x0a, 0x0d, 0x47, 0x65,
-	0x74, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x1e, 0x2e, 0x62, 0x6c,
-	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65,
-	0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x62, 0x6c,
-	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65,
-	0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x18, 0x12, 0x16, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73,
-	0x65, 0x72, 0x2f, 0x7b, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x7c, 0x0a, 0x10,
-	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c,
-	0x12, 0x21, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x55, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1b, 0x3a,
-	0x01, 0x2a, 0x32, 0x16, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73, 0x65, 0x72,
-	0x2f, 0x7b, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x7d, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x2f,
-	0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x72, 0x22, 0x32, 0x0a, 0x17, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x44,
+	0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07,
+	0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75,
+	0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x48, 0x0a, 0x18, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55,
+	0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52,
+	0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x32,
+	0xd1, 0x03, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
+	0x57, 0x0a, 0x08, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73, 0x12, 0x19, 0x2e, 0x62, 0x6c,
+	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e,
+	0x67, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x14, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x0e, 0x12, 0x0c, 0x2f, 0x61, 0x70, 0x69,
+	0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x12, 0x70, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x55,
+	0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x1e, 0x2e, 0x62, 0x6c, 0x6f, 0x67,
+	0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61,
+	0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x62, 0x6c, 0x6f, 0x67,
+	0x67, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61,
+	0x69, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x18, 0x12, 0x16, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73, 0x65, 0x72,
+	0x2f, 0x7b, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x7c, 0x0a, 0x10, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x21,
+	0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x22, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1b, 0x3a, 0x01, 0x2a,
+	0x32, 0x16, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x2f, 0x7b,
+	0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x7d, 0x12, 0x79, 0x0a, 0x10, 0x44, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x21, 0x2e, 0x62,
+	0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73,
+	0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x22, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74,
+	0x65, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x2a, 0x16, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x2f, 0x7b, 0x75, 0x73, 0x65, 0x72, 0x5f,
+	0x69, 0x64, 0x7d, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e,
+	0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -756,7 +874,7 @@ func file_blogging_user_proto_rawDescGZIP() []byte {
 	return file_blogging_user_proto_rawDescData
 }
 
-var file_blogging_user_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_blogging_user_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_blogging_user_proto_goTypes = []interface{}{
 	(*GetUsersRequest)(nil),               // 0: blogging.GetUsersRequest
 	(*GetUsersResponse)(nil),              // 1: blogging.GetUsersResponse
@@ -764,44 +882,48 @@ var file_blogging_user_proto_goTypes = []interface{}{
 	(*GetUserDetailResponse)(nil),         // 3: blogging.GetUserDetailResponse
 	(*UpdateUserDetailRequest)(nil),       // 4: blogging.UpdateUserDetailRequest
 	(*UpdateUserDetailResponse)(nil),      // 5: blogging.UpdateUserDetailResponse
-	(*GetUsersResponse_Data)(nil),         // 6: blogging.GetUsersResponse.Data
-	(*GetUserDetailResponse_Data)(nil),    // 7: blogging.GetUserDetailResponse.Data
-	(*UpdateUserDetailResponse_Data)(nil), // 8: blogging.UpdateUserDetailResponse.Data
-	(*wrapperspb.StringValue)(nil),        // 9: google.protobuf.StringValue
-	(*wrapperspb.BoolValue)(nil),          // 10: google.protobuf.BoolValue
-	(*UserInfoMetadata)(nil),              // 11: blogging.UserInfoMetadata
-	(*Pagination)(nil),                    // 12: blogging.Pagination
-	(*UserInfo)(nil),                      // 13: blogging.UserInfo
+	(*DeleteUserDetailRequest)(nil),       // 6: blogging.DeleteUserDetailRequest
+	(*DeleteUserDetailResponse)(nil),      // 7: blogging.DeleteUserDetailResponse
+	(*GetUsersResponse_Data)(nil),         // 8: blogging.GetUsersResponse.Data
+	(*GetUserDetailResponse_Data)(nil),    // 9: blogging.GetUserDetailResponse.Data
+	(*UpdateUserDetailResponse_Data)(nil), // 10: blogging.UpdateUserDetailResponse.Data
+	(*wrapperspb.StringValue)(nil),        // 11: google.protobuf.StringValue
+	(*wrapperspb.BoolValue)(nil),          // 12: google.protobuf.BoolValue
+	(*UserInfoMetadata)(nil),              // 13: blogging.UserInfoMetadata
+	(*Pagination)(nil),                    // 14: blogging.Pagination
+	(*UserInfo)(nil),                      // 15: blogging.UserInfo
 }
 var file_blogging_user_proto_depIdxs = []int32{
-	9,  // 0: blogging.GetUsersRequest.search_name:type_name -> google.protobuf.StringValue
-	9,  // 1: blogging.GetUsersRequest.search_by:type_name -> google.protobuf.StringValue
-	10, // 2: blogging.GetUsersRequest.following:type_name -> google.protobuf.BoolValue
-	10, // 3: blogging.GetUsersRequest.followed_by_me:type_name -> google.protobuf.BoolValue
-	10, // 4: blogging.GetUsersRequest.is_active:type_name -> google.protobuf.BoolValue
-	9,  // 5: blogging.GetUsersRequest.sort_by:type_name -> google.protobuf.StringValue
-	6,  // 6: blogging.GetUsersResponse.data:type_name -> blogging.GetUsersResponse.Data
-	7,  // 7: blogging.GetUserDetailResponse.data:type_name -> blogging.GetUserDetailResponse.Data
-	9,  // 8: blogging.UpdateUserDetailRequest.name:type_name -> google.protobuf.StringValue
-	9,  // 9: blogging.UpdateUserDetailRequest.email:type_name -> google.protobuf.StringValue
-	9,  // 10: blogging.UpdateUserDetailRequest.display_name:type_name -> google.protobuf.StringValue
-	9,  // 11: blogging.UpdateUserDetailRequest.avatar:type_name -> google.protobuf.StringValue
-	9,  // 12: blogging.UpdateUserDetailRequest.phone_number:type_name -> google.protobuf.StringValue
-	10, // 13: blogging.UpdateUserDetailRequest.gender:type_name -> google.protobuf.BoolValue
-	9,  // 14: blogging.UpdateUserDetailRequest.description:type_name -> google.protobuf.StringValue
-	8,  // 15: blogging.UpdateUserDetailResponse.data:type_name -> blogging.UpdateUserDetailResponse.Data
-	11, // 16: blogging.GetUsersResponse.Data.users:type_name -> blogging.UserInfoMetadata
-	12, // 17: blogging.GetUsersResponse.Data.pagination:type_name -> blogging.Pagination
-	13, // 18: blogging.GetUserDetailResponse.Data.user:type_name -> blogging.UserInfo
-	11, // 19: blogging.UpdateUserDetailResponse.Data.user:type_name -> blogging.UserInfoMetadata
+	11, // 0: blogging.GetUsersRequest.search_name:type_name -> google.protobuf.StringValue
+	11, // 1: blogging.GetUsersRequest.search_by:type_name -> google.protobuf.StringValue
+	12, // 2: blogging.GetUsersRequest.following:type_name -> google.protobuf.BoolValue
+	12, // 3: blogging.GetUsersRequest.followed_by_me:type_name -> google.protobuf.BoolValue
+	12, // 4: blogging.GetUsersRequest.is_active:type_name -> google.protobuf.BoolValue
+	11, // 5: blogging.GetUsersRequest.sort_by:type_name -> google.protobuf.StringValue
+	8,  // 6: blogging.GetUsersResponse.data:type_name -> blogging.GetUsersResponse.Data
+	9,  // 7: blogging.GetUserDetailResponse.data:type_name -> blogging.GetUserDetailResponse.Data
+	11, // 8: blogging.UpdateUserDetailRequest.name:type_name -> google.protobuf.StringValue
+	11, // 9: blogging.UpdateUserDetailRequest.email:type_name -> google.protobuf.StringValue
+	11, // 10: blogging.UpdateUserDetailRequest.display_name:type_name -> google.protobuf.StringValue
+	11, // 11: blogging.UpdateUserDetailRequest.avatar:type_name -> google.protobuf.StringValue
+	11, // 12: blogging.UpdateUserDetailRequest.phone_number:type_name -> google.protobuf.StringValue
+	12, // 13: blogging.UpdateUserDetailRequest.gender:type_name -> google.protobuf.BoolValue
+	11, // 14: blogging.UpdateUserDetailRequest.description:type_name -> google.protobuf.StringValue
+	10, // 15: blogging.UpdateUserDetailResponse.data:type_name -> blogging.UpdateUserDetailResponse.Data
+	13, // 16: blogging.GetUsersResponse.Data.users:type_name -> blogging.UserInfoMetadata
+	14, // 17: blogging.GetUsersResponse.Data.pagination:type_name -> blogging.Pagination
+	15, // 18: blogging.GetUserDetailResponse.Data.user:type_name -> blogging.UserInfo
+	13, // 19: blogging.UpdateUserDetailResponse.Data.user:type_name -> blogging.UserInfoMetadata
 	0,  // 20: blogging.UserService.GetUsers:input_type -> blogging.GetUsersRequest
 	2,  // 21: blogging.UserService.GetUserDetail:input_type -> blogging.GetUserDetailRequest
 	4,  // 22: blogging.UserService.UpdateUserDetail:input_type -> blogging.UpdateUserDetailRequest
-	1,  // 23: blogging.UserService.GetUsers:output_type -> blogging.GetUsersResponse
-	3,  // 24: blogging.UserService.GetUserDetail:output_type -> blogging.GetUserDetailResponse
-	5,  // 25: blogging.UserService.UpdateUserDetail:output_type -> blogging.UpdateUserDetailResponse
-	23, // [23:26] is the sub-list for method output_type
-	20, // [20:23] is the sub-list for method input_type
+	6,  // 23: blogging.UserService.DeleteUserDetail:input_type -> blogging.DeleteUserDetailRequest
+	1,  // 24: blogging.UserService.GetUsers:output_type -> blogging.GetUsersResponse
+	3,  // 25: blogging.UserService.GetUserDetail:output_type -> blogging.GetUserDetailResponse
+	5,  // 26: blogging.UserService.UpdateUserDetail:output_type -> blogging.UpdateUserDetailResponse
+	7,  // 27: blogging.UserService.DeleteUserDetail:output_type -> blogging.DeleteUserDetailResponse
+	24, // [24:28] is the sub-list for method output_type
+	20, // [20:24] is the sub-list for method input_type
 	20, // [20:20] is the sub-list for extension type_name
 	20, // [20:20] is the sub-list for extension extendee
 	0,  // [0:20] is the sub-list for field type_name
@@ -887,7 +1009,7 @@ func file_blogging_user_proto_init() {
 			}
 		}
 		file_blogging_user_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUsersResponse_Data); i {
+			switch v := v.(*DeleteUserDetailRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -899,7 +1021,7 @@ func file_blogging_user_proto_init() {
 			}
 		}
 		file_blogging_user_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserDetailResponse_Data); i {
+			switch v := v.(*DeleteUserDetailResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -911,6 +1033,30 @@ func file_blogging_user_proto_init() {
 			}
 		}
 		file_blogging_user_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUsersResponse_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_user_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserDetailResponse_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_user_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateUserDetailResponse_Data); i {
 			case 0:
 				return &v.state
@@ -929,7 +1075,7 @@ func file_blogging_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_blogging_user_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
