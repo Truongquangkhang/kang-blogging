@@ -72,7 +72,7 @@ func (g deleteBlogDetailHandler) Handle(ctx context.Context, param DeleteBlogDet
 		}
 		return DeleteBlogDetailResult{}, errors.NewForbiddenDefaultError()
 	}
-	err = g.blogRepo.DeprecatedBlog(ctx, rs.ID)
+	err = g.blogRepo.ChangeDeprecatedBlog(ctx, rs.ID, rs.IsDeprecated)
 	if err != nil {
 		return DeleteBlogDetailResult{}, err
 	}

@@ -6,13 +6,14 @@ import (
 	"time"
 )
 
-func (r BlogRepository) DeprecatedBlog(
+func (r BlogRepository) ChangeDeprecatedBlog(
 	ctx context.Context,
 	blogId string,
+	currentStatus bool,
 ) error {
 	now := time.Now()
 	err := r.gdb.DB().WithContext(ctx).Model(&model.Blog{}).
 		Where("id = ?", blogId).
-		Updates(&model.Blog{IsDeprecated: true, DeletedAt: &now}).Error
+		Updates(&model.Blog{IsDeprecated: !currentStatus, DeletedAt: &now}).Error
 	return err
 }

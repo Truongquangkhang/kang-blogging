@@ -27,8 +27,9 @@ type Repository interface {
 		categoryIds []string,
 	) (*model.Blog, error)
 
-	DeprecatedBlog(
+	ChangeDeprecatedBlog(
 		ctx context.Context,
 		blogId string,
+		currentStatus bool,
 	) error
 }
