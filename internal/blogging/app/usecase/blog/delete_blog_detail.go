@@ -4,6 +4,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"kang-blogging/internal/blogging/domain/blog"
+	"kang-blogging/internal/blogging/domain/role"
+	"kang-blogging/internal/common/constants"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/model"
@@ -22,19 +24,25 @@ type DeleteBlogDetailHandler decorator.UsecaseHandler[DeleteBlogDetailParams, De
 
 type deleteBlogDetailHandler struct {
 	blogRepo blog.Repository
+	roleRepo role.Repository
 }
 
 func NewDeleteBlogDetailHandler(
 	blogRepo blog.Repository,
+	roleRepo role.Repository,
 	logger *logrus.Entry,
 	metrics decorator.MetricsClient,
 ) DeleteBlogDetailHandler {
 	if blogRepo == nil {
 		panic("blogRepo is nil")
 	}
+	if roleRepo == nil {
+		panic("roleRepo is nil")
+	}
 	return decorator.ApplyUsecaseDecorators[DeleteBlogDetailParams, DeleteBlogDetailResult](
 		deleteBlogDetailHandler{
 			blogRepo: blogRepo,
+			roleRepo: roleRepo,
 		},
 		logger,
 		metrics,
@@ -54,9 +62,16 @@ func (g deleteBlogDetailHandler) Handle(ctx context.Context, param DeleteBlogDet
 	if rs == nil {
 		return DeleteBlogDetailResult{}, errors.NewNotFoundError("blog not found")
 	}
-	//if rs.AuthorID != param.DeletedById {
-	//	return DeleteBlogDetailResult{}, errors.NewForbiddenDefaultError()
-	//}
+	if rs.AuthorID != param.DeletedById {
+		r, err := g.roleRepo.GetRoleByUserId(ctx, param.DeletedById)
+		if err != nil {
+			return DeleteBlogDetailResult{}, err
+		}
+		if r == nil || r.Name != constants.ADMIN_ROLE {
+			return DeleteBlogDetailResult{}, errors.NewForbiddenDefaultError()
+		}
+		return DeleteBlogDetailResult{}, errors.NewForbiddenDefaultError()
+	}
 	err = g.blogRepo.DeprecatedBlog(ctx, rs.ID)
 	if err != nil {
 		return DeleteBlogDetailResult{}, err
