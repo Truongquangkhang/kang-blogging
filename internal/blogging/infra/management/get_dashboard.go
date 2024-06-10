@@ -6,12 +6,19 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/constants"
+	"kang-blogging/internal/common/jwt"
 )
 
 func (g GrpcService) GetDashboard(
 	ctx context.Context,
 	request *blogging.GetDashboardRequest,
 ) (*blogging.GetDashboardResponse, error) {
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err != nil || auth == nil || auth.Role != constants.ADMIN_ROLE {
+		return nil, infra.ParseGrpcError(err)
+	}
+
 	param := management.GetDashboardParams{}
 	result, err := g.usecase.GetDashboard.Handle(ctx, param)
 	if err != nil {

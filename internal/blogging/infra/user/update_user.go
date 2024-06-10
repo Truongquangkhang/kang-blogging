@@ -6,6 +6,9 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/constants"
+	"kang-blogging/internal/common/errors"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/utils"
 )
 
@@ -13,6 +16,14 @@ func (g GrpcService) UpdateUserDetail(
 	ctx context.Context,
 	request *blogging.UpdateUserDetailRequest,
 ) (*blogging.UpdateUserDetailResponse, error) {
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err != nil || auth == nil {
+		return nil, infra.ParseGrpcError(err)
+	}
+	if auth.Role != constants.ADMIN_ROLE || auth.UserID != request.UserId {
+		return nil, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
+	}
+
 	params := user.UpdateUserParams{
 		ID:          request.UserId,
 		Email:       utils.WrapperValueString(request.Email),

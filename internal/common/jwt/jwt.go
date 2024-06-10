@@ -11,6 +11,11 @@ import (
 	"time"
 )
 
+type Auth struct {
+	UserID string
+	Role   string
+}
+
 func CreateAccessToken(userId string, role string, secretKey string, expireHours int) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
@@ -55,26 +60,30 @@ func VerifyToken(tokenString string, secretKey string) error {
 	return nil
 }
 
-func GetIDAndRoleFromRequest(ctx context.Context) (*string, *string, error) {
+func GetAuthenticationFromRequest(ctx context.Context) (*Auth, error) {
 	secretKey := os.Getenv("JWT_SECRET_KEY")
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		return nil, nil, errors.NewAuthorizationError("get an error when get data from header")
+		return nil, errors.NewAuthorizationError("get an error when get data from header")
 	}
 	authorizations := md.Get("authorization")
 	if len(authorizations) < 1 {
-		return nil, nil, errors.NewAuthorizationError("bearer token not found")
+		return nil, errors.NewAuthorizationError("bearer token not found")
 	}
 	bearerToken := strings.TrimPrefix(authorizations[0], "Bearer ")
 
 	if err := VerifyToken(bearerToken, secretKey); err != nil {
-		return nil, nil, errors.NewAuthorizationDefaultError()
+		return nil, errors.NewAuthorizationDefaultError()
 	}
 	id, role, err := GetIDAndRoleFromJwtToken(bearerToken, secretKey)
 	if err != nil {
-		return nil, nil, errors.NewAuthorizationDefaultError()
+		return nil, errors.NewAuthorizationDefaultError()
 	}
-	return &id, &role, err
+
+	return &Auth{
+		UserID: id,
+		Role:   role,
+	}, err
 }
 
 func GetIDAndRoleFromJwtToken(jwtToken string, secretKey string) (string, string, error) {

@@ -16,11 +16,11 @@ func (g GrpcService) CreateCategory(
 	ctx context.Context,
 	request *blogging.CreateCategoryRequest,
 ) (*blogging.CreateCategoryResponse, error) {
-	_, role, err := jwt.GetIDAndRoleFromRequest(ctx)
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}
-	if *role != constants.ADMIN_ROLE {
+	if auth.Role != constants.ADMIN_ROLE {
 		return nil, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
 	}
 	params := category.CreateCategoryParams{

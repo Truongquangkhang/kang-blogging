@@ -11,7 +11,8 @@ import (
 )
 
 type GetUserDetailParams struct {
-	ID string
+	CurrentUserID *string
+	ID            string
 }
 
 type GetUserDetailResult struct {
@@ -62,12 +63,18 @@ func (g getUserDetailHandler) Handle(
 		return GetUserDetailResult{}, errors.NewNotFoundError("user not found")
 	}
 
-	// Get blogs of the user
-	blogs, totalBlog, err := g.blogRepo.GetBlogsByParam(ctx, blog.BlogsParams{
+	paramGetBlog := blog.BlogsParams{
 		Page:      1,
 		PageSize:  200,
 		AuthorIds: []string{u.ID},
-	})
+	}
+
+	if param.CurrentUserID != nil {
+		//if param.CurrentUserID == u.ID {
+		//}
+	}
+	// Get blogs of the user
+	blogs, totalBlog, err := g.blogRepo.GetBlogsByParam(ctx, paramGetBlog)
 	if err != nil {
 		return GetUserDetailResult{}, err
 	}
