@@ -15,7 +15,7 @@ func (u UserRepository) GetUserByID(
 	var countComments int32
 	errCountComment := u.gdb.DB().WithContext(ctx).Model(&model.Comment{}).
 		Select("COUNT(1)").Where("user_id = ?", id).
-		Scan(&countComments).Error
+		Find(&countComments).Error
 	if errCountComment != nil {
 		return nil, errCountComment
 	}

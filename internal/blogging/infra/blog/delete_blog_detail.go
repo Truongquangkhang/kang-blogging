@@ -14,15 +14,15 @@ func (g GrpcService) DeleteBlogDetail(
 	ctx context.Context,
 	request *blogging.DeleteBlogDetailRequest,
 ) (*blogging.DeleteBlogDetailResponse, error) {
-	authorId, role, err := jwt.GetIDAndRoleFromRequest(ctx)
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}
-	if *role != constants.ADMIN_ROLE {
+	if auth.Role != constants.ADMIN_ROLE {
 		return nil, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
 	}
 	param := blog.DeleteBlogDetailParams{
-		DeletedById: *authorId,
+		DeletedById: auth.UserID,
 		BlogID:      request.BlogId,
 	}
 	_, err = g.usecase.DeleteBlogDetail.Handle(ctx, param)

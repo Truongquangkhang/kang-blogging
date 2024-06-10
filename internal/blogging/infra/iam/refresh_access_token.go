@@ -12,13 +12,13 @@ func (g GrpcService) RefreshAccessToken(
 	ctx context.Context,
 	request *blogging.RefreshAccessTokenRequest,
 ) (*blogging.RefreshAccessTokenResponse, error) {
-	userId, role, err := jwt.GetIDAndRoleFromRequest(ctx)
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}
 	params := iam.RefreshAccessTokenParams{
-		UserID: *userId,
-		Role:   *role,
+		UserID: auth.UserID,
+		Role:   auth.Role,
 	}
 	rs, err := g.usecase.RefreshAccessToken.Handle(ctx, params)
 	if err != nil {

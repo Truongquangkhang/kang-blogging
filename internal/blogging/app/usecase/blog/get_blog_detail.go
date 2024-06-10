@@ -60,11 +60,11 @@ func (g getBlogDetailHandler) Handle(ctx context.Context, param GetBlogDetailPar
 		return GetBlogDetailResult{}, errors.NewNotFoundError("blog is deprecated")
 	}
 	if !rs.Published {
-		authorId, role, err := jwt.GetIDAndRoleFromRequest(ctx)
+		auth, err := jwt.GetAuthenticationFromRequest(ctx)
 		if err != nil {
-			return GetBlogDetailResult{}, err
+			return GetBlogDetailResult{}, errors.NewNotFoundError("blog not found")
 		}
-		if *role != constants.ADMIN_ROLE && *authorId != rs.AuthorID {
+		if auth.Role != constants.ADMIN_ROLE || auth.UserID != rs.AuthorID {
 			return GetBlogDetailResult{}, errors.NewNotFoundError("blog not found")
 		}
 	}

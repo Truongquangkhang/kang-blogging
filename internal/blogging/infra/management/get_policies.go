@@ -15,11 +15,11 @@ func (g GrpcService) GetPolicies(
 	ctx context.Context,
 	request *blogging.GetPoliciesRequest,
 ) (*blogging.GetPoliciesResponse, error) {
-	_, role, err := jwt.GetIDAndRoleFromRequest(ctx)
-	if err != nil {
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err != nil || auth == nil {
 		return nil, infra.ParseGrpcError(err)
 	}
-	if *role != constants.ADMIN_ROLE {
+	if auth.Role != constants.ADMIN_ROLE {
 		return nil, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
 	}
 

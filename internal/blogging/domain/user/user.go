@@ -1,5 +1,7 @@
 package user
 
+import "kang-blogging/internal/common/model"
+
 type UserInfo struct {
 	ID          string
 	Name        *string
@@ -30,4 +32,12 @@ type SystemInfo struct {
 	BlogIncreaseInDay    int32
 	CommentIncreaseInDay int32
 	UserIncreaseInDay    int32
+}
+
+type RelateUserInfo struct {
+	User          model.User
+	TotalComments int32
+	TotalBlogs    int32
+	Blogs         []model.Blog
+	Comments      []model.Comment
 }

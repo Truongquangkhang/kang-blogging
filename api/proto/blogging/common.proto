@@ -17,7 +17,10 @@ message UserInfo{
   google.protobuf.BoolValue gender = 3;
   google.protobuf.Int64Value date_of_birth =4;
   int64 created_at = 5;
+  // just show 10 blogs latest
   repeated BlogMetadata blogs = 6;
+  // just show 10 comments latest
+  repeated CommentMetadata comments = 7;
 }
 
 message UserInfoMetadata {
@@ -70,6 +73,14 @@ message Comment {
   int64 created_at = 4;
   int64 updated_at = 5;
   UserInfoMetadata user = 6;
+}
+
+message CommentMetadata {
+  string id = 1;
+  string content = 2;
+  bool  is_toxicity = 3;
+  int64 created_at = 4;
+  int64 updated_at = 5;
 }
 
 message CommentWithReplies {

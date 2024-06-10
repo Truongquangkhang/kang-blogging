@@ -6,7 +6,9 @@ import (
 	"kang-blogging/internal/blogging/app/usecase/management"
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/constants"
 	"kang-blogging/internal/common/errors"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/model"
 	"strconv"
 )
@@ -15,6 +17,14 @@ func (g GrpcService) UpdatePolicies(
 	ctx context.Context,
 	request *blogging.UpdatePoliciesRequest,
 ) (*blogging.UpdatePoliciesResponse, error) {
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err != nil || auth == nil {
+		return nil, infra.ParseGrpcError(err)
+	}
+	if auth.Role != constants.ADMIN_ROLE {
+		return nil, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
+	}
+
 	policies := []model.Policy{}
 	for _, policy := range request.Policies {
 		if policy.Name == "" {
@@ -34,7 +44,7 @@ func (g GrpcService) UpdatePolicies(
 	params := management.UpdatePoliciesParams{
 		Policies: policies,
 	}
-	_, err := g.usecase.UpdatePolicies.Handle(ctx, params)
+	_, err = g.usecase.UpdatePolicies.Handle(ctx, params)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}

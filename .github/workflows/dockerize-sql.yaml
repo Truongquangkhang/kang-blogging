@@ -62,7 +62,7 @@ jobs:
           --container-name $ACAJ_NAME \
           --image $IMAGE_REPOSITORY:$IMAGE_TAG
         env:
-          AZG_NAME: kang
+          AZG_NAME: 1kang
           ACAJ_NAME: kang-blogging-sql
           IMAGE_TAG: m-${{ github.sha }}
           IMAGE_REPOSITORY: truongquangkhang/kang-blogging-sql
@@ -72,6 +72,6 @@ jobs:
           az containerapp job start -n $ACAJ_NAME -g $AZG_NAME \
           --container-name $ACAJ_NAME
         env:
-          AZG_NAME: kang
+          AZG_NAME: 1kang
           ACAJ_NAME: kang-blogging-sql
 

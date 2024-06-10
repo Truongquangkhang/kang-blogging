@@ -14,11 +14,12 @@ func (g GrpcService) DeleteUserDetail(
 	ctx context.Context,
 	request *blogging.DeleteUserDetailRequest,
 ) (*blogging.DeleteUserDetailResponse, error) {
-	_, role, err := jwt.GetIDAndRoleFromRequest(ctx)
-	if err != nil {
+	//_, role, err? := jwt.GetIDAndRoleFromRequest(ctx)
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err != nil || auth == nil {
 		return nil, infra.ParseGrpcError(err)
 	}
-	if *role != constants.ADMIN_ROLE {
+	if auth.Role != constants.ADMIN_ROLE {
 		return nil, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
 	}
 

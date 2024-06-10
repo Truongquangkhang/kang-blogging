@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/blog"
+	"kang-blogging/internal/blogging/domain/comment"
 	"kang-blogging/internal/blogging/domain/user"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
@@ -11,7 +12,8 @@ import (
 )
 
 type GetUserDetailParams struct {
-	ID string
+	ID          string
+	HasFullData bool
 }
 
 type GetUserDetailResult struct {
@@ -21,13 +23,15 @@ type GetUserDetailResult struct {
 type GetUserDetailHandler decorator.UsecaseHandler[GetUserDetailParams, GetUserDetailResult]
 
 type getUserDetailHandler struct {
-	userRepo user.Repository
-	blogRepo blog.Repository
+	userRepo    user.Repository
+	blogRepo    blog.Repository
+	commentRepo comment.Repository
 }
 
 func NewGetUserDetailHandler(
 	userRepo user.Repository,
 	blogRepo blog.Repository,
+	commentRepo comment.Repository,
 	logger *logrus.Entry,
 	metricsClient decorator.MetricsClient,
 ) GetUserDetailHandler {
@@ -37,10 +41,14 @@ func NewGetUserDetailHandler(
 	if blogRepo == nil {
 		panic("blogRepo is nil")
 	}
+	if commentRepo == nil {
+		panic("commentRepo is nil")
+	}
 	return decorator.ApplyUsecaseDecorators[GetUserDetailParams, GetUserDetailResult](
 		&getUserDetailHandler{
-			userRepo: userRepo,
-			blogRepo: blogRepo,
+			userRepo:    userRepo,
+			blogRepo:    blogRepo,
+			commentRepo: commentRepo,
 		},
 		logger,
 		metricsClient,
@@ -56,25 +64,27 @@ func (g getUserDetailHandler) Handle(
 		return GetUserDetailResult{}, err
 	}
 
-	// Get info of a user
-	u, err := g.userRepo.GetUserByID(ctx, param.ID)
-	if err != nil || u == nil {
-		return GetUserDetailResult{}, errors.NewNotFoundError("user not found")
-	}
-
-	// Get blogs of the user
-	blogs, totalBlog, err := g.blogRepo.GetBlogsByParam(ctx, blog.BlogsParams{
-		Page:      1,
-		PageSize:  200,
-		AuthorIds: []string{u.ID},
-	})
-	if err != nil {
+	relateUserInfo, err := g.userRepo.GetRelateInfoOfUser(ctx, param.ID, param.HasFullData)
+	if err != nil || relateUserInfo == nil {
 		return GetUserDetailResult{}, err
 	}
-	u.Blogs = blogs
-	u.TotalBlogs = totalBlog
+	userResponse := relateUserInfo.User
+	blogsReponse := relateUserInfo.Blogs
+	for index := range blogsReponse {
+		blogsReponse[index].User = &userResponse
+	}
+	userResponse.Blogs = blogsReponse
+
+	commentsResponse := relateUserInfo.Comments
+	for index := range commentsResponse {
+		commentsResponse[index].User = userResponse
+	}
+	userResponse.Comments = commentsResponse
+	userResponse.TotalComments = &relateUserInfo.TotalComments
+	userResponse.TotalBlogs = relateUserInfo.TotalBlogs
+
 	return GetUserDetailResult{
-		User: *u,
+		User: userResponse,
 	}, nil
 }
 

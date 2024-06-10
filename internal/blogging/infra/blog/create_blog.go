@@ -15,7 +15,7 @@ func (g GrpcService) CreateBlog(
 	request *blogging.CreateBlogRequest,
 ) (*blogging.CreateBlogResponse, error) {
 	// validate auth token and get data
-	authorId, _, err := jwt.GetIDAndRoleFromRequest(ctx)
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
 	if err != nil {
 		return nil, infra.ParseGrpcError(err)
 	}
@@ -26,7 +26,7 @@ func (g GrpcService) CreateBlog(
 		CategoryIds: request.CategoryIds,
 		Thumbnail:   utils.WrapperValueString(request.Thumbnail),
 		Content:     utils.WrapperValueString(request.Content),
-		AuthorId:    *authorId,
+		AuthorId:    auth.UserID,
 	}
 	rs, err := g.usecase.CreateBlog.Handle(ctx, param)
 	if err != nil {

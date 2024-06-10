@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/utils"
 )
@@ -14,13 +15,16 @@ func (g GrpcService) UpdateBlogDetail(
 	ctx context.Context,
 	request *blogging.UpdateBlogDetailRequest,
 ) (*blogging.UpdateBlogDetailResponse, error) {
-	authorId, _, err := jwt.GetIDAndRoleFromRequest(ctx)
-	if err != nil {
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err != nil || auth == nil {
 		return nil, infra.ParseGrpcError(err)
+	}
+	if auth.UserID != request.BlogId {
+		return &blogging.UpdateBlogDetailResponse{}, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
 	}
 
 	param := blog.UpdateBlogDetailParams{
-		AuthorID:    *authorId,
+		AuthorID:    auth.UserID,
 		BlogID:      request.BlogId,
 		Name:        utils.WrapperValueString(request.Name),
 		Description: utils.WrapperValueString(request.Description),

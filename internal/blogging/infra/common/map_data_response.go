@@ -30,7 +30,26 @@ func MapToUserInfoResponse(u model.User) *blogging.UserInfo {
 		DateOfBirth: utils.WrapperInt64FromInt64(u.BirthOfDay),
 		CreatedAt:   u.CreatedAt.Unix(),
 		Blogs:       MapToListBlogMetadataResponse(u.Blogs),
+		Comments:    MapToCommentMetadatasResponse(u.Comments),
 	}
+}
+
+func MapToCommentMetadataResponse(comment *model.Comment) *blogging.CommentMetadata {
+	return &blogging.CommentMetadata{
+		Id:         comment.ID,
+		Content:    comment.Content,
+		IsToxicity: comment.IsToxicity,
+		CreatedAt:  comment.CreatedAt.Unix(),
+		UpdatedAt:  comment.UpdatedAt.Unix(),
+	}
+}
+
+func MapToCommentMetadatasResponse(comments []model.Comment) []*blogging.CommentMetadata {
+	var results []*blogging.CommentMetadata
+	for _, comment := range comments {
+		results = append(results, MapToCommentMetadataResponse(&comment))
+	}
+	return results
 }
 
 func MapToBlogInfoResponse(blog *model.Blog) *blogging.BlogInfo {

@@ -14,13 +14,13 @@ func (g GrpcService) CreateBlogComment(
 	ctx context.Context,
 	request *blogging.CreateBlogCommentsRequest,
 ) (*blogging.CreateBlogCommentsResponse, error) {
-	userId, _, err := jwt.GetIDAndRoleFromRequest(ctx)
-	if err != nil {
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err != nil || auth == nil {
 		return nil, infra.ParseGrpcError(err)
 	}
 
 	param := comment.CreateBlogCommentParams{
-		UserID:         *userId,
+		UserID:         auth.UserID,
 		BlogID:         request.BlogId,
 		Content:        request.Content,
 		ReplyCommentID: utils.WrapperValueString(request.ReplyCommentId),
