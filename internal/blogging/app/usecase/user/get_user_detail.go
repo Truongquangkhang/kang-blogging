@@ -5,9 +5,12 @@ import (
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/blog"
 	"kang-blogging/internal/blogging/domain/user"
+	"kang-blogging/internal/common/constants"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/model"
+	"kang-blogging/internal/common/utils"
 )
 
 type GetUserDetailParams struct {
@@ -64,15 +67,20 @@ func (g getUserDetailHandler) Handle(
 	}
 
 	paramGetBlog := blog.BlogsParams{
-		Page:      1,
-		PageSize:  200,
-		AuthorIds: []string{u.ID},
+		Page:         1,
+		PageSize:     200,
+		AuthorIds:    []string{u.ID},
+		Published:    utils.ToPointer(true),
+		IsDeprecated: utils.ToPointer(false),
 	}
 
-	if param.CurrentUserID != nil {
-		//if param.CurrentUserID == u.ID {
-		//}
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err == nil && auth != nil {
+		if auth.Role == constants.ADMIN_ROLE || auth.UserID == u.ID {
+			paramGetBlog.Published = nil
+		}
 	}
+
 	// Get blogs of the user
 	blogs, totalBlog, err := g.blogRepo.GetBlogsByParam(ctx, paramGetBlog)
 	if err != nil {

@@ -12,13 +12,6 @@ func (g GrpcService) GetUserDetail(
 	ctx context.Context,
 	request *blogging.GetUserDetailRequest,
 ) (*blogging.GetUserDetailResponse, error) {
-	//authorId, role, _:= jwt.GetIDAndRoleFromRequest(ctx)
-	//if err != nil {
-	//	return nil, infra.ParseGrpcError(err)
-	//}
-	//if *role != constants.ADMIN_ROLE {
-	//	return nil, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
-	//}
 	params := user.GetUserDetailParams{
 		ID: request.UserId,
 	}
