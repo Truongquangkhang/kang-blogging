@@ -92,7 +92,7 @@ func newService(ctx context.Context) app.Application {
 				userRepository, logger, metricsClient,
 			),
 			GetUserDetail: user2.NewGetUserDetailHandler(
-				userRepository, blogRepository, logger, metricsClient,
+				userRepository, blogRepository, commentRepository, logger, metricsClient,
 			),
 			UpdateUser: user2.NewUpdateUserHandler(
 				userRepository, logger, metricsClient,

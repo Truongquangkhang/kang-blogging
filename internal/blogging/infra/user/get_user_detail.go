@@ -6,6 +6,8 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/constants"
+	"kang-blogging/internal/common/jwt"
 )
 
 func (g GrpcService) GetUserDetail(
@@ -13,7 +15,16 @@ func (g GrpcService) GetUserDetail(
 	request *blogging.GetUserDetailRequest,
 ) (*blogging.GetUserDetailResponse, error) {
 	params := user.GetUserDetailParams{
-		ID: request.UserId,
+		ID:          request.UserId,
+		HasFullData: false,
+	}
+
+	// check user request
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err == nil && auth != nil {
+		if auth.Role == constants.ADMIN_ROLE || auth.UserID == request.UserId {
+			params.HasFullData = true
+		}
 	}
 
 	rs, err := g.usecase.GetUserDetail.Handle(ctx, params)

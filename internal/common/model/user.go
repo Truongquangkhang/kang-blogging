@@ -23,6 +23,7 @@ type User struct {
 	UpdatedAt         time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP;column:updated_at"`
 	DeletedAt         *time.Time `gorm:"column:deleted_at"`
 	Blogs             []Blog     `gorm:"foreignKey:AuthorID;references:ID"`
+	Comments          []Comment  `gorm:"foreignKey:UserID;references:ID"`
 	TotalBlogs        int32
 	TotalComments     *int32
 }
