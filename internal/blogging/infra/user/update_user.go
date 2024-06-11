@@ -20,7 +20,7 @@ func (g GrpcService) UpdateUserDetail(
 	if err != nil || auth == nil {
 		return nil, infra.ParseGrpcError(err)
 	}
-	if auth.Role != constants.ADMIN_ROLE || auth.UserID != request.UserId {
+	if auth.Role != constants.ADMIN_ROLE && auth.UserID != request.UserId {
 		return nil, infra.ParseGrpcError(errors.NewForbiddenDefaultError())
 	}
 
