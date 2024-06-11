@@ -22,7 +22,7 @@ func (r UserRepository) GetRelateInfoOfUser(
 
 	// get user info
 	errGetUser := r.gdb.DB().WithContext(ctx).Model(&model.User{}).
-		Where("id = ?", userId).Find(&userInfo).Error
+		Where("id = ?", userId).First(&userInfo).Error
 	if errGetUser != nil {
 		if errors.Is(errGetUser, gorm.ErrRecordNotFound) {
 			return nil, errors2.NewNotFoundError("user not found")

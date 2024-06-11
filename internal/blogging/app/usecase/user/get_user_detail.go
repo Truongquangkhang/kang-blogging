@@ -64,7 +64,7 @@ func (g getUserDetailHandler) Handle(
 		return GetUserDetailResult{}, err
 	}
 
-	relateUserInfo, err := g.userRepo.GetRelateInfoOfUser(ctx, param.ID, param.HasFullData)
+	relateUserInfo, err := g.userRepo.GetRelateInfoOfUser(ctx, param.ID, !param.HasFullData)
 	if err != nil || relateUserInfo == nil {
 		return GetUserDetailResult{}, err
 	}
