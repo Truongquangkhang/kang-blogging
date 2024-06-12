@@ -227,6 +227,36 @@ paths:
                           already_exist:
                             type: boolean
                             default: false
+  /api/v1/iam/change-password:
+    post:
+      tags:
+        - IAM
+      description: |-
+        - Change password.
+      summary: 'change password'
+      operationId: refreshAccessToken
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - old_password
+                - new_password
+              properties:
+                old_password:
+                  type: string
+                new_password:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
         '500':
           description: |-
             500000: `Internal Server Error`: Internal Server Error

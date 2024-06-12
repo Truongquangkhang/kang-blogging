@@ -61,10 +61,10 @@ func (g getBlogDetailHandler) Handle(ctx context.Context, param GetBlogDetailPar
 	}
 	if !rs.Published {
 		auth, err := jwt.GetAuthenticationFromRequest(ctx)
-		if err != nil {
+		if err != nil || auth == nil {
 			return GetBlogDetailResult{}, errors.NewNotFoundError("blog not found")
 		}
-		if auth.Role != constants.ADMIN_ROLE || auth.UserID != rs.AuthorID {
+		if auth.Role != constants.ADMIN_ROLE && auth.UserID != rs.AuthorID {
 			return GetBlogDetailResult{}, errors.NewNotFoundError("blog not found")
 		}
 	}

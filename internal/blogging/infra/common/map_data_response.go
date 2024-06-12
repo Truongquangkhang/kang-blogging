@@ -36,11 +36,13 @@ func MapToUserInfoResponse(u model.User) *blogging.UserInfo {
 
 func MapToCommentMetadataResponse(comment *model.Comment) *blogging.CommentMetadata {
 	return &blogging.CommentMetadata{
-		Id:         comment.ID,
-		Content:    comment.Content,
-		IsToxicity: comment.IsToxicity,
-		CreatedAt:  comment.CreatedAt.Unix(),
-		UpdatedAt:  comment.UpdatedAt.Unix(),
+		Id:             comment.ID,
+		Content:        comment.Content,
+		IsToxicity:     comment.IsToxicity,
+		CreatedAt:      comment.CreatedAt.Unix(),
+		UpdatedAt:      comment.UpdatedAt.Unix(),
+		BlogId:         comment.BlogID,
+		ReplyCommentId: utils.WrapperStringFromString(comment.ReplyCommentID),
 	}
 }
 

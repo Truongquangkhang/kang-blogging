@@ -22,4 +22,14 @@ type Repository interface {
 		ctx context.Context,
 		id string,
 	) (*model.Role, error)
+
+	GetAccountById(
+		ctx context.Context,
+		id string,
+	) (*model.Account, error)
+
+	UpdateAccount(
+		ctx context.Context,
+		account model.Account,
+	) (*model.Account, error)
 }
