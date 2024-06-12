@@ -227,6 +227,37 @@ paths:
                           already_exist:
                             type: boolean
                             default: false
+  /api/v1/iam/change-password:
+    get:
+      tags:
+        - IAM
+      description: |-
+        - check exist of a username.
+      summary: 'Get list users'
+      operationId: checkExistUsername
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+          required: true
+          description: username of a account
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          already_exist:
+                            type: boolean
+                            default: false
         '500':
           description: |-
             500000: `Internal Server Error`: Internal Server Error
