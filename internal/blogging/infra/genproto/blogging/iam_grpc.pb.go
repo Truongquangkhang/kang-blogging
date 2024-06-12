@@ -23,6 +23,7 @@ const (
 	IAMService_Register_FullMethodName           = "/blogging.IAMService/Register"
 	IAMService_CheckExistUsername_FullMethodName = "/blogging.IAMService/CheckExistUsername"
 	IAMService_RefreshAccessToken_FullMethodName = "/blogging.IAMService/RefreshAccessToken"
+	IAMService_ChangePassword_FullMethodName     = "/blogging.IAMService/ChangePassword"
 )
 
 // IAMServiceClient is the client API for IAMService service.
@@ -33,6 +34,7 @@ type IAMServiceClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	CheckExistUsername(ctx context.Context, in *CheckExistUsernameRequest, opts ...grpc.CallOption) (*CheckExistUsernameResponse, error)
 	RefreshAccessToken(ctx context.Context, in *RefreshAccessTokenRequest, opts ...grpc.CallOption) (*RefreshAccessTokenResponse, error)
+	ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*ChangePasswordResponse, error)
 }
 
 type iAMServiceClient struct {
@@ -79,6 +81,15 @@ func (c *iAMServiceClient) RefreshAccessToken(ctx context.Context, in *RefreshAc
 	return out, nil
 }
 
+func (c *iAMServiceClient) ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...grpc.CallOption) (*ChangePasswordResponse, error) {
+	out := new(ChangePasswordResponse)
+	err := c.cc.Invoke(ctx, IAMService_ChangePassword_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IAMServiceServer is the server API for IAMService service.
 // All implementations should embed UnimplementedIAMServiceServer
 // for forward compatibility
@@ -87,6 +98,7 @@ type IAMServiceServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	CheckExistUsername(context.Context, *CheckExistUsernameRequest) (*CheckExistUsernameResponse, error)
 	RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
+	ChangePassword(context.Context, *ChangePasswordRequest) (*ChangePasswordResponse, error)
 }
 
 // UnimplementedIAMServiceServer should be embedded to have forward compatible implementations.
@@ -104,6 +116,9 @@ func (UnimplementedIAMServiceServer) CheckExistUsername(context.Context, *CheckE
 }
 func (UnimplementedIAMServiceServer) RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshAccessToken not implemented")
+}
+func (UnimplementedIAMServiceServer) ChangePassword(context.Context, *ChangePasswordRequest) (*ChangePasswordResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangePassword not implemented")
 }
 
 // UnsafeIAMServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -189,6 +204,24 @@ func _IAMService_RefreshAccessToken_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IAMService_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangePasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).ChangePassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_ChangePassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).ChangePassword(ctx, req.(*ChangePasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // IAMService_ServiceDesc is the grpc.ServiceDesc for IAMService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -211,6 +244,10 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RefreshAccessToken",
 			Handler:    _IAMService_RefreshAccessToken_Handler,
+		},
+		{
+			MethodName: "ChangePassword",
+			Handler:    _IAMService_ChangePassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -25,6 +25,7 @@ type IAMUsecases struct {
 	Register           iam.RegisterHandler
 	CheckExistUsername iam.CheckExistUsernameHandler
 	RefreshAccessToken iam.RefreshAccessTokenHandler
+	ChangePassword     iam.ChangePasswordHandler
 }
 
 type UserUsecase struct {

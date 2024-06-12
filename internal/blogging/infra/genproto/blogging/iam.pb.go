@@ -517,6 +517,124 @@ func (x *RefreshAccessTokenResponse) GetData() *RefreshAccessTokenResponse_Data 
 	return nil
 }
 
+type ChangePasswordRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserId      string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	OldPassword string `protobuf:"bytes,2,opt,name=old_password,json=oldPassword,proto3" json:"old_password,omitempty"`
+	NewPassword string `protobuf:"bytes,3,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
+}
+
+func (x *ChangePasswordRequest) Reset() {
+	*x = ChangePasswordRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_iam_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ChangePasswordRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChangePasswordRequest) ProtoMessage() {}
+
+func (x *ChangePasswordRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_iam_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChangePasswordRequest.ProtoReflect.Descriptor instead.
+func (*ChangePasswordRequest) Descriptor() ([]byte, []int) {
+	return file_blogging_iam_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ChangePasswordRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *ChangePasswordRequest) GetOldPassword() string {
+	if x != nil {
+		return x.OldPassword
+	}
+	return ""
+}
+
+func (x *ChangePasswordRequest) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+type ChangePasswordResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code    int32  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (x *ChangePasswordResponse) Reset() {
+	*x = ChangePasswordResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_iam_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ChangePasswordResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChangePasswordResponse) ProtoMessage() {}
+
+func (x *ChangePasswordResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_iam_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChangePasswordResponse.ProtoReflect.Descriptor instead.
+func (*ChangePasswordResponse) Descriptor() ([]byte, []int) {
+	return file_blogging_iam_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ChangePasswordResponse) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *ChangePasswordResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 type LoginResponse_Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -530,7 +648,7 @@ type LoginResponse_Data struct {
 func (x *LoginResponse_Data) Reset() {
 	*x = LoginResponse_Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_iam_proto_msgTypes[8]
+		mi := &file_blogging_iam_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -543,7 +661,7 @@ func (x *LoginResponse_Data) String() string {
 func (*LoginResponse_Data) ProtoMessage() {}
 
 func (x *LoginResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_iam_proto_msgTypes[8]
+	mi := &file_blogging_iam_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -591,7 +709,7 @@ type CheckExistUsernameResponse_Data struct {
 func (x *CheckExistUsernameResponse_Data) Reset() {
 	*x = CheckExistUsernameResponse_Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_iam_proto_msgTypes[9]
+		mi := &file_blogging_iam_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -604,7 +722,7 @@ func (x *CheckExistUsernameResponse_Data) String() string {
 func (*CheckExistUsernameResponse_Data) ProtoMessage() {}
 
 func (x *CheckExistUsernameResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_iam_proto_msgTypes[9]
+	mi := &file_blogging_iam_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -638,7 +756,7 @@ type RefreshAccessTokenResponse_Data struct {
 func (x *RefreshAccessTokenResponse_Data) Reset() {
 	*x = RefreshAccessTokenResponse_Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_iam_proto_msgTypes[10]
+		mi := &file_blogging_iam_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -651,7 +769,7 @@ func (x *RefreshAccessTokenResponse_Data) String() string {
 func (*RefreshAccessTokenResponse_Data) ProtoMessage() {}
 
 func (x *RefreshAccessTokenResponse_Data) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_iam_proto_msgTypes[10]
+	mi := &file_blogging_iam_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -761,7 +879,19 @@ var file_blogging_iam_proto_rawDesc = []byte{
 	0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x1a, 0x29, 0x0a, 0x04, 0x44, 0x61, 0x74, 0x61,
 	0x12, 0x21, 0x0a, 0x0c, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x61, 0x63, 0x63, 0x65, 0x73, 0x73, 0x54, 0x6f,
-	0x6b, 0x65, 0x6e, 0x32, 0xe3, 0x03, 0x0a, 0x0a, 0x49, 0x41, 0x4d, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x6b, 0x65, 0x6e, 0x22, 0x76, 0x0a, 0x15, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x50, 0x61, 0x73,
+	0x73, 0x77, 0x6f, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07,
+	0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x75,
+	0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x21, 0x0a, 0x0c, 0x6f, 0x6c, 0x64, 0x5f, 0x70, 0x61, 0x73,
+	0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6f, 0x6c, 0x64,
+	0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x21, 0x0a, 0x0c, 0x6e, 0x65, 0x77, 0x5f,
+	0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b,
+	0x6e, 0x65, 0x77, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x22, 0x46, 0x0a, 0x16, 0x43,
+	0x68, 0x61, 0x6e, 0x67, 0x65, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x32, 0xe0, 0x04, 0x0a, 0x0a, 0x49, 0x41, 0x4d, 0x53, 0x65, 0x72, 0x76, 0x69,
 	0x63, 0x65, 0x12, 0x56, 0x0a, 0x05, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x12, 0x16, 0x2e, 0x62, 0x6c,
 	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x4c,
@@ -791,8 +921,16 @@ var file_blogging_iam_proto_rawDesc = []byte{
 	0x6f, 0x6b, 0x65, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2b, 0x82, 0xd3,
 	0xe4, 0x93, 0x02, 0x25, 0x3a, 0x01, 0x2a, 0x22, 0x20, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31,
 	0x2f, 0x69, 0x61, 0x6d, 0x2f, 0x72, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x2d, 0x61, 0x63, 0x63,
-	0x65, 0x73, 0x73, 0x2d, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x2f, 0x62,
-	0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x73, 0x73, 0x2d, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x7b, 0x0a, 0x0e, 0x43, 0x68, 0x61,
+	0x6e, 0x67, 0x65, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x1f, 0x2e, 0x62, 0x6c,
+	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x50, 0x61, 0x73,
+	0x73, 0x77, 0x6f, 0x72, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x62,
+	0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x43, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x50, 0x61,
+	0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x20, 0x3a, 0x01, 0x2a, 0x22, 0x1b, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x76, 0x31, 0x2f, 0x69, 0x61, 0x6d, 0x2f, 0x63, 0x68, 0x61, 0x6e, 0x67, 0x65, 0x2d, 0x70, 0x61,
+	0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x2f, 0x62, 0x6c, 0x6f, 0x67,
+	0x67, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -807,7 +945,7 @@ func file_blogging_iam_proto_rawDescGZIP() []byte {
 	return file_blogging_iam_proto_rawDescData
 }
 
-var file_blogging_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_blogging_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_blogging_iam_proto_goTypes = []interface{}{
 	(*LoginRequest)(nil),                    // 0: blogging.LoginRequest
 	(*LoginResponse)(nil),                   // 1: blogging.LoginResponse
@@ -817,33 +955,37 @@ var file_blogging_iam_proto_goTypes = []interface{}{
 	(*CheckExistUsernameResponse)(nil),      // 5: blogging.CheckExistUsernameResponse
 	(*RefreshAccessTokenRequest)(nil),       // 6: blogging.RefreshAccessTokenRequest
 	(*RefreshAccessTokenResponse)(nil),      // 7: blogging.RefreshAccessTokenResponse
-	(*LoginResponse_Data)(nil),              // 8: blogging.LoginResponse.Data
-	(*CheckExistUsernameResponse_Data)(nil), // 9: blogging.CheckExistUsernameResponse.Data
-	(*RefreshAccessTokenResponse_Data)(nil), // 10: blogging.RefreshAccessTokenResponse.Data
-	(*wrapperspb.StringValue)(nil),          // 11: google.protobuf.StringValue
-	(*wrapperspb.BoolValue)(nil),            // 12: google.protobuf.BoolValue
-	(*wrapperspb.Int64Value)(nil),           // 13: google.protobuf.Int64Value
-	(*UserInfoMetadata)(nil),                // 14: blogging.UserInfoMetadata
+	(*ChangePasswordRequest)(nil),           // 8: blogging.ChangePasswordRequest
+	(*ChangePasswordResponse)(nil),          // 9: blogging.ChangePasswordResponse
+	(*LoginResponse_Data)(nil),              // 10: blogging.LoginResponse.Data
+	(*CheckExistUsernameResponse_Data)(nil), // 11: blogging.CheckExistUsernameResponse.Data
+	(*RefreshAccessTokenResponse_Data)(nil), // 12: blogging.RefreshAccessTokenResponse.Data
+	(*wrapperspb.StringValue)(nil),          // 13: google.protobuf.StringValue
+	(*wrapperspb.BoolValue)(nil),            // 14: google.protobuf.BoolValue
+	(*wrapperspb.Int64Value)(nil),           // 15: google.protobuf.Int64Value
+	(*UserInfoMetadata)(nil),                // 16: blogging.UserInfoMetadata
 }
 var file_blogging_iam_proto_depIdxs = []int32{
-	8,  // 0: blogging.LoginResponse.data:type_name -> blogging.LoginResponse.Data
-	11, // 1: blogging.RegisterRequest.phone_numbers:type_name -> google.protobuf.StringValue
-	12, // 2: blogging.RegisterRequest.gender:type_name -> google.protobuf.BoolValue
-	13, // 3: blogging.RegisterRequest.birth_of_day:type_name -> google.protobuf.Int64Value
-	11, // 4: blogging.RegisterRequest.avatar:type_name -> google.protobuf.StringValue
-	9,  // 5: blogging.CheckExistUsernameResponse.data:type_name -> blogging.CheckExistUsernameResponse.Data
-	10, // 6: blogging.RefreshAccessTokenResponse.data:type_name -> blogging.RefreshAccessTokenResponse.Data
-	14, // 7: blogging.LoginResponse.Data.user_info:type_name -> blogging.UserInfoMetadata
+	10, // 0: blogging.LoginResponse.data:type_name -> blogging.LoginResponse.Data
+	13, // 1: blogging.RegisterRequest.phone_numbers:type_name -> google.protobuf.StringValue
+	14, // 2: blogging.RegisterRequest.gender:type_name -> google.protobuf.BoolValue
+	15, // 3: blogging.RegisterRequest.birth_of_day:type_name -> google.protobuf.Int64Value
+	13, // 4: blogging.RegisterRequest.avatar:type_name -> google.protobuf.StringValue
+	11, // 5: blogging.CheckExistUsernameResponse.data:type_name -> blogging.CheckExistUsernameResponse.Data
+	12, // 6: blogging.RefreshAccessTokenResponse.data:type_name -> blogging.RefreshAccessTokenResponse.Data
+	16, // 7: blogging.LoginResponse.Data.user_info:type_name -> blogging.UserInfoMetadata
 	0,  // 8: blogging.IAMService.Login:input_type -> blogging.LoginRequest
 	2,  // 9: blogging.IAMService.Register:input_type -> blogging.RegisterRequest
 	4,  // 10: blogging.IAMService.CheckExistUsername:input_type -> blogging.CheckExistUsernameRequest
 	6,  // 11: blogging.IAMService.RefreshAccessToken:input_type -> blogging.RefreshAccessTokenRequest
-	1,  // 12: blogging.IAMService.Login:output_type -> blogging.LoginResponse
-	3,  // 13: blogging.IAMService.Register:output_type -> blogging.RegisterResponse
-	5,  // 14: blogging.IAMService.CheckExistUsername:output_type -> blogging.CheckExistUsernameResponse
-	7,  // 15: blogging.IAMService.RefreshAccessToken:output_type -> blogging.RefreshAccessTokenResponse
-	12, // [12:16] is the sub-list for method output_type
-	8,  // [8:12] is the sub-list for method input_type
+	8,  // 12: blogging.IAMService.ChangePassword:input_type -> blogging.ChangePasswordRequest
+	1,  // 13: blogging.IAMService.Login:output_type -> blogging.LoginResponse
+	3,  // 14: blogging.IAMService.Register:output_type -> blogging.RegisterResponse
+	5,  // 15: blogging.IAMService.CheckExistUsername:output_type -> blogging.CheckExistUsernameResponse
+	7,  // 16: blogging.IAMService.RefreshAccessToken:output_type -> blogging.RefreshAccessTokenResponse
+	9,  // 17: blogging.IAMService.ChangePassword:output_type -> blogging.ChangePasswordResponse
+	13, // [13:18] is the sub-list for method output_type
+	8,  // [8:13] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
 	8,  // [8:8] is the sub-list for extension extendee
 	0,  // [0:8] is the sub-list for field type_name
@@ -953,7 +1095,7 @@ func file_blogging_iam_proto_init() {
 			}
 		}
 		file_blogging_iam_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*LoginResponse_Data); i {
+			switch v := v.(*ChangePasswordRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -965,7 +1107,7 @@ func file_blogging_iam_proto_init() {
 			}
 		}
 		file_blogging_iam_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CheckExistUsernameResponse_Data); i {
+			switch v := v.(*ChangePasswordResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -977,6 +1119,30 @@ func file_blogging_iam_proto_init() {
 			}
 		}
 		file_blogging_iam_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*LoginResponse_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_iam_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CheckExistUsernameResponse_Data); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_iam_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RefreshAccessTokenResponse_Data); i {
 			case 0:
 				return &v.state
@@ -995,7 +1161,7 @@ func file_blogging_iam_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_blogging_iam_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

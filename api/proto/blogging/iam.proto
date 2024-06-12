@@ -33,6 +33,12 @@ service IAMService {
       body: "*"
     };
   }
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/iam/change-password"
+      body: "*"
+    };
+  }
 }
 
 message LoginRequest {
@@ -91,4 +97,15 @@ message RefreshAccessTokenResponse {
   int32 code = 1;
   string message = 2;
   Data data = 3;
+}
+
+message ChangePasswordRequest {
+  string user_id = 1;
+  string old_password = 2;
+  string new_password = 3;
+}
+
+message ChangePasswordResponse {
+  int32 code = 1;
+  string message = 2;
 }
