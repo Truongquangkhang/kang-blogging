@@ -114,7 +114,7 @@ func (g createBlogCommentHandler) Handle(ctx context.Context, param CreateBlogCo
 	}
 
 	if isToxicity {
-		return CreateBlogCommentResult{}, errors.NewBadRequestError("Your comment is toxicity")
+		return CreateBlogCommentResult{}, errors.NewBadRequestError("Your comment is toxic")
 	}
 
 	responseComment, err := g.commentRepo.GetCommentById(ctx, commentId)
