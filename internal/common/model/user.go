@@ -26,6 +26,8 @@ type User struct {
 	Comments          []Comment  `gorm:"foreignKey:UserID;references:ID"`
 	TotalBlogs        int32
 	TotalComments     *int32
+	IsFollower        bool
+	IsFollowed        bool
 }
 
 func (User) TableName() string {

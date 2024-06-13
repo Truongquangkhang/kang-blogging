@@ -19,6 +19,8 @@ func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata 
 		Description:     utils.WrapperStringFromString(u.Description),
 		IsActive:        u.IsActive,
 		TotalViolations: u.TotalViolation,
+		IsFollowed:      u.IsFollowed,
+		IsFollower:      u.IsFollower,
 	}
 }
 

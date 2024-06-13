@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/utils"
 )
 
@@ -20,6 +21,13 @@ func (g GrpcService) GetUsers(
 		SearchBy:   utils.WrapperValueString(request.SearchBy),
 		IsActive:   utils.WrapperValueBool(request.IsActive),
 		SortBy:     utils.WrapperValueString(request.SortBy),
+		Follower:   utils.WrapperValueBool(request.Follower),
+		Followed:   utils.WrapperValueBool(request.Followed),
+	}
+	// ignore error when get auth from request
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err == nil && auth != nil {
+		params.CurrentUserID = utils.ToStringPointerValue(auth.UserID)
 	}
 
 	rs, err := g.usecase.GetUsers.Handle(ctx, params)

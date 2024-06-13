@@ -11,14 +11,15 @@ import (
 )
 
 type GetUsersParams struct {
-	Page         int32
-	PageSize     int32
-	SearchName   *string
-	SearchBy     *string
-	Following    *bool
-	FollowedByMe *bool
-	IsActive     *bool
-	SortBy       *string
+	Page          int32
+	PageSize      int32
+	SearchName    *string
+	SearchBy      *string
+	Follower      *bool
+	Followed      *bool
+	IsActive      *bool
+	SortBy        *string
+	CurrentUserID *string
 }
 
 type GetUsersResult struct {
@@ -54,14 +55,15 @@ func (g getUsersHandler) Handle(ctx context.Context, param GetUsersParams) (GetU
 		return GetUsersResult{}, err
 	}
 	users, total, err := g.userRepo.GetUsers(ctx, user.UserParams{
-		Page:         param.Page,
-		PageSize:     param.PageSize,
-		SearchBy:     param.SearchBy,
-		Following:    param.Following,
-		FollowedByMe: param.FollowedByMe,
-		SearchName:   param.SearchName,
-		IsActive:     param.IsActive,
-		SortBy:       param.SortBy,
+		Page:          param.Page,
+		PageSize:      param.PageSize,
+		SearchBy:      param.SearchBy,
+		Follower:      param.Follower,
+		Followed:      param.Followed,
+		SearchName:    param.SearchName,
+		IsActive:      param.IsActive,
+		SortBy:        param.SortBy,
+		CurrentUserID: param.CurrentUserID,
 	})
 	if err != nil {
 		return GetUsersResult{}, err
@@ -83,6 +85,10 @@ func (p *GetUsersParams) Validate() error {
 	}
 	if p.PageSize <= 0 {
 		p.PageSize = 10
+	}
+	if p.CurrentUserID == nil {
+		p.Followed = nil
+		p.Follower = nil
 	}
 	if p.SortBy == nil {
 		p.SortBy = utils.ToStringPointerValue("created_at")

@@ -11,7 +11,7 @@ func (u UserRepository) UpdateUser(
 ) (*model.User, error) {
 	err := u.gdb.DB().WithContext(ctx).
 		Model(&model.User{}).
-		Omit("TotalBlogs", "TotalComments").
+		Omit("TotalBlogs", "TotalComments", "IsFollower", "IsFollowed").
 		Where("id = ?", user.ID).
 		Save(&user).Error
 	if err != nil {

@@ -35,10 +35,6 @@ func (u UserRepository) GetUsers(
 		query = query.Where("is_active = ?", *params.IsActive)
 	}
 
-	errCount := query.Count(&total).Error
-	if errCount != nil {
-		return nil, 0, errCount
-	}
 	if params.SortBy != nil {
 		switch *params.SortBy {
 		case "created_at":
@@ -53,12 +49,34 @@ func (u UserRepository) GetUsers(
 			return nil, 0, errors.NewBadRequestError("invalid search name")
 		}
 	}
-	errQuery := query.
-		Select("users.*, count(distinct(blogs.id)) as total_blogs, count(distinct(comments.id)) as total_comments").
+
+	selectStr := "users.*, count(distinct(blogs.id)) as total_blogs, count(distinct(comments.id)) as total_comments"
+	if params.CurrentUserID != nil {
+		query = query.
+			Joins("left join follows as f1 on f1.follower_id = users.id and f1.followed_id = ?",
+				*params.CurrentUserID,
+			).
+			Joins("left join follows as f2 on f2.followed_id = users.id and f2.follower_id = ?",
+				*params.CurrentUserID,
+			)
+		selectStr += ", (f1.follower_id IS NOT NULL) as is_follower, (f2.followed_id IS NOT NULL) as is_followed"
+	}
+	query = query.
+		Select(selectStr).
 		Joins("left join blogs on users.id = blogs.author_id").
 		Joins("left join comments on users.id = comments.user_id").
-		Group("users.id").
-		Offset(int(offset)).Limit(int(limit)).Find(&users).Error
+		Group("users.id")
+
+	if params.CurrentUserID != nil {
+		if params.Followed != nil {
+			query = query.Where("(f2.followed_id IS NOT NULL) = ?", *params.Followed)
+		}
+		if params.Follower != nil {
+			query = query.Where("(f1.follower_id IS NOT NULL) = ?", *params.Follower)
+		}
+	}
+
+	errQuery := query.Count(&total).Offset(int(offset)).Limit(int(limit)).Find(&users).Error
 
 	if errQuery != nil {
 		return nil, 0, errQuery
