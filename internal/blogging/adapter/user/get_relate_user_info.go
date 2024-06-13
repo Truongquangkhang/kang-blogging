@@ -43,7 +43,6 @@ func (r UserRepository) GetRelateInfoOfUser(
 	// get comments and blogs of this user
 	errGetComment := r.gdb.DB().WithContext(ctx).Model(&model.Comment{}).
 		Where("user_id = ? AND is_toxicity = false", userId).
-		Limit(10).
 		Find(&comments).Error
 	if errGetComment != nil {
 		return nil, errGetComment
@@ -54,7 +53,7 @@ func (r UserRepository) GetRelateInfoOfUser(
 	if ignoreBlogIsDraft {
 		queryGetBlogs = queryGetBlogs.Where("published = true")
 	}
-	errGetBlog := queryGetBlogs.Limit(10).Find(&blogs).Error
+	errGetBlog := queryGetBlogs.Find(&blogs).Error
 	if errGetBlog != nil {
 		return nil, errGetBlog
 	}

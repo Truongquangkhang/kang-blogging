@@ -8,6 +8,7 @@ import (
 	"kang-blogging/internal/blogging/adapter/blog_categories"
 	"kang-blogging/internal/blogging/adapter/category"
 	"kang-blogging/internal/blogging/adapter/comment"
+	"kang-blogging/internal/blogging/adapter/follow"
 	"kang-blogging/internal/blogging/adapter/policy"
 	"kang-blogging/internal/blogging/adapter/role"
 	"kang-blogging/internal/blogging/adapter/toxicity_detection_client"
@@ -66,6 +67,8 @@ func newService(ctx context.Context) app.Application {
 	blogCategoriesRepository := blog_categories.NewRepository()
 	commentRepository := comment.NewRepository()
 	policyRepository := policy.NewRepository()
+	followRepository := follow.NewRepository()
+
 	logger := logrus.NewEntry(logrus.StandardLogger())
 	metricsClient := metrics.NoOp{}
 
@@ -102,6 +105,12 @@ func newService(ctx context.Context) app.Application {
 			),
 			DeleteUserDetail: user2.NewDeleteUserDetailHandler(
 				userRepository, roleRepository, logger, metricsClient,
+			),
+			FollowUserDetail: user2.NewFollowUserDetailHandler(
+				userRepository, followRepository, logger, metricsClient,
+			),
+			UnfollowUserDetail: user2.NewUnfollowUserDetailHandler(
+				userRepository, followRepository, logger, metricsClient,
 			),
 		},
 		BlogUsecase: app.BlogUsecase{

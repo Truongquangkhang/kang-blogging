@@ -29,10 +29,12 @@ type IAMUsecases struct {
 }
 
 type UserUsecase struct {
-	GetUsers         user.GetUsersHandler
-	GetUserDetail    user.GetUserDetailHandler
-	UpdateUser       user.UpdateUserHandler
-	DeleteUserDetail user.DeleteUserDetailHandler
+	GetUsers           user.GetUsersHandler
+	GetUserDetail      user.GetUserDetailHandler
+	UpdateUser         user.UpdateUserHandler
+	DeleteUserDetail   user.DeleteUserDetailHandler
+	FollowUserDetail   user.FollowUserDetailHandler
+	UnfollowUserDetail user.UnfollowUserDetailHandler
 }
 
 type BlogUsecase struct {

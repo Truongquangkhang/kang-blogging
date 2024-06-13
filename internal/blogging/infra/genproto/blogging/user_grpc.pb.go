@@ -19,10 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_GetUsers_FullMethodName         = "/blogging.UserService/GetUsers"
-	UserService_GetUserDetail_FullMethodName    = "/blogging.UserService/GetUserDetail"
-	UserService_UpdateUserDetail_FullMethodName = "/blogging.UserService/UpdateUserDetail"
-	UserService_DeleteUserDetail_FullMethodName = "/blogging.UserService/DeleteUserDetail"
+	UserService_GetUsers_FullMethodName           = "/blogging.UserService/GetUsers"
+	UserService_GetUserDetail_FullMethodName      = "/blogging.UserService/GetUserDetail"
+	UserService_UpdateUserDetail_FullMethodName   = "/blogging.UserService/UpdateUserDetail"
+	UserService_DeleteUserDetail_FullMethodName   = "/blogging.UserService/DeleteUserDetail"
+	UserService_FollowUserDetail_FullMethodName   = "/blogging.UserService/FollowUserDetail"
+	UserService_UnfollowUserDetail_FullMethodName = "/blogging.UserService/UnfollowUserDetail"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -33,6 +35,8 @@ type UserServiceClient interface {
 	GetUserDetail(ctx context.Context, in *GetUserDetailRequest, opts ...grpc.CallOption) (*GetUserDetailResponse, error)
 	UpdateUserDetail(ctx context.Context, in *UpdateUserDetailRequest, opts ...grpc.CallOption) (*UpdateUserDetailResponse, error)
 	DeleteUserDetail(ctx context.Context, in *DeleteUserDetailRequest, opts ...grpc.CallOption) (*DeleteUserDetailResponse, error)
+	FollowUserDetail(ctx context.Context, in *FollowUserDetailRequest, opts ...grpc.CallOption) (*FollowUserDetailResponse, error)
+	UnfollowUserDetail(ctx context.Context, in *UnfollowUserDetailRequest, opts ...grpc.CallOption) (*UnfollowUserDetailResponse, error)
 }
 
 type userServiceClient struct {
@@ -79,6 +83,24 @@ func (c *userServiceClient) DeleteUserDetail(ctx context.Context, in *DeleteUser
 	return out, nil
 }
 
+func (c *userServiceClient) FollowUserDetail(ctx context.Context, in *FollowUserDetailRequest, opts ...grpc.CallOption) (*FollowUserDetailResponse, error) {
+	out := new(FollowUserDetailResponse)
+	err := c.cc.Invoke(ctx, UserService_FollowUserDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UnfollowUserDetail(ctx context.Context, in *UnfollowUserDetailRequest, opts ...grpc.CallOption) (*UnfollowUserDetailResponse, error) {
+	out := new(UnfollowUserDetailResponse)
+	err := c.cc.Invoke(ctx, UserService_UnfollowUserDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations should embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -87,6 +109,8 @@ type UserServiceServer interface {
 	GetUserDetail(context.Context, *GetUserDetailRequest) (*GetUserDetailResponse, error)
 	UpdateUserDetail(context.Context, *UpdateUserDetailRequest) (*UpdateUserDetailResponse, error)
 	DeleteUserDetail(context.Context, *DeleteUserDetailRequest) (*DeleteUserDetailResponse, error)
+	FollowUserDetail(context.Context, *FollowUserDetailRequest) (*FollowUserDetailResponse, error)
+	UnfollowUserDetail(context.Context, *UnfollowUserDetailRequest) (*UnfollowUserDetailResponse, error)
 }
 
 // UnimplementedUserServiceServer should be embedded to have forward compatible implementations.
@@ -104,6 +128,12 @@ func (UnimplementedUserServiceServer) UpdateUserDetail(context.Context, *UpdateU
 }
 func (UnimplementedUserServiceServer) DeleteUserDetail(context.Context, *DeleteUserDetailRequest) (*DeleteUserDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserDetail not implemented")
+}
+func (UnimplementedUserServiceServer) FollowUserDetail(context.Context, *FollowUserDetailRequest) (*FollowUserDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FollowUserDetail not implemented")
+}
+func (UnimplementedUserServiceServer) UnfollowUserDetail(context.Context, *UnfollowUserDetailRequest) (*UnfollowUserDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnfollowUserDetail not implemented")
 }
 
 // UnsafeUserServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -189,6 +219,42 @@ func _UserService_DeleteUserDetail_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_FollowUserDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FollowUserDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).FollowUserDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_FollowUserDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).FollowUserDetail(ctx, req.(*FollowUserDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UnfollowUserDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnfollowUserDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UnfollowUserDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UnfollowUserDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UnfollowUserDetail(ctx, req.(*UnfollowUserDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -211,6 +277,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteUserDetail",
 			Handler:    _UserService_DeleteUserDetail_Handler,
+		},
+		{
+			MethodName: "FollowUserDetail",
+			Handler:    _UserService_FollowUserDetail_Handler,
+		},
+		{
+			MethodName: "UnfollowUserDetail",
+			Handler:    _UserService_UnfollowUserDetail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

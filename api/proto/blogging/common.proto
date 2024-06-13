@@ -11,10 +11,10 @@ message UserInfo{
   google.protobuf.BoolValue gender = 3;
   google.protobuf.Int64Value date_of_birth =4;
   int64 created_at = 5;
-  // just show 10 blogs latest
   repeated BlogMetadata blogs = 6;
-  // just show 10 comments latest
   repeated CommentMetadata comments = 7;
+  int32 total_follower = 8;
+  int32 total_followed = 9;
 }
 
 message UserInfoMetadata {
@@ -27,6 +27,8 @@ message UserInfoMetadata {
   google.protobuf.StringValue description = 7;
   bool is_active = 8;
   int32 total_violations = 9;
+  bool is_follower = 10;
+  bool is_followed = 11;
 }
 
 message BlogInfo {

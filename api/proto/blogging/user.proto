@@ -29,7 +29,18 @@ service UserService {
     option (google.api.http) = {
       delete: "/api/v1/user/{user_id}"
     };
-  }
+  };
+  rpc FollowUserDetail(FollowUserDetailRequest) returns (FollowUserDetailResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/user/{user_id}/follow"
+      body: "*"
+    };
+  };
+  rpc UnfollowUserDetail(UnfollowUserDetailRequest) returns (UnfollowUserDetailResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/user/{user_id}/follow"
+    };
+  };
 }
 
 message GetUsersRequest {
@@ -91,6 +102,24 @@ message DeleteUserDetailRequest {
 }
 
 message DeleteUserDetailResponse {
+  int32 code = 1;
+  string message = 2;
+}
+
+message FollowUserDetailRequest {
+  string user_id = 1;
+}
+
+message FollowUserDetailResponse {
+  int32 code = 1;
+  string message = 2;
+}
+
+message UnfollowUserDetailRequest {
+  string user_id = 1;
+}
+
+message UnfollowUserDetailResponse {
   int32 code = 1;
   string message = 2;
 }

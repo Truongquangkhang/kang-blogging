@@ -431,6 +431,119 @@ paths:
                         properties:
                           user:
                             $ref: '#/components/schemas/UserInfo'
+  /api/v1/user/{user_id}/following:
+    get:
+      tags:
+        - Get Users are following of this user
+      description: |-
+        - get user following.
+      summary: 'Get following of a users'
+      operationId: getFollowingUsers
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: uuid of users
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          users:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/UserInfoMetadata'
+                          pagination:
+                            $ref: '#/components/schemas/Pagination'
+  /api/v1/user/{user_id}/followed:
+    get:
+      tags:
+        - Get Users Followed
+      description: |-
+        - get user followed.
+      summary: 'Get followed of a users'
+      operationId: getFollowedUsers
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: uuid of users
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          users:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/UserInfoMetadata'
+                          pagination:
+                            $ref: '#/components/schemas/Pagination'
+  /api/v1/user/{user_id}/follow:
+    post:
+      tags:
+        - Follow user
+      description: |-
+        - Follow a user.
+      summary: 'Follow a user'
+      operationId: followUser
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: uuid of users
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+    delete:
+      tags:
+        - Unfollow a user
+      description: |-
+        - Unfollow a user.
+      summary: 'Unfollow a user'
+      operationId: unfollowUser
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: uuid of users
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
   /api/v1/blog:
     get:
       tags:
@@ -1154,6 +1267,10 @@ components:
         created_at:
           type: integer
           example: 123
+        is_following:
+          type: boolean
+        is_followed:
+          type: boolean
     BlogMetadata:
       type: object
       properties:
