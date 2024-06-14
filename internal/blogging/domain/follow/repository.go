@@ -15,4 +15,9 @@ type Repository interface {
 		ctx context.Context,
 		follow *model.Follow,
 	) (*model.Follow, error)
+
+	GetFollowedIdsByFollowerId(
+		ctx context.Context,
+		followerId string,
+	) ([]string, error)
 }

@@ -115,7 +115,7 @@ func newService(ctx context.Context) app.Application {
 		},
 		BlogUsecase: app.BlogUsecase{
 			GetBlogs: blog.NewGetBlogsHandler(
-				userRepository, blogRepository, logger, metricsClient,
+				userRepository, blogRepository, followRepository, logger, metricsClient,
 			),
 			CreateBlog: blog.NewCreateBlogHandler(
 				blogRepository, categoryRepository, blogCategoriesRepository,

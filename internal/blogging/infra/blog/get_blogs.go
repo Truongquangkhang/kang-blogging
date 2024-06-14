@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/utils"
 )
 
@@ -23,6 +24,11 @@ func (g GrpcService) GetBlogs(
 		SortBy:       utils.WrapperValueString(request.SortBy),
 		IsDeprecated: utils.WrapperValueBool(request.IsDeprecated),
 		Published:    utils.WrapperValueBool(request.Published),
+	}
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err == nil && auth != nil {
+		param.CurrentUserID = utils.ToStringPointerValue(auth.UserID)
+		param.GetBlogRelevant = utils.WrapperValueBool(request.GetRelevant)
 	}
 	rs, err := g.usecase.GetBlogs.Handle(ctx, param)
 	if err != nil {
