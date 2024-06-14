@@ -15,8 +15,8 @@ type GetUsersParams struct {
 	PageSize      int32
 	SearchName    *string
 	SearchBy      *string
-	Follower      *bool
-	Followed      *bool
+	FollowerID    *string
+	FollowedID    *string
 	IsActive      *bool
 	SortBy        *string
 	CurrentUserID *string
@@ -58,8 +58,8 @@ func (g getUsersHandler) Handle(ctx context.Context, param GetUsersParams) (GetU
 		Page:          param.Page,
 		PageSize:      param.PageSize,
 		SearchBy:      param.SearchBy,
-		Follower:      param.Follower,
-		Followed:      param.Followed,
+		FollowerID:    param.FollowerID,
+		FollowedID:    param.FollowedID,
 		SearchName:    param.SearchName,
 		IsActive:      param.IsActive,
 		SortBy:        param.SortBy,
@@ -85,10 +85,6 @@ func (p *GetUsersParams) Validate() error {
 	}
 	if p.PageSize <= 0 {
 		p.PageSize = 10
-	}
-	if p.CurrentUserID == nil {
-		p.Followed = nil
-		p.Follower = nil
 	}
 	if p.SortBy == nil {
 		p.SortBy = utils.ToStringPointerValue("created_at")

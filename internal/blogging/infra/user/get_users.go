@@ -21,8 +21,8 @@ func (g GrpcService) GetUsers(
 		SearchBy:   utils.WrapperValueString(request.SearchBy),
 		IsActive:   utils.WrapperValueBool(request.IsActive),
 		SortBy:     utils.WrapperValueString(request.SortBy),
-		Follower:   utils.WrapperValueBool(request.Follower),
-		Followed:   utils.WrapperValueBool(request.Followed),
+		FollowerID: utils.WrapperValueString(request.FollowerId),
+		FollowedID: utils.WrapperValueString(request.FollowedId),
 	}
 	// ignore error when get auth from request
 	auth, err := jwt.GetAuthenticationFromRequest(ctx)
