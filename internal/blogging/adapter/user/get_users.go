@@ -62,6 +62,17 @@ func (u UserRepository) GetUsers(
 			)
 		selectStr += ", (f1.follower_id IS NOT NULL) as is_follower, (f2.followed_id IS NOT NULL) as is_followed"
 	}
+	if params.FollowerID != nil {
+		query = query.
+			Joins("left join follows as f5 on f5.followed_id = users.id and f5.follower_id = ?", *params.FollowerID).
+			Where("(f5.follower_id IS NOT NULL)")
+	}
+	if params.FollowedID != nil {
+		query = query.
+			Joins("left join follows as f6 on f6.follower_id = users.id and f6.followed_id = ?", *params.FollowedID).
+			Where("(f6.followed_id IS NOT NULL)")
+	}
+
 	query = query.
 		Select(selectStr).
 		Joins("left join blogs on users.id = blogs.author_id").
@@ -69,15 +80,6 @@ func (u UserRepository) GetUsers(
 		Joins("left join follows as f3 on f3.follower_id = users.id").
 		Joins("left join follows as f4 on f4.followed_id = users.id").
 		Group("users.id")
-
-	if params.CurrentUserID != nil {
-		if params.Followed != nil {
-			query = query.Where("(f2.followed_id IS NOT NULL) = ?", *params.Followed)
-		}
-		if params.Follower != nil {
-			query = query.Where("(f1.follower_id IS NOT NULL) = ?", *params.Follower)
-		}
-	}
 
 	errQuery := query.Count(&total).Offset(int(offset)).Limit(int(limit)).Find(&users).Error
 

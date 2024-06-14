@@ -18,8 +18,8 @@ type UserParams struct {
 	PageSize      int32
 	SearchName    *string
 	SearchBy      *string
-	Follower      *bool
-	Followed      *bool
+	FollowerID    *string
+	FollowedID    *string
 	IsActive      *bool
 	SortBy        *string
 	CurrentUserID *string
