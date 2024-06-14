@@ -35,21 +35,6 @@ func (u UserRepository) GetUsers(
 		query = query.Where("is_active = ?", *params.IsActive)
 	}
 
-	if params.SortBy != nil {
-		switch *params.SortBy {
-		case "created_at":
-			query = query.Order("users.created_at DESC")
-		case "total_violation":
-			query = query.Order("total_violation DESC")
-		case "total_blog":
-			query.Order("total_blogs DESC")
-		case "total_comment":
-			query.Order("total_comments DESC")
-		default:
-			return nil, 0, errors.NewBadRequestError("invalid search name")
-		}
-	}
-
 	selectStr := "users.*, count(distinct(blogs.id)) as total_blogs, count(distinct(comments.id)) as total_comments, " +
 		"count(distinct(f3.followed_id)) as total_followeds, count(distinct(f4.follower_id)) as total_followers"
 	if params.CurrentUserID != nil {
@@ -81,7 +66,31 @@ func (u UserRepository) GetUsers(
 		Joins("left join follows as f4 on f4.followed_id = users.id").
 		Group("users.id")
 
-	errQuery := query.Count(&total).Offset(int(offset)).Limit(int(limit)).Find(&users).Error
+	// count items
+	errCount := query.Count(&total).Error
+	if errCount != nil {
+		return nil, 0, errCount
+	}
+	//sort
+	if params.SortBy != nil {
+		switch *params.SortBy {
+		case "created_at":
+			query = query.Order("users.created_at DESC")
+		case "total_violation":
+			query = query.Order("total_violation DESC")
+		case "total_blog":
+			query.Order("total_blogs DESC")
+		case "total_comment":
+			query.Order("total_comments DESC")
+		case "total_follower":
+			query = query.Order("total_followers DESC")
+		case "total_followed":
+			query = query.Order("total_followeds DESC")
+		default:
+			return nil, 0, errors.NewBadRequestError("invalid search name")
+		}
+	}
+	errQuery := query.Offset(int(offset)).Limit(int(limit)).Find(&users).Error
 
 	if errQuery != nil {
 		return nil, 0, errQuery
