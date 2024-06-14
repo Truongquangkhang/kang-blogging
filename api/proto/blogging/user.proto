@@ -29,7 +29,18 @@ service UserService {
     option (google.api.http) = {
       delete: "/api/v1/user/{user_id}"
     };
-  }
+  };
+  rpc FollowUserDetail(FollowUserDetailRequest) returns (FollowUserDetailResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/user/{user_id}/follow"
+      body: "*"
+    };
+  };
+  rpc UnfollowUserDetail(UnfollowUserDetailRequest) returns (UnfollowUserDetailResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/user/{user_id}/follow"
+    };
+  };
 }
 
 message GetUsersRequest {
@@ -37,15 +48,15 @@ message GetUsersRequest {
   int32 page_size = 2;
   google.protobuf.StringValue search_name = 3;
   google.protobuf.StringValue search_by = 4;
-  google.protobuf.BoolValue following = 5;
-  google.protobuf.BoolValue followed_by_me = 6;
+  google.protobuf.BoolValue follower = 5;
+  google.protobuf.BoolValue followed  = 6;
   google.protobuf.BoolValue is_active = 7;
   google.protobuf.StringValue sort_by = 8;
 }
 
 message  GetUsersResponse {
   message Data {
-    repeated UserInfoMetadata users = 1;
+    repeated UserInfo users = 1;
     Pagination pagination = 2;
   }
   int32 code = 1;
@@ -60,6 +71,8 @@ message GetUserDetailRequest {
 message GetUserDetailResponse {
   message Data {
     UserInfo user = 1;
+    repeated BlogMetadata blogs = 2;
+    repeated CommentMetadata comments = 3;
   }
   int32 code = 1;
   string message = 2;
@@ -91,6 +104,24 @@ message DeleteUserDetailRequest {
 }
 
 message DeleteUserDetailResponse {
+  int32 code = 1;
+  string message = 2;
+}
+
+message FollowUserDetailRequest {
+  string user_id = 1;
+}
+
+message FollowUserDetailResponse {
+  int32 code = 1;
+  string message = 2;
+}
+
+message UnfollowUserDetailRequest {
+  string user_id = 1;
+}
+
+message UnfollowUserDetailResponse {
   int32 code = 1;
   string message = 2;
 }

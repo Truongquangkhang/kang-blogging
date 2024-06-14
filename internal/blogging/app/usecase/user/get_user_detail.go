@@ -12,8 +12,9 @@ import (
 )
 
 type GetUserDetailParams struct {
-	ID          string
-	HasFullData bool
+	ID            string
+	HasFullData   bool
+	CurrentUserID *string
 }
 
 type GetUserDetailResult struct {
@@ -64,7 +65,7 @@ func (g getUserDetailHandler) Handle(
 		return GetUserDetailResult{}, err
 	}
 
-	relateUserInfo, err := g.userRepo.GetRelateInfoOfUser(ctx, param.ID, !param.HasFullData)
+	relateUserInfo, err := g.userRepo.GetRelateInfoOfUser(ctx, param.ID, !param.HasFullData, param.CurrentUserID)
 	if err != nil || relateUserInfo == nil {
 		return GetUserDetailResult{}, err
 	}
@@ -80,8 +81,12 @@ func (g getUserDetailHandler) Handle(
 		commentsResponse[index].User = userResponse
 	}
 	userResponse.Comments = commentsResponse
-	userResponse.TotalComments = &relateUserInfo.TotalComments
+	userResponse.TotalComments = relateUserInfo.TotalComments
 	userResponse.TotalBlogs = relateUserInfo.TotalBlogs
+	userResponse.TotalFolloweds = relateUserInfo.TotalFolloweds
+	userResponse.TotalFollowers = relateUserInfo.TotalFollowers
+	userResponse.IsFollowed = relateUserInfo.IsFollowed
+	userResponse.IsFollower = relateUserInfo.IsFollower
 
 	return GetUserDetailResult{
 		User: userResponse,

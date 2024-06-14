@@ -25,6 +25,7 @@ func (g GrpcService) GetUserDetail(
 		if auth.Role == constants.ADMIN_ROLE || auth.UserID == request.UserId {
 			params.HasFullData = true
 		}
+		params.CurrentUserID = &auth.UserID
 	}
 
 	rs, err := g.usecase.GetUserDetail.Handle(ctx, params)
@@ -36,7 +37,9 @@ func (g GrpcService) GetUserDetail(
 		Code:    0,
 		Message: "Success",
 		Data: &blogging.GetUserDetailResponse_Data{
-			User: common.MapToUserInfoResponse(rs.User),
+			User:     common.MapToUserInfoResponse(rs.User),
+			Blogs:    common.MapToListBlogMetadataResponse(rs.User.Blogs),
+			Comments: common.MapToCommentMetadatasResponse(rs.User.Comments),
 		},
 	}, nil
 }

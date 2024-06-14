@@ -40,5 +40,6 @@ type Repository interface {
 		ctx context.Context,
 		userId string,
 		ignoreBlogIsDraft bool,
+		currentUserId *string,
 	) (*RelateUserInfo, error)
 }

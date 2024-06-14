@@ -25,7 +25,11 @@ type User struct {
 	Blogs             []Blog     `gorm:"foreignKey:AuthorID;references:ID"`
 	Comments          []Comment  `gorm:"foreignKey:UserID;references:ID"`
 	TotalBlogs        int32
-	TotalComments     *int32
+	TotalComments     int32
+	TotalFollowers    int32
+	TotalFolloweds    int32
+	IsFollower        bool
+	IsFollowed        bool
 }
 
 func (User) TableName() string {

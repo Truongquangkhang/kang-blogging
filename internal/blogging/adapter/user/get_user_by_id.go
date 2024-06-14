@@ -29,6 +29,6 @@ func (u UserRepository) GetUserByID(
 		}
 		return nil, err
 	}
-	rs.TotalComments = &countComments
+	rs.TotalComments = countComments
 	return rs, nil
 }

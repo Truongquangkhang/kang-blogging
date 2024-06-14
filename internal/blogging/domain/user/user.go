@@ -14,14 +14,15 @@ type UserInfo struct {
 }
 
 type UserParams struct {
-	Page         int32
-	PageSize     int32
-	SearchName   *string
-	SearchBy     *string
-	Following    *bool
-	FollowedByMe *bool
-	IsActive     *bool
-	SortBy       *string
+	Page          int32
+	PageSize      int32
+	SearchName    *string
+	SearchBy      *string
+	Follower      *bool
+	Followed      *bool
+	IsActive      *bool
+	SortBy        *string
+	CurrentUserID *string
 }
 
 type SystemInfo struct {
@@ -35,9 +36,13 @@ type SystemInfo struct {
 }
 
 type RelateUserInfo struct {
-	User          model.User
-	TotalComments int32
-	TotalBlogs    int32
-	Blogs         []model.Blog
-	Comments      []model.Comment
+	User           model.User
+	TotalComments  int32
+	TotalBlogs     int32
+	TotalFollowers int32
+	TotalFolloweds int32
+	IsFollower     bool
+	IsFollowed     bool
+	Blogs          []model.Blog
+	Comments       []model.Comment
 }

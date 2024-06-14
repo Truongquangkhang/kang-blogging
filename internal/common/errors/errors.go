@@ -1,7 +1,5 @@
 package errors
 
-import "errors"
-
 const (
 	// 400
 	ERRCODE_BAD_REQUEST = 400_000
@@ -115,23 +113,12 @@ const (
 	ERRCODE_UNSUPPORTED_MEDIA = 415_000
 	ERRMSG_UNSUPPORTED_MEDIA  = "Unsupported Media Type"
 
-	//422
-	ERRCODE_MISSING_MERCHANT_ID = 422_000
-	ERRMSG_MISSING_MERCHANT_ID  = "Merchant ID not found"
-
-	//423
-	ERRCODE_OVERLAP_SCHEDULE = 423_000
-	ERRMSG_OVERLAP_SCHEDULE  = "Overlapping Schedule"
-
 	// 500
 	ERRCODE_INTERNAL_ERROR = 500_000
 	ERRMSG_INTERNAL_ERROR  = "Internal Server Error"
 
 	ERRCODE_3PARTY_ERROR = 500_001
 	ERRMSG_3PARTY_ERROR  = "Internal Server Error"
-
-	ERRCODE_SUCCESS = 0
-	ERRMSG_SUCCESS  = "Success"
 )
 
 type BaseError struct {
@@ -392,126 +379,6 @@ func NewIAMNotFoundDefaultError() BaseError {
 	return NewIAMNotFoundError(ERRMSG_IAM_NOT_FOUND)
 }
 
-func NewLoyaltyNotFoundError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_MEMBER_LOYALTY_NOT_FOUND,
-		errorMessage: message,
-	}
-}
-
-func NewLoyaltyNotFoundDefaultError() BaseError {
-	return NewLoyaltyNotFoundError(ERRMSG_MEMBER_LOYALTY_NOT_FOUND)
-}
-
-func NewProjectNotFoundError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_PROJECT_NOT_FOUND,
-		errorMessage: message,
-	}
-}
-
-func NewProjectNotFoundDefaultError() BaseError {
-	return NewProjectNotFoundError(ERRMSG_PROJECT_NOT_FOUND)
-}
-
-func NewPolygonNotFoundError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_POLYGON_NOT_FOUND,
-		errorMessage: message,
-	}
-}
-
-func NewPolygonNotFoundDefaultError() BaseError {
-	return NewPolygonNotFoundError(ERRMSG_POLYGON_NOT_FOUND)
-}
-
-func NewSubmissionNotFoundError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_SUBMISSION_NOT_FOUND,
-		errorMessage: message,
-	}
-}
-
-func NewSubmissionNotFoundDefaultError() BaseError {
-	return NewSubmissionNotFoundError(ERRMSG_SUBMISSION_NOT_FOUND)
-}
-
-func NewTreeSpeciesNotFoundError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_TREE_SPECIES_NOT_FOUND,
-		errorMessage: message,
-	}
-}
-
-func NewTreeSpeciesNotFoundDefaultError() BaseError {
-	return NewTreeSpeciesNotFoundError(ERRMSG_TREE_SPECIES_NOT_FOUND)
-}
-
-func NewPlotNotFoundError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_PLOT_NOT_FOUND,
-		errorMessage: message,
-	}
-}
-
-func NewPlotNotFoundDefaultError() BaseError {
-	return NewPlotNotFoundError(ERRMSG_PLOT_NOT_FOUND)
-}
-
-func NewImageNotFoundError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_IMAGE_NOT_FOUND,
-		errorMessage: message,
-	}
-}
-
-func NewImageNotFoundDefaultError() BaseError {
-	return NewImageNotFoundError(ERRMSG_IMAGE_NOT_FOUND)
-}
-
-func NewEntityTooLargeError(message string) BaseError {
-	return BaseError{
-		error:        "entity-too-large",
-		errorCode:    ERRCODE_ENTITY_TOO_LARGE,
-		errorMessage: message,
-	}
-}
-
-func NewEntityTooLargeDefaultError() BaseError {
-	return NewEntityTooLargeError(ERRMSG_ENTITY_TOO_LARGE)
-}
-
-func NewKmlFileTooLargeError(message string) BaseError {
-	return BaseError{
-		error:        "entity-too-large",
-		errorCode:    ERRCODE_KML_FILE_TOO_LARGE,
-		errorMessage: message,
-	}
-}
-
-func NewKmlFileTooLargeDefaultError() BaseError {
-	return NewKmlFileTooLargeError(ERRMSG_KML_FILE_TOO_LARGE)
-}
-
-func NewUnsupportedMediaError(message string) BaseError {
-	return BaseError{
-		error:        "unsupported-media",
-		errorCode:    ERRCODE_UNSUPPORTED_MEDIA,
-		errorMessage: message,
-	}
-}
-
-func NewUnsupportedMediaDefaultError() BaseError {
-	return NewUnsupportedMediaError(ERRMSG_UNSUPPORTED_MEDIA)
-}
-
 func NewInternalErrorError(message string) BaseError {
 	return BaseError{
 		error:        "internal-error",
@@ -536,30 +403,6 @@ func NewThirdPartyErrorDefaultError() BaseError {
 	return NewThirdPartyError(ERRMSG_3PARTY_ERROR)
 }
 
-func NewAlreadyExistError(message string) BaseError {
-	return BaseError{
-		error:        "already-exists",
-		errorCode:    ERRCODE_ALREADY_EXIST,
-		errorMessage: message,
-	}
-}
-
-func NewAlreadyExistErrorDefaultError() BaseError {
-	return NewAlreadyExistError(ERRMSG_ALREADY_EXIST)
-}
-
-func NewOverlapScheduleError(message string) BaseError {
-	return BaseError{
-		error:        "overlap-schedule",
-		errorCode:    ERRCODE_OVERLAP_SCHEDULE,
-		errorMessage: message,
-	}
-}
-
-func NewOverlapScheduleErrorDefaultError() BaseError {
-	return NewOverlapScheduleError(ERRMSG_OVERLAP_SCHEDULE)
-}
-
 func NewIamUserNotFoundError(message string) BaseError {
 	return BaseError{
 		error:        "not-found",
@@ -572,71 +415,12 @@ func NewIamUserNotFoundErrorDefaultError() BaseError {
 	return NewIamUserNotFoundError(ERRMSG_IAM_USER_NOT_FOUND)
 }
 
-func IsLoyaltyNotFoundError(err error) bool {
-	if err == nil {
-		return false
-	}
-	var e BaseError
-	if errors.As(err, &e) {
-		return e.errorCode == ERRCODE_MEMBER_LOYALTY_NOT_FOUND
-	}
-	return false
-}
-
-func NewFileNotFoundError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_FILE_NOT_FOUND,
-		errorMessage: message,
-	}
-}
-
 func NewNotAllowedError(message string) BaseError {
 	return BaseError{
 		error:        "not-found",
 		errorCode:    ERRCODE_NOT_ALLOWED,
 		errorMessage: message,
 	}
-}
-
-func NewFileNotFoundDefaultError() BaseError {
-	return NewIamUserNotFoundError(ERRMSG_FILE_NOT_FOUND)
-}
-
-func NewNotAllowedDefaultError() BaseError {
-	return NewNotAllowedError(ERRMSG_NOT_ALLOWED)
-}
-
-func NewUpdateFormSubmissionNotAllowedDefaultError() BaseError {
-	return BaseError{
-		error:        "not-allowed",
-		errorCode:    ERRCODE_UPDATE_FORM_SUBMISSION_NOT_ALLOWED,
-		errorMessage: ERRMSG_UPDATE_FORM_SUBMISSION_NOT_ALLOWED,
-	}
-}
-
-func NewLocationNotFoundError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_LOCATION_NOT_FOUND,
-		errorMessage: message,
-	}
-}
-
-func NewLocationNotFoundDefaultError() BaseError {
-	return NewLocationNotFoundError(ERRMSG_LOCATION_NOT_FOUND)
-}
-
-func NewMissingMerchantIdError(message string) BaseError {
-	return BaseError{
-		error:        "not-found",
-		errorCode:    ERRCODE_MISSING_MERCHANT_ID,
-		errorMessage: message,
-	}
-}
-
-func NewMissingMerchantIdDefaultError() BaseError {
-	return NewLocationNotFoundError(ERRMSG_MISSING_MERCHANT_ID)
 }
 
 func NewInvalidDateFormatError(message string) BaseError {

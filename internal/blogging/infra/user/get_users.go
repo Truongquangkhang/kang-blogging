@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/utils"
 )
 
@@ -20,6 +21,13 @@ func (g GrpcService) GetUsers(
 		SearchBy:   utils.WrapperValueString(request.SearchBy),
 		IsActive:   utils.WrapperValueBool(request.IsActive),
 		SortBy:     utils.WrapperValueString(request.SortBy),
+		Follower:   utils.WrapperValueBool(request.Follower),
+		Followed:   utils.WrapperValueBool(request.Followed),
+	}
+	// ignore error when get auth from request
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err == nil && auth != nil {
+		params.CurrentUserID = utils.ToStringPointerValue(auth.UserID)
 	}
 
 	rs, err := g.usecase.GetUsers.Handle(ctx, params)
@@ -27,21 +35,12 @@ func (g GrpcService) GetUsers(
 		return nil, infra.ParseGrpcError(err)
 	}
 
-	var usersMetadata []*blogging.UserInfoMetadata
-	for _, u := range rs.Users {
-		usersMetadata = append(usersMetadata, common.MapUserToUserInfoMetadataResponse(u))
-	}
-
 	return &blogging.GetUsersResponse{
 		Code:    0,
 		Message: "Success",
 		Data: &blogging.GetUsersResponse_Data{
-			Users: usersMetadata,
-			Pagination: &blogging.Pagination{
-				Page:     rs.Pagination.Page,
-				PageSize: rs.Pagination.PageSize,
-				Total:    rs.Pagination.Total,
-			},
+			Users:      common.MapToUsersInfoResponse(rs.Users),
+			Pagination: common.MapToPaginationResponse(rs.Pagination),
 		},
 	}, nil
 }
