@@ -24,13 +24,25 @@ func (r *CommentRepository) GetCommentsByParams(
 	if len(params.UserIds) > 0 {
 		query = query.Where("user_id IN (?)", params.UserIds)
 	}
+
+	errCount := query.Count(&count).Error
+	if errCount != nil {
+		return nil, 0, errCount
+	}
 	if params.SortBy != nil {
 		if *params.SortBy == "created_at" {
 			query = query.Order("created_at DESC")
 		}
+		if *params.SortBy == "total_reply" {
+			query = query.
+				Select("comments.*, COUNT(DISTINCT(c1.reply_comment_id)) AS total_reply").
+				Joins("left join comments c1 on comments.id = c1.reply_comment_id").
+				Group("comments.id").Order("total_reply DESC")
+			//query = query.Order("total_reply DESC")
+		}
 	}
 
-	err := query.Count(&count).
+	err := query.
 		Limit(int(limit)).Offset(int(offset)).
 		Find(&comments).Error
 	if err != nil {
