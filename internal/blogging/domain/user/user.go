@@ -36,9 +36,13 @@ type SystemInfo struct {
 }
 
 type RelateUserInfo struct {
-	User          model.User
-	TotalComments int32
-	TotalBlogs    int32
-	Blogs         []model.Blog
-	Comments      []model.Comment
+	User           model.User
+	TotalComments  int32
+	TotalBlogs     int32
+	TotalFollowers int32
+	TotalFolloweds int32
+	IsFollower     bool
+	IsFollowed     bool
+	Blogs          []model.Blog
+	Comments       []model.Comment
 }

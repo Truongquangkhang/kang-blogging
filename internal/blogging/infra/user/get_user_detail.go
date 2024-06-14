@@ -25,6 +25,7 @@ func (g GrpcService) GetUserDetail(
 		if auth.Role == constants.ADMIN_ROLE || auth.UserID == request.UserId {
 			params.HasFullData = true
 		}
+		params.CurrentUserID = &auth.UserID
 	}
 
 	rs, err := g.usecase.GetUserDetail.Handle(ctx, params)
