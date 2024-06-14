@@ -123,7 +123,7 @@ func (g createBlogCommentHandler) Handle(ctx context.Context, param CreateBlogCo
 	}
 
 	// update before response
-	u.TotalComments = utils.ToInt32Pointer(utils.ToInt32Value(u.TotalComments) + 1)
+	u.TotalComments = u.TotalComments + 1
 	responseComment.User = *u
 	return CreateBlogCommentResult{
 		Comment: *responseComment,

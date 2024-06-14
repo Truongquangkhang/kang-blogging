@@ -80,7 +80,7 @@ func (g getUserDetailHandler) Handle(
 		commentsResponse[index].User = userResponse
 	}
 	userResponse.Comments = commentsResponse
-	userResponse.TotalComments = &relateUserInfo.TotalComments
+	userResponse.TotalComments = relateUserInfo.TotalComments
 	userResponse.TotalBlogs = relateUserInfo.TotalBlogs
 
 	return GetUserDetailResult{

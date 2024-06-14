@@ -11,24 +11,22 @@ message UserInfo{
   google.protobuf.BoolValue gender = 3;
   google.protobuf.Int64Value date_of_birth =4;
   int64 created_at = 5;
-  repeated BlogMetadata blogs = 6;
-  repeated CommentMetadata comments = 7;
-  int32 total_follower = 8;
-  int32 total_followed = 9;
+  int32 total_blogs = 6;
+  int32 total_comments = 7;
+  int32 total_followers = 8;
+  int32 total_followeds = 9;
+  bool is_follower = 10;
+  bool is_followed = 11;
+  int32 total_violations = 12;
 }
 
 message UserInfoMetadata {
   string id = 1;
   string name = 2;
   string display_name = 3;
-  int32 total_blogs = 4;
-  google.protobuf.StringValue avatar = 5;
-  google.protobuf.Int32Value total_comments = 6;
-  google.protobuf.StringValue description = 7;
-  bool is_active = 8;
-  int32 total_violations = 9;
-  bool is_follower = 10;
-  bool is_followed = 11;
+  google.protobuf.StringValue avatar = 4;
+  google.protobuf.StringValue description = 5;
+  bool is_active = 6;
 }
 
 message BlogInfo {

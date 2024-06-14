@@ -50,7 +50,8 @@ func (u UserRepository) GetUsers(
 		}
 	}
 
-	selectStr := "users.*, count(distinct(blogs.id)) as total_blogs, count(distinct(comments.id)) as total_comments"
+	selectStr := "users.*, count(distinct(blogs.id)) as total_blogs, count(distinct(comments.id)) as total_comments, " +
+		"count(distinct(f3.followed_id)) as total_followeds, count(distinct(f4.follower_id)) as total_followers"
 	if params.CurrentUserID != nil {
 		query = query.
 			Joins("left join follows as f1 on f1.follower_id = users.id and f1.followed_id = ?",
@@ -65,6 +66,8 @@ func (u UserRepository) GetUsers(
 		Select(selectStr).
 		Joins("left join blogs on users.id = blogs.author_id").
 		Joins("left join comments on users.id = comments.user_id").
+		Joins("left join follows as f3 on f3.follower_id = users.id").
+		Joins("left join follows as f4 on f4.followed_id = users.id").
 		Group("users.id")
 
 	if params.CurrentUserID != nil {

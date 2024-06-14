@@ -8,32 +8,48 @@ import (
 	"kang-blogging/internal/common/utils"
 )
 
-func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata {
-	return &blogging.UserInfoMetadata{
-		Id:              u.ID,
-		Name:            u.Name,
-		DisplayName:     u.DisplayName,
-		TotalBlogs:      u.TotalBlogs,
-		Avatar:          utils.WrapperStringFromString(u.Avatar),
-		TotalComments:   utils.WrapperInt32FromInt32(u.TotalComments),
-		Description:     utils.WrapperStringFromString(u.Description),
-		IsActive:        u.IsActive,
-		TotalViolations: u.TotalViolation,
-		IsFollowed:      u.IsFollowed,
-		IsFollower:      u.IsFollower,
+func MapToUsersInfoResponse(users []model.User) []*blogging.UserInfo {
+	var response []*blogging.UserInfo
+	for _, user := range users {
+		response = append(response, MapToUserInfoResponse(user))
 	}
+	return response
 }
 
 func MapToUserInfoResponse(u model.User) *blogging.UserInfo {
 	return &blogging.UserInfo{
-		UserInfo:    MapUserToUserInfoMetadataResponse(u),
-		Email:       u.Email,
-		Gender:      utils.WrapperBoolFromBool(u.Gender),
-		DateOfBirth: utils.WrapperInt64FromInt64(u.BirthOfDay),
-		CreatedAt:   u.CreatedAt.Unix(),
-		Blogs:       MapToListBlogMetadataResponse(u.Blogs),
-		Comments:    MapToCommentMetadatasResponse(u.Comments),
+		UserInfo:        MapUserToUserInfoMetadataResponse(u),
+		Email:           u.Email,
+		Gender:          utils.WrapperBoolFromBool(u.Gender),
+		DateOfBirth:     utils.WrapperInt64FromInt64(u.BirthOfDay),
+		CreatedAt:       u.CreatedAt.Unix(),
+		TotalComments:   u.TotalComments,
+		TotalBlogs:      u.TotalBlogs,
+		TotalFollowers:  u.TotalFollowers,
+		TotalFolloweds:  u.TotalFolloweds,
+		TotalViolations: u.TotalViolation,
+		IsFollower:      u.IsFollower,
+		IsFollowed:      u.IsFollowed,
 	}
+}
+
+func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata {
+	return &blogging.UserInfoMetadata{
+		Id:          u.ID,
+		Name:        u.Name,
+		DisplayName: u.DisplayName,
+		Avatar:      utils.WrapperStringFromString(u.Avatar),
+		Description: utils.WrapperStringFromString(u.Description),
+		IsActive:    u.IsActive,
+	}
+}
+
+func MapToCommentMetadatasResponse(comments []model.Comment) []*blogging.CommentMetadata {
+	var results []*blogging.CommentMetadata
+	for _, comment := range comments {
+		results = append(results, MapToCommentMetadataResponse(&comment))
+	}
+	return results
 }
 
 func MapToCommentMetadataResponse(comment *model.Comment) *blogging.CommentMetadata {
@@ -46,14 +62,6 @@ func MapToCommentMetadataResponse(comment *model.Comment) *blogging.CommentMetad
 		BlogId:         comment.BlogID,
 		ReplyCommentId: utils.WrapperStringFromString(comment.ReplyCommentID),
 	}
-}
-
-func MapToCommentMetadatasResponse(comments []model.Comment) []*blogging.CommentMetadata {
-	var results []*blogging.CommentMetadata
-	for _, comment := range comments {
-		results = append(results, MapToCommentMetadataResponse(&comment))
-	}
-	return results
 }
 
 func MapToBlogInfoResponse(blog *model.Blog) *blogging.BlogInfo {

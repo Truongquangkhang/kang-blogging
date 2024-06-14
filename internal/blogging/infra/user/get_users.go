@@ -35,21 +35,12 @@ func (g GrpcService) GetUsers(
 		return nil, infra.ParseGrpcError(err)
 	}
 
-	var usersMetadata []*blogging.UserInfoMetadata
-	for _, u := range rs.Users {
-		usersMetadata = append(usersMetadata, common.MapUserToUserInfoMetadataResponse(u))
-	}
-
 	return &blogging.GetUsersResponse{
 		Code:    0,
 		Message: "Success",
 		Data: &blogging.GetUsersResponse_Data{
-			Users: usersMetadata,
-			Pagination: &blogging.Pagination{
-				Page:     rs.Pagination.Page,
-				PageSize: rs.Pagination.PageSize,
-				Total:    rs.Pagination.Total,
-			},
+			Users:      common.MapToUsersInfoResponse(rs.Users),
+			Pagination: common.MapToPaginationResponse(rs.Pagination),
 		},
 	}, nil
 }
