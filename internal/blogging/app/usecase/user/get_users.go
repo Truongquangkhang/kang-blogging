@@ -90,7 +90,8 @@ func (p *GetUsersParams) Validate() error {
 		p.SortBy = utils.ToStringPointerValue("created_at")
 	} else {
 		if *p.SortBy != "created_at" && *p.SortBy != "total_violation" &&
-			*p.SortBy != "total_blog" && *p.SortBy != "total_comment" {
+			*p.SortBy != "total_blog" && *p.SortBy != "total_comment" &&
+			*p.SortBy != "total_follower" && *p.SortBy != "total_followed" {
 			return errors.NewBadRequestError("invalid params")
 		}
 	}
