@@ -22,12 +22,20 @@ func (r *CategoryRepository) GetCategoriesByParam(
 	if param.SearchByName != nil {
 		query = query.Where("name like ?", "%"+*param.SearchByName+"%")
 	}
+	errCount := query.Count(&count).Error
+	if errCount != nil {
+		return nil, 0, errCount
+	}
+
 	if param.SortBy != nil {
-		if *param.SortBy == "blog" {
-			query = query.Order("count(blog_categories.id) desc")
+		if *param.SortBy == "created_at" {
+			query = query.Order("created_at desc")
+		}
+		if *param.SortBy == "total_blog" {
+			query = query.Order("blog_count desc")
 		}
 	}
-	err := query.Count(&count).Limit(int(limit)).Offset(int(offset)).
+	err := query.Limit(int(limit)).Offset(int(offset)).
 		Find(&categories).Error
 	if err != nil {
 		return nil, 0, err

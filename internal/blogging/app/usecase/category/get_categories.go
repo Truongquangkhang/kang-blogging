@@ -5,6 +5,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/category"
 	"kang-blogging/internal/common/decorator"
+	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/model"
 )
 
@@ -74,6 +75,9 @@ func (p *GetCategoriesParams) Validate() error {
 	}
 	if p.PageSize <= 0 {
 		p.PageSize = 10
+	}
+	if p.SortBy == nil && *p.SortBy != "total_blog" && *p.SortBy != "created_at" {
+		return errors.NewBadRequestError("invalid param sortBy")
 	}
 	return nil
 }
