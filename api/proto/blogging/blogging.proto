@@ -53,6 +53,7 @@ message GetBlogsRequest {
   google.protobuf.StringValue sort_by = 7;
   google.protobuf.BoolValue published = 8;
   google.protobuf.BoolValue is_deprecated = 9;
+  google.protobuf.BoolValue get_relevant = 10;
 }
 
 message GetBlogsResponse {

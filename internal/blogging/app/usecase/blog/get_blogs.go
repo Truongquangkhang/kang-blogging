@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/sirupsen/logrus"
 	"kang-blogging/internal/blogging/domain/blog"
+	"kang-blogging/internal/blogging/domain/follow"
 	"kang-blogging/internal/blogging/domain/user"
 	"kang-blogging/internal/common/decorator"
 	"kang-blogging/internal/common/errors"
@@ -13,15 +14,17 @@ import (
 )
 
 type GetBlogsParams struct {
-	Page         int32
-	PageSize     int32
-	SearchName   *string
-	SearchBy     *string
-	CategoryIds  *string
-	AuthorIds    *string
-	SortBy       *string
-	Published    *bool
-	IsDeprecated *bool
+	Page            int32
+	PageSize        int32
+	SearchName      *string
+	SearchBy        *string
+	CategoryIds     *string
+	AuthorIds       *string
+	SortBy          *string
+	Published       *bool
+	IsDeprecated    *bool
+	GetBlogRelevant *bool
+	CurrentUserID   *string
 }
 
 type GetBlogsResult struct {
@@ -32,13 +35,15 @@ type GetBlogsResult struct {
 type GetBlogsHandler decorator.UsecaseHandler[GetBlogsParams, GetBlogsResult]
 
 type getBogsHandler struct {
-	userRepo user.Repository
-	blogRepo blog.Repository
+	userRepo   user.Repository
+	blogRepo   blog.Repository
+	followRepo follow.Repository
 }
 
 func NewGetBlogsHandler(
 	userRepo user.Repository,
 	blogRepo blog.Repository,
+	followRepo follow.Repository,
 	logger *logrus.Entry,
 	metrics decorator.MetricsClient,
 ) GetBlogsHandler {
@@ -48,10 +53,14 @@ func NewGetBlogsHandler(
 	if blogRepo == nil {
 		panic("blogRepo is nil")
 	}
+	if followRepo == nil {
+		panic("followRepo is nil")
+	}
 	return decorator.ApplyUsecaseDecorators[GetBlogsParams, GetBlogsResult](
 		getBogsHandler{
-			userRepo: userRepo,
-			blogRepo: blogRepo,
+			userRepo:   userRepo,
+			blogRepo:   blogRepo,
+			followRepo: followRepo,
 		},
 		logger,
 		metrics,
@@ -64,26 +73,33 @@ func (g getBogsHandler) Handle(ctx context.Context, param GetBlogsParams) (GetBl
 		return GetBlogsResult{}, err
 	}
 
-	var authorIds []string
-	if param.AuthorIds != nil {
-		authorIds = strings.Split(*param.AuthorIds, ",")
-	}
-	var categoryIds []string
-	if param.CategoryIds != nil {
-		categoryIds = strings.Split(*param.CategoryIds, ",")
-	}
-
-	blogs, total, err := g.blogRepo.GetBlogsByParam(ctx, blog.BlogsParams{
+	paramsGetBlogs := &blog.BlogsParams{
 		Page:         param.Page,
 		PageSize:     param.PageSize,
 		SearchName:   param.SearchName,
 		SearchBy:     param.SearchBy,
-		AuthorIds:    authorIds,
-		CategoryIds:  categoryIds,
 		SortBy:       param.SortBy,
 		Published:    param.Published,
 		IsDeprecated: param.IsDeprecated,
-	})
+	}
+	if param.AuthorIds != nil {
+		paramsGetBlogs.AuthorIds = strings.Split(*param.AuthorIds, ",")
+	}
+	if param.CategoryIds != nil {
+		paramsGetBlogs.CategoryIds = strings.Split(*param.CategoryIds, ",")
+	}
+	if param.GetBlogRelevant != nil && param.CurrentUserID != nil {
+		followedIds, err := g.followRepo.GetFollowedIdsByFollowerId(ctx, *param.CurrentUserID)
+		if err != nil {
+			return GetBlogsResult{}, err
+		}
+		if len(followedIds) > 0 {
+			followedIds = append(followedIds, utils.ToStringValue(param.CurrentUserID))
+			paramsGetBlogs.AuthorIds = followedIds
+		}
+	}
+
+	blogs, total, err := g.blogRepo.GetBlogsByParam(ctx, *paramsGetBlogs)
 	if err != nil {
 		return GetBlogsResult{}, err
 	}
