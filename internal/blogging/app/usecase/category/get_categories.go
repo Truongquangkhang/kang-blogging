@@ -76,8 +76,10 @@ func (p *GetCategoriesParams) Validate() error {
 	if p.PageSize <= 0 {
 		p.PageSize = 10
 	}
-	if p.SortBy == nil && *p.SortBy != "total_blog" && *p.SortBy != "created_at" {
-		return errors.NewBadRequestError("invalid param sortBy")
+	if p.SortBy != nil {
+		if *p.SortBy != "total_blog" && *p.SortBy != "created_at" {
+			return errors.NewBadRequestError("invalid param sortBy")
+		}
 	}
 	return nil
 }
