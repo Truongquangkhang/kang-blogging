@@ -16,13 +16,13 @@ func (r *CommentRepository) GetCommentsByParams(
 	query := r.gdb.DB().WithContext(ctx).Preload("User").Model(&model.Comment{})
 	limit, offset := utils.PagePageSizeToLimitOffset(params.Page, params.PageSize)
 	if params.SearchName != nil {
-		query = query.Where("content LIKE ?", "%"+*params.SearchName+"%")
+		query = query.Where("comments.content LIKE ?", "%"+*params.SearchName+"%")
 	}
 	if params.IsToxicity != nil {
-		query = query.Where("is_toxicity = ?", *params.IsToxicity)
+		query = query.Where("comments.is_toxicity = ?", *params.IsToxicity)
 	}
 	if len(params.UserIds) > 0 {
-		query = query.Where("user_id IN (?)", params.UserIds)
+		query = query.Where("comments.user_id IN (?)", params.UserIds)
 	}
 
 	errCount := query.Count(&count).Error
