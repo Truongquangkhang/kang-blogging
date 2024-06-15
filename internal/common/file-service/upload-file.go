@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"kang-blogging/internal/common/utils"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -31,7 +32,7 @@ func RegisterFileServiceHandler(gwmux *runtime.ServeMux) {
 			}
 
 			// Get handler for filename, size and headers
-			file, handler, err := req.FormFile("image")
+			file, _, err := req.FormFile("image")
 			if err != nil {
 				_, err := fmt.Fprintf(w, "Error Retrieving the File: %v", err)
 				if err != nil {
@@ -58,7 +59,7 @@ func RegisterFileServiceHandler(gwmux *runtime.ServeMux) {
 				ApiSecret: os.Getenv("CLOUDINARY_API_SECRET"),
 			}
 			url, err := cloudinary.UploadImage(
-				file, handler.Filename, eager, time.Now().Unix(),
+				file, utils.GenUUID(), eager, time.Now().Unix(),
 			)
 			if err != nil {
 				_, err := fmt.Fprintf(w, "catch an error when upload image to cloudinary: %v", err)
