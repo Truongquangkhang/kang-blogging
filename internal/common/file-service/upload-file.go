@@ -39,6 +39,10 @@ func RegisterFileServiceHandler(gwmux *runtime.ServeMux) {
 				}
 				return
 			}
+			eager := req.FormValue("eager")
+			if eager == "" {
+				eager = os.Getenv("CLOUDINARY_EAGER")
+			}
 
 			defer func(file multipart.File) {
 				err := file.Close()
@@ -54,7 +58,7 @@ func RegisterFileServiceHandler(gwmux *runtime.ServeMux) {
 				ApiSecret: os.Getenv("CLOUDINARY_API_SECRET"),
 			}
 			url, err := cloudinary.UploadImage(
-				file, handler.Filename, os.Getenv("CLOUDINARY_EAGER"), time.Now().Unix(),
+				file, handler.Filename, eager, time.Now().Unix(),
 			)
 			if err != nil {
 				_, err := fmt.Fprintf(w, "catch an error when upload image to cloudinary: %v", err)
