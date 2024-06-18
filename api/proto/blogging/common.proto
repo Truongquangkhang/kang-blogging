@@ -27,6 +27,7 @@ message UserInfoMetadata {
   google.protobuf.StringValue avatar = 4;
   google.protobuf.StringValue description = 5;
   bool is_active = 6;
+  google.protobuf.Int64Value expire_warning_time = 7;
 }
 
 message BlogInfo {
