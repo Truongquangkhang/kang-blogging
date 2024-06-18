@@ -6,6 +6,7 @@ import (
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
 	"kang-blogging/internal/common/model"
 	"kang-blogging/internal/common/utils"
+	"time"
 )
 
 func MapToUsersInfoResponse(users []model.User) []*blogging.UserInfo {
@@ -34,13 +35,20 @@ func MapToUserInfoResponse(u model.User) *blogging.UserInfo {
 }
 
 func MapUserToUserInfoMetadataResponse(u model.User) *blogging.UserInfoMetadata {
+	var expire_warning_time *int64
+	if u.ExpireWarningTime != nil {
+		if utils.PointerInt64ToValue(u.ExpireWarningTime) > time.Now().Unix() {
+			expire_warning_time = u.ExpireWarningTime
+		}
+	}
 	return &blogging.UserInfoMetadata{
-		Id:          u.ID,
-		Name:        u.Name,
-		DisplayName: u.DisplayName,
-		Avatar:      utils.WrapperStringFromString(u.Avatar),
-		Description: utils.WrapperStringFromString(u.Description),
-		IsActive:    u.IsActive,
+		Id:                u.ID,
+		Name:              u.Name,
+		DisplayName:       u.DisplayName,
+		Avatar:            utils.WrapperStringFromString(u.Avatar),
+		Description:       utils.WrapperStringFromString(u.Description),
+		IsActive:          u.IsActive,
+		ExpireWarningTime: utils.WrapperInt64FromInt64(expire_warning_time),
 	}
 }
 
