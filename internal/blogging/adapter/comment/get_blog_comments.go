@@ -21,6 +21,7 @@ func (r *CommentRepository) GetBlogComments(
 
 	err := query.Where("blog_id = ?", param.BlogID).
 		Count(&count).
+		Order("created_at asc").
 		Limit(int(limit)).Offset(int(offset)).
 		Find(&comments).Error
 
