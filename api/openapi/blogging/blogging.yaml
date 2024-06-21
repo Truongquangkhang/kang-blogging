@@ -502,7 +502,7 @@ paths:
   /api/v1/user/{user_id}/follow:
     post:
       tags:
-        - Follow user
+        - Follow
       description: |-
         - Follow a user.
       summary: 'Follow a user'
@@ -524,7 +524,7 @@ paths:
                   - $ref: '#/components/schemas/BaseAPIResponse'
     delete:
       tags:
-        - Unfollow a user
+        - Follow
       description: |-
         - Unfollow a user.
       summary: 'Unfollow a user'
@@ -920,6 +920,57 @@ paths:
 
                           pagination:
                               $ref: '#/components/schemas/Pagination'
+  /api/v1/comment/{comment_id}:
+    patch:
+      tags:
+        - Comment
+      description: |-
+        - Update a comment
+      summary: 'Update comment'
+      operationId: updateComment
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  format: markdown
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          comment:
+                            $ref: '#/components/schemas/Comment'
+    delete:
+      tags:
+        - Comment
+      description: |-
+        - Delete a comment
+      summary: 'Delete comment'
+      operationId: deleteComment
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
   /api/v1/category:
     get:
       tags:
