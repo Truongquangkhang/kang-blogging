@@ -31,6 +31,7 @@ type Repository interface {
 	DeleteComment(
 		ctx context.Context,
 		commentID string,
+		currentStatus bool,
 	) error
 }
 

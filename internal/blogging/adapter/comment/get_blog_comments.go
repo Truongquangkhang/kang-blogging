@@ -19,7 +19,7 @@ func (r *CommentRepository) GetBlogComments(
 		query = query.Where("is_toxicity=?", *param.IsToxicity)
 	}
 
-	err := query.Where("blog_id = ?", param.BlogID).
+	err := query.Where("is_deprecated = false and blog_id = ?", param.BlogID).
 		Count(&count).
 		Limit(int(limit)).Offset(int(offset)).
 		Find(&comments).Error

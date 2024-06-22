@@ -13,7 +13,10 @@ func (r *CommentRepository) GetCommentsByParams(
 ) ([]model.Comment, int32, error) {
 	var comments []model.Comment
 	var count int64
-	query := r.gdb.DB().WithContext(ctx).Preload("User").Model(&model.Comment{})
+	query := r.gdb.DB().WithContext(ctx).Preload("User").
+		Where("is_deprecated = false").
+		Model(&model.Comment{})
+
 	limit, offset := utils.PagePageSizeToLimitOffset(params.Page, params.PageSize)
 	if params.SearchName != nil {
 		query = query.Where("comments.content LIKE ?", "%"+*params.SearchName+"%")

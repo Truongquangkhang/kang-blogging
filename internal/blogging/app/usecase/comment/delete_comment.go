@@ -78,7 +78,7 @@ func (g deleteCommentHandler) Handle(ctx context.Context, param DeleteCommentPar
 		}
 	}
 
-	err = g.commentRepo.DeleteComment(ctx, param.CommentID)
+	err = g.commentRepo.DeleteComment(ctx, param.CommentID, cmt.IsDeprecated)
 	return DeleteCommentResult{}, err
 }
 
