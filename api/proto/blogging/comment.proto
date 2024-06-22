@@ -25,6 +25,17 @@ service CommentService {
       get: "/api/v1/comment"
     };
   }
+  rpc UpdateComment(UpdateCommentRequest) returns (UpdateCommentResponse) {
+    option (google.api.http) = {
+      patch: "/api/v1/comment/{comment_id}"
+      body: "*"
+    };
+  }
+  rpc DeleteComment(DeleteCommentRequest) returns (DeleteCommentResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/comment/{comment_id}"
+    };
+  }
 }
 
 message GetBlogCommentsRequest {
@@ -80,4 +91,27 @@ message GetCommentsByParamResponse {
   int32 code = 1;
   string message = 2;
   Data data = 3;
+}
+
+message UpdateCommentRequest {
+  string comment_id = 1;
+  string content = 2;
+}
+
+message UpdateCommentResponse {
+  message Data {
+    Comment comment = 1;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message DeleteCommentRequest {
+  string comment_id = 1;
+}
+
+message DeleteCommentResponse {
+  int32 code = 1;
+  string message = 2;
 }
