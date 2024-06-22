@@ -126,6 +126,10 @@ func (g updateCommentHandler) Handle(ctx context.Context, param UpdateCommentPar
 		return UpdateCommentResult{}, err
 	}
 
+	if cmt.IsToxicity {
+		return UpdateCommentResult{}, errors.NewBadRequestError("your comment is toxic")
+	}
+
 	return UpdateCommentResult{
 		Comment: *cmt,
 	}, nil
