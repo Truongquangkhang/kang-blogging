@@ -105,6 +105,7 @@ func (g updateCommentHandler) Handle(ctx context.Context, param UpdateCommentPar
 	}
 
 	// check content
+	cmt.Content = param.Content
 	mustDetectComment, err := strconv.ParseBool(os.Getenv("TOXICITY_DETECTION_USE"))
 	if err == nil && mustDetectComment {
 		prediction, err := g.detectionClient.DetectToxicComment(ctx, param.Content)
