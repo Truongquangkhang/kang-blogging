@@ -55,6 +55,8 @@ type CommentUsecase struct {
 	GetBlogComments   comment.GetBlogCommentsHandler
 	CreateBlogComment comment.CreateBlogCommentHandler
 	GetComments       comment.GetCommentsHandler
+	UpdateComment     comment.UpdateCommentHandler
+	DeleteComment     comment.DeleteCommentHandler
 }
 
 type ImageUsecase struct {

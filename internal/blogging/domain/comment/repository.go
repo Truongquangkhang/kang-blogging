@@ -9,16 +9,29 @@ type Repository interface {
 	GetBlogComments(
 		ctx context.Context, param ParamGetBlogComments,
 	) ([]ResultGetBlogComments, int32, error)
+
 	InsertComment(
 		ctx context.Context,
 		comment *model.Comment,
 	) (*model.Comment, error)
+
 	GetCommentById(
 		ctx context.Context, commentId string,
 	) (*model.Comment, error)
+
 	GetCommentsByParams(
 		ctx context.Context, params ParamsGetComments,
 	) ([]model.Comment, int32, error)
+
+	UpdateComment(
+		ctx context.Context,
+		comment *model.Comment,
+	) (*model.Comment, error)
+
+	DeleteComment(
+		ctx context.Context,
+		commentID string,
+	) error
 }
 
 type ParamGetBlogComments struct {
