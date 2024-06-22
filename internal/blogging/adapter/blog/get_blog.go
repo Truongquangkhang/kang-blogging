@@ -39,7 +39,7 @@ func (r BlogRepository) GetBlogsByParam(
 		query = query.Where("published = ?", *param.Published)
 	}
 	if param.IsDeprecated != nil {
-		query = query.Where("is_deprecated = ?", *param.IsDeprecated)
+		query = query.Where("blogs.is_deprecated = ?", *param.IsDeprecated)
 	}
 	if param.SortBy != nil {
 		switch *param.SortBy {
