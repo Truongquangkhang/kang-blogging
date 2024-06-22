@@ -14,6 +14,7 @@ type Comment struct {
 	CreatedAt      time.Time  `gorm:"not null;default:now();column:created_at"`
 	UpdatedAt      time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP;column:updated_at"`
 	DeletedAt      *time.Time `gorm:"column:deleted_at"`
+	IsDeprecated   bool       `gorm:"column:is_deprecated;default:false"`
 	User           User       `gorm:"foreignKey:UserID;references:ID"`
 	Blog           Blog       `gorm:"foreignKey:BlogID;references:ID"`
 }

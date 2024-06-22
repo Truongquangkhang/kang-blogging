@@ -152,6 +152,12 @@ func newService(ctx context.Context) app.Application {
 			GetComments: comment2.NewGetCommentsHandler(
 				commentRepository, logger, metricsClient,
 			),
+			UpdateComment: comment2.NewUpdateCommentHandler(
+				commentRepository, userRepository, roleRepository, detectionClient, logger, metricsClient,
+			),
+			DeleteComment: comment2.NewDeleteCommentHandler(
+				commentRepository, userRepository, roleRepository, logger, metricsClient,
+			),
 		},
 		ImageUsecase: app.ImageUsecase{
 			UploadImage: image.NewUploadImageHandler(
