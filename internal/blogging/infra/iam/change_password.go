@@ -8,6 +8,7 @@ import (
 	"kang-blogging/internal/common/constants"
 	"kang-blogging/internal/common/errors"
 	"kang-blogging/internal/common/jwt"
+	"kang-blogging/internal/common/utils"
 )
 
 func (g GrpcService) ChangePassword(
@@ -24,9 +25,10 @@ func (g GrpcService) ChangePassword(
 	}
 
 	params := iam.ChangePasswordParams{
-		UserID:      request.UserId,
-		OldPassword: request.OldPassword,
-		NewPassword: request.NewPassword,
+		UserID:             request.UserId,
+		OldPassword:        utils.WrapperValueString(request.OldPassword),
+		NewPassword:        request.NewPassword,
+		WithoutOldPassword: auth.Role == constants.ADMIN_ROLE,
 	}
 	_, err = g.usecase.ChangePassword.Handle(ctx, params)
 	if err != nil {
