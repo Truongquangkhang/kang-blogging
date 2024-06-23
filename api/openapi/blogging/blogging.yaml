@@ -971,6 +971,45 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/BaseAPIResponse'
+  /api/v1/comment/{comment_id}/setCommentAsToxic:
+    post:
+      tags:
+        - Comment
+      description: |-
+        - Set a comment is toxic
+        - Set a Comment isn't toxic
+        - Api support admin make a comment is toxic
+      summary: 'set comment as toxic'
+      operationId: setCommentAsToxic
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                toxic_indexes:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          comment:
+                            $ref: '#/components/schemas/Comment'
   /api/v1/category:
     get:
       tags:

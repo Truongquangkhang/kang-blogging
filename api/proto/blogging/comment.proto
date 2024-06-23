@@ -36,6 +36,12 @@ service CommentService {
       delete: "/api/v1/comment/{comment_id}"
     };
   }
+  rpc SetCommentAsToxic(SetCommentAsToxicRequest) returns (SetCommentAsToxicResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/comment/{comment_id}/setCommentAsToxic"
+      body: "*"
+    };
+  }
 }
 
 message GetBlogCommentsRequest {
@@ -112,6 +118,17 @@ message DeleteCommentRequest {
 }
 
 message DeleteCommentResponse {
+  int32 code = 1;
+  string message = 2;
+}
+
+message SetCommentAsToxicRequest {
+  string comment_id = 1;
+  string content = 2;
+  repeated int32 toxic_indexes = 3;
+}
+
+message SetCommentAsToxicResponse {
   int32 code = 1;
   string message = 2;
 }

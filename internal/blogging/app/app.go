@@ -57,6 +57,7 @@ type CommentUsecase struct {
 	GetComments       comment.GetCommentsHandler
 	UpdateComment     comment.UpdateCommentHandler
 	DeleteComment     comment.DeleteCommentHandler
+	SetCommentAsToxic comment.SetCommentAsToxicHandler
 }
 
 type ImageUsecase struct {
