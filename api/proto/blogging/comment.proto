@@ -25,6 +25,11 @@ service CommentService {
       get: "/api/v1/comment"
     };
   }
+  rpc GetComment(GetCommentRequest) returns (GetCommentResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/comment/{comment_id}"
+    };
+  }
   rpc UpdateComment(UpdateCommentRequest) returns (UpdateCommentResponse) {
     option (google.api.http) = {
       patch: "/api/v1/comment/{comment_id}"
@@ -93,6 +98,21 @@ message GetCommentsByParamResponse {
   message Data {
     repeated CommentItem comments = 1;
     Pagination pagination = 2;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
+message GetCommentRequest {
+  string comment_id = 1;
+}
+
+message GetCommentResponse {
+  message Data {
+    Comment comment = 1;
+    google.protobuf.StringValue content_processed = 2;
+    repeated int32 predictions = 3;
   }
   int32 code = 1;
   string message = 2;

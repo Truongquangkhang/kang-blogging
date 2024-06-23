@@ -22,6 +22,7 @@ const (
 	CommentService_GetBlogComments_FullMethodName    = "/blogging.CommentService/GetBlogComments"
 	CommentService_CreateBlogComment_FullMethodName  = "/blogging.CommentService/CreateBlogComment"
 	CommentService_GetCommentsByParam_FullMethodName = "/blogging.CommentService/GetCommentsByParam"
+	CommentService_GetComment_FullMethodName         = "/blogging.CommentService/GetComment"
 	CommentService_UpdateComment_FullMethodName      = "/blogging.CommentService/UpdateComment"
 	CommentService_DeleteComment_FullMethodName      = "/blogging.CommentService/DeleteComment"
 	CommentService_SetCommentAsToxic_FullMethodName  = "/blogging.CommentService/SetCommentAsToxic"
@@ -34,6 +35,7 @@ type CommentServiceClient interface {
 	GetBlogComments(ctx context.Context, in *GetBlogCommentsRequest, opts ...grpc.CallOption) (*GetBlogCommentsResponse, error)
 	CreateBlogComment(ctx context.Context, in *CreateBlogCommentsRequest, opts ...grpc.CallOption) (*CreateBlogCommentsResponse, error)
 	GetCommentsByParam(ctx context.Context, in *GetCommentsByParamRequest, opts ...grpc.CallOption) (*GetCommentsByParamResponse, error)
+	GetComment(ctx context.Context, in *GetCommentRequest, opts ...grpc.CallOption) (*GetCommentResponse, error)
 	UpdateComment(ctx context.Context, in *UpdateCommentRequest, opts ...grpc.CallOption) (*UpdateCommentResponse, error)
 	DeleteComment(ctx context.Context, in *DeleteCommentRequest, opts ...grpc.CallOption) (*DeleteCommentResponse, error)
 	SetCommentAsToxic(ctx context.Context, in *SetCommentAsToxicRequest, opts ...grpc.CallOption) (*SetCommentAsToxicResponse, error)
@@ -74,6 +76,15 @@ func (c *commentServiceClient) GetCommentsByParam(ctx context.Context, in *GetCo
 	return out, nil
 }
 
+func (c *commentServiceClient) GetComment(ctx context.Context, in *GetCommentRequest, opts ...grpc.CallOption) (*GetCommentResponse, error) {
+	out := new(GetCommentResponse)
+	err := c.cc.Invoke(ctx, CommentService_GetComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *commentServiceClient) UpdateComment(ctx context.Context, in *UpdateCommentRequest, opts ...grpc.CallOption) (*UpdateCommentResponse, error) {
 	out := new(UpdateCommentResponse)
 	err := c.cc.Invoke(ctx, CommentService_UpdateComment_FullMethodName, in, out, opts...)
@@ -108,6 +119,7 @@ type CommentServiceServer interface {
 	GetBlogComments(context.Context, *GetBlogCommentsRequest) (*GetBlogCommentsResponse, error)
 	CreateBlogComment(context.Context, *CreateBlogCommentsRequest) (*CreateBlogCommentsResponse, error)
 	GetCommentsByParam(context.Context, *GetCommentsByParamRequest) (*GetCommentsByParamResponse, error)
+	GetComment(context.Context, *GetCommentRequest) (*GetCommentResponse, error)
 	UpdateComment(context.Context, *UpdateCommentRequest) (*UpdateCommentResponse, error)
 	DeleteComment(context.Context, *DeleteCommentRequest) (*DeleteCommentResponse, error)
 	SetCommentAsToxic(context.Context, *SetCommentAsToxicRequest) (*SetCommentAsToxicResponse, error)
@@ -125,6 +137,9 @@ func (UnimplementedCommentServiceServer) CreateBlogComment(context.Context, *Cre
 }
 func (UnimplementedCommentServiceServer) GetCommentsByParam(context.Context, *GetCommentsByParamRequest) (*GetCommentsByParamResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCommentsByParam not implemented")
+}
+func (UnimplementedCommentServiceServer) GetComment(context.Context, *GetCommentRequest) (*GetCommentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComment not implemented")
 }
 func (UnimplementedCommentServiceServer) UpdateComment(context.Context, *UpdateCommentRequest) (*UpdateCommentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateComment not implemented")
@@ -201,6 +216,24 @@ func _CommentService_GetCommentsByParam_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CommentService_GetComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCommentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentServiceServer).GetComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentService_GetComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentServiceServer).GetComment(ctx, req.(*GetCommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CommentService_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateCommentRequest)
 	if err := dec(in); err != nil {
@@ -273,6 +306,10 @@ var CommentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCommentsByParam",
 			Handler:    _CommentService_GetCommentsByParam_Handler,
+		},
+		{
+			MethodName: "GetComment",
+			Handler:    _CommentService_GetComment_Handler,
 		},
 		{
 			MethodName: "UpdateComment",

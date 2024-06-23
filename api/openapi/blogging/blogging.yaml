@@ -921,6 +921,37 @@ paths:
                           pagination:
                               $ref: '#/components/schemas/Pagination'
   /api/v1/comment/{comment_id}:
+    get:
+      tags:
+        - Comment
+      description: |-
+        - Get Detail a Comment.
+      summary: 'Get comment by id'
+      operationId: getCommentDetail
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          comments:
+                            type: object
+                            properties:
+                              comment_info:
+                                $ref: '#/components/schemas/Comment'
+                              type_comment:
+                                enum:
+                                  - comment_on_blog
+                                  - reply_comment
+                              reply_comment_id:
+                                type: string
     patch:
       tags:
         - Comment

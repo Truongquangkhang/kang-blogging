@@ -152,6 +152,9 @@ func newService(ctx context.Context) app.Application {
 			GetComments: comment2.NewGetCommentsHandler(
 				commentRepository, logger, metricsClient,
 			),
+			GetComment: comment2.NewGetCommentHandler(
+				commentRepository, userRepository, logger, metricsClient,
+			),
 			UpdateComment: comment2.NewUpdateCommentHandler(
 				commentRepository, userRepository, roleRepository, detectionClient, logger, metricsClient,
 			),

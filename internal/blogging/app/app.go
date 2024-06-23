@@ -55,6 +55,7 @@ type CommentUsecase struct {
 	GetBlogComments   comment.GetBlogCommentsHandler
 	CreateBlogComment comment.CreateBlogCommentHandler
 	GetComments       comment.GetCommentsHandler
+	GetComment        comment.GetCommentHandler
 	UpdateComment     comment.UpdateCommentHandler
 	DeleteComment     comment.DeleteCommentHandler
 	SetCommentAsToxic comment.SetCommentAsToxicHandler
