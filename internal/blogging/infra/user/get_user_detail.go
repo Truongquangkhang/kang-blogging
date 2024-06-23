@@ -20,10 +20,12 @@ func (g GrpcService) GetUserDetail(
 	}
 
 	// check user request
+	canEdit := false
 	auth, err := jwt.GetAuthenticationFromRequest(ctx)
 	if err == nil && auth != nil {
 		if auth.Role == constants.ADMIN_ROLE || auth.UserID == request.UserId {
 			params.HasFullData = true
+			canEdit = true
 		}
 		params.CurrentUserID = &auth.UserID
 	}
@@ -40,6 +42,7 @@ func (g GrpcService) GetUserDetail(
 			User:     common.MapToUserInfoResponse(rs.User),
 			Blogs:    common.MapToListBlogMetadataResponse(rs.User.Blogs),
 			Comments: common.MapToCommentMetadatasResponse(rs.User.Comments),
+			CanEdit:  canEdit,
 		},
 	}, nil
 }

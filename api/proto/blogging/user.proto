@@ -78,6 +78,7 @@ message GetUserDetailResponse {
     UserInfo user = 1;
     repeated BlogMetadata blogs = 2;
     repeated CommentMetadata comments = 3;
+    bool can_edit = 4;
   }
   int32 code = 1;
   string message = 2;
