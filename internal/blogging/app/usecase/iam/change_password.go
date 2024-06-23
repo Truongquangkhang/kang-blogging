@@ -11,9 +11,10 @@ import (
 )
 
 type ChangePasswordParams struct {
-	UserID      string
-	OldPassword string
-	NewPassword string
+	UserID             string
+	OldPassword        *string
+	NewPassword        string
+	WithoutOldPassword bool
 }
 
 type ChangePasswordResult struct {
@@ -62,9 +63,11 @@ func (l changePasswordHandler) Handle(ctx context.Context, param ChangePasswordP
 		return ChangePasswordResult{}, errors.NewNotFoundError("account not found")
 	}
 
-	// compare old password
-	if !util_password.CheckPasswordHash(param.OldPassword, acc.Password) {
-		return ChangePasswordResult{}, errors.NewBadRequestError("old password is invalid")
+	if !param.WithoutOldPassword {
+		// compare old password
+		if !util_password.CheckPasswordHash(*param.OldPassword, acc.Password) {
+			return ChangePasswordResult{}, errors.NewBadRequestError("old password is invalid")
+		}
 	}
 
 	hashPassword, err := util_password.HashPassword(param.NewPassword)
@@ -82,7 +85,11 @@ func (l changePasswordHandler) Handle(ctx context.Context, param ChangePasswordP
 }
 
 func (p *ChangePasswordParams) Validate() error {
-	if p.OldPassword == "" || p.NewPassword == "" {
+	if p.NewPassword == "" {
+		return errors.NewBadRequestError("Invalid params")
+	}
+
+	if !p.WithoutOldPassword && p.OldPassword == nil {
 		return errors.NewBadRequestError("Invalid params")
 	}
 	return nil
