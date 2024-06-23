@@ -33,6 +33,7 @@ message UserInfoMetadata {
 message BlogInfo {
   BlogMetadata blog_info = 1;
   google.protobuf.StringValue content = 2;
+  bool can_edit = 3;
 }
 
 message BlogMetadata {

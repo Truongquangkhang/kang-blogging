@@ -6,6 +6,8 @@ import (
 	"kang-blogging/internal/blogging/infra"
 	"kang-blogging/internal/blogging/infra/common"
 	"kang-blogging/internal/blogging/infra/genproto/blogging"
+	"kang-blogging/internal/common/constants"
+	"kang-blogging/internal/common/jwt"
 	"kang-blogging/internal/common/utils"
 )
 
@@ -21,18 +23,28 @@ func (g GrpcService) GetBlogDetail(
 		return nil, infra.ParseGrpcError(err)
 	}
 
+	canEdit := false
+	auth, err := jwt.GetAuthenticationFromRequest(ctx)
+	if err == nil && auth != nil {
+		if auth.Role == constants.ADMIN_ROLE {
+			canEdit = true
+		} else {
+			canEdit = auth.UserID == rs.Blog.User.ID
+		}
+	}
 	return &blogging.GetBlogDetailResponse{
 		Code:    0,
 		Message: "Success",
-		Data:    buildGetBlogDetailResponseData(rs),
+		Data:    buildGetBlogDetailResponseData(rs, canEdit),
 	}, nil
 }
 
-func buildGetBlogDetailResponseData(rs blog.GetBlogDetailResult) *blogging.GetBlogDetailResponse_Data {
+func buildGetBlogDetailResponseData(rs blog.GetBlogDetailResult, canEdit bool) *blogging.GetBlogDetailResponse_Data {
 	return &blogging.GetBlogDetailResponse_Data{
 		Blog: &blogging.BlogInfo{
 			BlogInfo: common.MapBlogModelToBlogMetadataResponse(rs.Blog),
 			Content:  utils.WrapperStringFromString(rs.Blog.Content),
+			CanEdit:  canEdit,
 		},
 	}
 }
