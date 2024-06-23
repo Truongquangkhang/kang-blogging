@@ -1109,6 +1109,92 @@ paths:
                   image:
                     type: string
                     format: binary
+  /api/v1/report:
+    post:
+      tags:
+        - Report
+      description: |-
+        - report.
+      summary: 'Report (comment, blog, users, ...)'
+      operationId: report
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - reason
+                - reported_url
+                - message
+              properties:
+                reason:
+                  type: string
+                reported_url:
+                  type: string
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+  /api/v1/violation:
+    get:
+      tags:
+        - Violation
+      description: |-
+        - Get violation.
+      summary: 'Get violation by param'
+      operationId: getViolation
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+          description: Current page, for high performance try to use pagination.offset instead! (default 1)
+        - in: query
+          name: pageSize
+          required: true
+          description: Total item in a page (default is 10)
+          schema:
+            type: integer
+        - in: query
+          name: userIds
+          schema:
+            type: string
+          required: false
+          description: |
+            - list of userIds, each id separate by comma between
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+          required: false
+          description: |
+            - Apply sort by (created_at, ...)
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          categories:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/CategoryMetadata'
+                          pagination:
+                            $ref: '#/components/schemas/Comment'
   /api/v1/admin/dashboard:
     get:
       tags:
@@ -1364,6 +1450,17 @@ components:
           type: string
         blogCount:
           type: integer
+    Violation:
+      type: object
+      properties:
+        id:
+          type: string
+        reason:
+          type: string
+        evidence:
+          type: string
+        created_at:
+          type: string
     Pagination:
       type: object
       properties:

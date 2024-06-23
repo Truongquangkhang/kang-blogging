@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package blogging;
+
+option go_package = "./blogging";
+
+import "google/api/annotations.proto";
+
+service ReportService {
+  rpc CreateReport(CreateReportRequest) returns (CreateReportResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/report"
+      body: "*"
+    };
+  }
+}
+
+message CreateReportRequest {
+  string reason = 1;
+  string reported_url = 2;
+  string message = 3;
+}
+
+message  CreateReportResponse {
+  int32 code = 1;
+  string message = 2;
+}
