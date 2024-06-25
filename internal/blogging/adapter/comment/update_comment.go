@@ -11,6 +11,10 @@ func (r *CommentRepository) UpdateComment(
 ) (*model.Comment, error) {
 	err := r.gdb.DB().WithContext(ctx).Model(&model.Comment{}).
 		Where("id = ?", comment.ID).
-		Updates(&comment).Error
+		Updates(map[string]interface{}{
+			"content":     comment.Content,
+			"is_toxicity": comment.IsToxicity,
+			"prediction":  comment.Prediction,
+		}).Error
 	return comment, err
 }

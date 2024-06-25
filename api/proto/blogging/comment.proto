@@ -25,6 +25,11 @@ service CommentService {
       get: "/api/v1/comment"
     };
   }
+  rpc GetComment(GetCommentRequest) returns (GetCommentResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/comment/{comment_id}"
+    };
+  }
   rpc UpdateComment(UpdateCommentRequest) returns (UpdateCommentResponse) {
     option (google.api.http) = {
       patch: "/api/v1/comment/{comment_id}"
@@ -34,6 +39,12 @@ service CommentService {
   rpc DeleteComment(DeleteCommentRequest) returns (DeleteCommentResponse) {
     option (google.api.http) = {
       delete: "/api/v1/comment/{comment_id}"
+    };
+  }
+  rpc SetCommentAsToxic(SetCommentAsToxicRequest) returns (SetCommentAsToxicResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/comment/{comment_id}/setCommentAsToxic"
+      body: "*"
     };
   }
 }
@@ -93,6 +104,21 @@ message GetCommentsByParamResponse {
   Data data = 3;
 }
 
+message GetCommentRequest {
+  string comment_id = 1;
+}
+
+message GetCommentResponse {
+  message Data {
+    Comment comment = 1;
+    google.protobuf.StringValue content_processed = 2;
+    repeated int32 predictions = 3;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+
 message UpdateCommentRequest {
   string comment_id = 1;
   string content = 2;
@@ -112,6 +138,17 @@ message DeleteCommentRequest {
 }
 
 message DeleteCommentResponse {
+  int32 code = 1;
+  string message = 2;
+}
+
+message SetCommentAsToxicRequest {
+  string comment_id = 1;
+  string content = 2;
+  repeated int32 toxic_indexes = 3;
+}
+
+message SetCommentAsToxicResponse {
   int32 code = 1;
   string message = 2;
 }

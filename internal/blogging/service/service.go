@@ -152,11 +152,17 @@ func newService(ctx context.Context) app.Application {
 			GetComments: comment2.NewGetCommentsHandler(
 				commentRepository, logger, metricsClient,
 			),
+			GetComment: comment2.NewGetCommentHandler(
+				commentRepository, userRepository, logger, metricsClient,
+			),
 			UpdateComment: comment2.NewUpdateCommentHandler(
 				commentRepository, userRepository, roleRepository, detectionClient, logger, metricsClient,
 			),
 			DeleteComment: comment2.NewDeleteCommentHandler(
 				commentRepository, userRepository, roleRepository, logger, metricsClient,
+			),
+			SetCommentAsToxic: comment2.NewSetCommentAsToxicHandler(
+				commentRepository, logger, metricsClient,
 			),
 		},
 		ImageUsecase: app.ImageUsecase{

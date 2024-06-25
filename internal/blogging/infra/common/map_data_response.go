@@ -140,12 +140,13 @@ func MapListModelCommentToResponse(comments []model.Comment) []*blogging.Comment
 
 func MapModelCommentToResponse(comment model.Comment) *blogging.Comment {
 	return &blogging.Comment{
-		Id:         comment.ID,
-		Content:    comment.Content,
-		IsToxicity: comment.IsToxicity,
-		CreatedAt:  comment.CreatedAt.Unix(),
-		UpdatedAt:  comment.UpdatedAt.Unix(),
-		User:       MapUserToUserInfoMetadataResponse(comment.User),
+		Id:           comment.ID,
+		Content:      comment.Content,
+		IsToxicity:   comment.IsToxicity,
+		CreatedAt:    comment.CreatedAt.Unix(),
+		UpdatedAt:    comment.UpdatedAt.Unix(),
+		User:         MapUserToUserInfoMetadataResponse(comment.User),
+		IsDeprecated: comment.IsDeprecated,
 	}
 }
 
