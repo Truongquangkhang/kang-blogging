@@ -10,12 +10,13 @@ import (
 )
 
 type GetCommentsParams struct {
-	Page       int32
-	PageSize   int32
-	SearchName *string
-	SortBy     *string
-	IsToxicity *bool
-	UserIds    *string
+	Page         int32
+	PageSize     int32
+	SearchName   *string
+	SortBy       *string
+	IsToxicity   *bool
+	UserIds      *string
+	IsDeprecated *bool
 }
 
 type GetCommentsResult struct {
@@ -54,12 +55,13 @@ func (g getCommentsHandler) Handle(ctx context.Context, param GetCommentsParams)
 
 	comments, count, err := g.commentRepo.GetCommentsByParams(
 		ctx, comment.ParamsGetComments{
-			SearchName: param.SearchName,
-			SortBy:     param.SortBy,
-			IsToxicity: param.IsToxicity,
-			Page:       param.Page,
-			PageSize:   param.PageSize,
-			UserIds:    utils.SplitStringSeparateCommaToSlice(param.UserIds),
+			SearchName:   param.SearchName,
+			SortBy:       param.SortBy,
+			IsToxicity:   param.IsToxicity,
+			Page:         param.Page,
+			PageSize:     param.PageSize,
+			UserIds:      utils.SplitStringSeparateCommaToSlice(param.UserIds),
+			IsDeprecated: param.IsDeprecated,
 		},
 	)
 	if err != nil {

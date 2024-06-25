@@ -48,10 +48,11 @@ type ResultGetBlogComments struct {
 }
 
 type ParamsGetComments struct {
-	Page       int32
-	PageSize   int32
-	SearchName *string
-	SortBy     *string
-	IsToxicity *bool
-	UserIds    []string
+	Page         int32
+	PageSize     int32
+	SearchName   *string
+	SortBy       *string
+	IsToxicity   *bool
+	UserIds      []string
+	IsDeprecated *bool
 }

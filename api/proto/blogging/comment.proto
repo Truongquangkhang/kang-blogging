@@ -87,6 +87,7 @@ message GetCommentsByParamRequest {
   google.protobuf.StringValue sortBy = 4;
   google.protobuf.BoolValue isToxicity = 5;
   google.protobuf.StringValue user_ids = 6;
+  google.protobuf.BoolValue is_deprecated = 7;
 }
 
 message GetCommentsByParamResponse {
@@ -145,7 +146,7 @@ message DeleteCommentResponse {
 message SetCommentAsToxicRequest {
   string comment_id = 1;
   string content = 2;
-  repeated int32 toxic_indexes = 3;
+    repeated int32 toxic_indexes = 3;
 }
 
 message SetCommentAsToxicResponse {

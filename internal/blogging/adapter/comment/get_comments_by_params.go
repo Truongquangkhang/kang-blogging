@@ -14,7 +14,6 @@ func (r *CommentRepository) GetCommentsByParams(
 	var comments []model.Comment
 	var count int64
 	query := r.gdb.DB().WithContext(ctx).Preload("User").
-		Where("is_deprecated = false").
 		Model(&model.Comment{})
 
 	limit, offset := utils.PagePageSizeToLimitOffset(params.Page, params.PageSize)
@@ -26,6 +25,9 @@ func (r *CommentRepository) GetCommentsByParams(
 	}
 	if len(params.UserIds) > 0 {
 		query = query.Where("comments.user_id IN (?)", params.UserIds)
+	}
+	if params.IsDeprecated != nil {
+		query = query.Where("comments.is_deprecated = ?", *params.IsDeprecated)
 	}
 
 	errCount := query.Count(&count).Error

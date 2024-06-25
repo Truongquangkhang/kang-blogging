@@ -15,12 +15,13 @@ func (g GrpcService) GetCommentsByParam(
 	request *blogging.GetCommentsByParamRequest,
 ) (*blogging.GetCommentsByParamResponse, error) {
 	params := comment.GetCommentsParams{
-		Page:       request.Page,
-		PageSize:   request.PageSize,
-		SearchName: utils.WrapperValueString(request.SearchName),
-		SortBy:     utils.WrapperValueString(request.SortBy),
-		IsToxicity: utils.WrapperValueBool(request.IsToxicity),
-		UserIds:    utils.WrapperValueString(request.UserIds),
+		Page:         request.Page,
+		PageSize:     request.PageSize,
+		SearchName:   utils.WrapperValueString(request.SearchName),
+		SortBy:       utils.WrapperValueString(request.SortBy),
+		IsToxicity:   utils.WrapperValueBool(request.IsToxicity),
+		UserIds:      utils.WrapperValueString(request.UserIds),
+		IsDeprecated: utils.WrapperValueBool(request.IsDeprecated),
 	}
 
 	result, err := g.usecase.GetComments.Handle(ctx, params)
