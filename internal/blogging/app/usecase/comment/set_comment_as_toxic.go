@@ -53,6 +53,9 @@ func (g setCommentAsToxicHandler) Handle(ctx context.Context, param SetCommentAs
 	if err != nil {
 		return SetCommentAsToxicResult{}, err
 	}
+	if cmt == nil {
+		return SetCommentAsToxicResult{}, errors.NewNotFoundError("comment not found")
+	}
 	isToxic := false
 	for _, toxicIndex := range param.ToxicIndexes {
 		if toxicIndex == 1 {
