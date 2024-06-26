@@ -15,6 +15,12 @@ type Repository interface {
 		ctx context.Context,
 		params ParamsGetReports,
 	) ([]model.Report, int32, error)
+
+	UpdateStatusReport(
+		ctx context.Context,
+		reportId string,
+		currentStatus bool,
+	) error
 }
 
 type ParamsGetReports struct {

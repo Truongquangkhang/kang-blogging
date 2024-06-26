@@ -22,6 +22,7 @@ const (
 	ViolationService_GetViolations_FullMethodName = "/blogging.ViolationService/GetViolations"
 	ViolationService_CreateReport_FullMethodName  = "/blogging.ViolationService/CreateReport"
 	ViolationService_GetReports_FullMethodName    = "/blogging.ViolationService/GetReports"
+	ViolationService_CloseReport_FullMethodName   = "/blogging.ViolationService/CloseReport"
 )
 
 // ViolationServiceClient is the client API for ViolationService service.
@@ -31,6 +32,7 @@ type ViolationServiceClient interface {
 	GetViolations(ctx context.Context, in *GetViolationsRequest, opts ...grpc.CallOption) (*GetViolationsResponse, error)
 	CreateReport(ctx context.Context, in *CreateReportRequest, opts ...grpc.CallOption) (*CreateReportResponse, error)
 	GetReports(ctx context.Context, in *GetReportsRequest, opts ...grpc.CallOption) (*GetReportsResponse, error)
+	CloseReport(ctx context.Context, in *CloseReportRequest, opts ...grpc.CallOption) (*CloseReportResponse, error)
 }
 
 type violationServiceClient struct {
@@ -68,6 +70,15 @@ func (c *violationServiceClient) GetReports(ctx context.Context, in *GetReportsR
 	return out, nil
 }
 
+func (c *violationServiceClient) CloseReport(ctx context.Context, in *CloseReportRequest, opts ...grpc.CallOption) (*CloseReportResponse, error) {
+	out := new(CloseReportResponse)
+	err := c.cc.Invoke(ctx, ViolationService_CloseReport_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ViolationServiceServer is the server API for ViolationService service.
 // All implementations should embed UnimplementedViolationServiceServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type ViolationServiceServer interface {
 	GetViolations(context.Context, *GetViolationsRequest) (*GetViolationsResponse, error)
 	CreateReport(context.Context, *CreateReportRequest) (*CreateReportResponse, error)
 	GetReports(context.Context, *GetReportsRequest) (*GetReportsResponse, error)
+	CloseReport(context.Context, *CloseReportRequest) (*CloseReportResponse, error)
 }
 
 // UnimplementedViolationServiceServer should be embedded to have forward compatible implementations.
@@ -89,6 +101,9 @@ func (UnimplementedViolationServiceServer) CreateReport(context.Context, *Create
 }
 func (UnimplementedViolationServiceServer) GetReports(context.Context, *GetReportsRequest) (*GetReportsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetReports not implemented")
+}
+func (UnimplementedViolationServiceServer) CloseReport(context.Context, *CloseReportRequest) (*CloseReportResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloseReport not implemented")
 }
 
 // UnsafeViolationServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -156,6 +171,24 @@ func _ViolationService_GetReports_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ViolationService_CloseReport_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloseReportRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ViolationServiceServer).CloseReport(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ViolationService_CloseReport_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ViolationServiceServer).CloseReport(ctx, req.(*CloseReportRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ViolationService_ServiceDesc is the grpc.ServiceDesc for ViolationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -174,6 +207,10 @@ var ViolationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetReports",
 			Handler:    _ViolationService_GetReports_Handler,
+		},
+		{
+			MethodName: "CloseReport",
+			Handler:    _ViolationService_CloseReport_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

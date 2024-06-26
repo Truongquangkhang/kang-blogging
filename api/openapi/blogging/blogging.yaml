@@ -1280,6 +1280,24 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/BaseAPIResponse'
+  /api/v1/report/{report_id}:
+    delete:
+      tags:
+        - Violation
+      description: |-
+        - Close a report.
+      summary: 'Close Report'
+      operationId: closeReport
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
   /api/v1/upload-image:
     post:
       tags:

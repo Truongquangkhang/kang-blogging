@@ -196,6 +196,9 @@ func newService(ctx context.Context) app.Application {
 			GetReports: violation2.NewGetReportsHandler(
 				reportRepository, logger, metricsClient,
 			),
+			CloseReport: violation2.NewCloseReportHandler(
+				reportRepository, logger, metricsClient,
+			),
 		},
 	}
 }
