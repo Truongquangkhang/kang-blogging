@@ -191,3 +191,23 @@ func MapListViolationsResponse(violations []model.Violation) []*blogging.Violati
 	}
 	return result
 }
+
+func MapReportResponse(report *model.Report) *blogging.Report {
+	return &blogging.Report{
+		Id:          report.ID,
+		Type:        report.ReportType,
+		TargetId:    report.ReportTargetID,
+		Description: utils.WrapperStringFromString(report.Description),
+		CreatedAt:   report.CreatedAt.Unix(),
+		IsClosed:    report.IsClosed,
+		User:        MapUserToUserInfoMetadataResponse(*report.User),
+	}
+}
+
+func MapListReportsResponse(reports []model.Report) []*blogging.Report {
+	var result []*blogging.Report
+	for _, report := range reports {
+		result = append(result, MapReportResponse(&report))
+	}
+	return result
+}

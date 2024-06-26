@@ -76,4 +76,5 @@ type ManagementUsecase struct {
 type ViolationUsecase struct {
 	GetViolations violation.GetViolationHandler
 	CreateReport  violation.CreateReportHandler
+	GetReports    violation.GetReportsHandler
 }

@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	ViolationService_GetViolations_FullMethodName = "/blogging.ViolationService/GetViolations"
 	ViolationService_CreateReport_FullMethodName  = "/blogging.ViolationService/CreateReport"
+	ViolationService_GetReports_FullMethodName    = "/blogging.ViolationService/GetReports"
 )
 
 // ViolationServiceClient is the client API for ViolationService service.
@@ -29,6 +30,7 @@ const (
 type ViolationServiceClient interface {
 	GetViolations(ctx context.Context, in *GetViolationsRequest, opts ...grpc.CallOption) (*GetViolationsResponse, error)
 	CreateReport(ctx context.Context, in *CreateReportRequest, opts ...grpc.CallOption) (*CreateReportResponse, error)
+	GetReports(ctx context.Context, in *GetReportsRequest, opts ...grpc.CallOption) (*GetReportsResponse, error)
 }
 
 type violationServiceClient struct {
@@ -57,12 +59,22 @@ func (c *violationServiceClient) CreateReport(ctx context.Context, in *CreateRep
 	return out, nil
 }
 
+func (c *violationServiceClient) GetReports(ctx context.Context, in *GetReportsRequest, opts ...grpc.CallOption) (*GetReportsResponse, error) {
+	out := new(GetReportsResponse)
+	err := c.cc.Invoke(ctx, ViolationService_GetReports_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ViolationServiceServer is the server API for ViolationService service.
 // All implementations should embed UnimplementedViolationServiceServer
 // for forward compatibility
 type ViolationServiceServer interface {
 	GetViolations(context.Context, *GetViolationsRequest) (*GetViolationsResponse, error)
 	CreateReport(context.Context, *CreateReportRequest) (*CreateReportResponse, error)
+	GetReports(context.Context, *GetReportsRequest) (*GetReportsResponse, error)
 }
 
 // UnimplementedViolationServiceServer should be embedded to have forward compatible implementations.
@@ -74,6 +86,9 @@ func (UnimplementedViolationServiceServer) GetViolations(context.Context, *GetVi
 }
 func (UnimplementedViolationServiceServer) CreateReport(context.Context, *CreateReportRequest) (*CreateReportResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateReport not implemented")
+}
+func (UnimplementedViolationServiceServer) GetReports(context.Context, *GetReportsRequest) (*GetReportsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetReports not implemented")
 }
 
 // UnsafeViolationServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -123,6 +138,24 @@ func _ViolationService_CreateReport_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ViolationService_GetReports_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetReportsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ViolationServiceServer).GetReports(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ViolationService_GetReports_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ViolationServiceServer).GetReports(ctx, req.(*GetReportsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ViolationService_ServiceDesc is the grpc.ServiceDesc for ViolationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -137,6 +170,10 @@ var ViolationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateReport",
 			Handler:    _ViolationService_CreateReport_Handler,
+		},
+		{
+			MethodName: "GetReports",
+			Handler:    _ViolationService_GetReports_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
