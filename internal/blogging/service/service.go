@@ -10,6 +10,7 @@ import (
 	"kang-blogging/internal/blogging/adapter/comment"
 	"kang-blogging/internal/blogging/adapter/follow"
 	"kang-blogging/internal/blogging/adapter/policy"
+	"kang-blogging/internal/blogging/adapter/report"
 	"kang-blogging/internal/blogging/adapter/role"
 	"kang-blogging/internal/blogging/adapter/toxicity_detection_client"
 	"kang-blogging/internal/blogging/adapter/user"
@@ -71,6 +72,7 @@ func newService(ctx context.Context) app.Application {
 	policyRepository := policy.NewRepository()
 	followRepository := follow.NewRepository()
 	violationRepository := violation.NewRepository()
+	reportRepository := report.NewRepository()
 
 	logger := logrus.NewEntry(logrus.StandardLogger())
 	metricsClient := metrics.NoOp{}
@@ -187,6 +189,9 @@ func newService(ctx context.Context) app.Application {
 		ViolationUsecase: app.ViolationUsecase{
 			GetViolations: violation2.NewGetViolationHandler(
 				violationRepository, logger, metricsClient,
+			),
+			CreateReport: violation2.NewCreateReportHandler(
+				reportRepository, commentRepository, logger, metricsClient,
 			),
 		},
 	}

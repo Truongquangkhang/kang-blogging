@@ -13,7 +13,14 @@ service ViolationService {
     option (google.api.http) = {
       get: "/api/v1/violation"
     };
-  }
+  };
+
+  rpc CreateReport(CreateReportRequest) returns (CreateReportResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/report"
+      body: "*"
+    };
+  };
 }
 
 message GetViolationsRequest {
@@ -33,3 +40,14 @@ message  GetViolationsResponse {
   Data data = 3;
 }
 
+message CreateReportRequest {
+  string type = 1;
+  string target_id = 2;
+  string reason = 3;
+  google.protobuf.StringValue description = 4;
+}
+
+message CreateReportResponse {
+  int32 code = 1;
+  string message = 2;
+}
