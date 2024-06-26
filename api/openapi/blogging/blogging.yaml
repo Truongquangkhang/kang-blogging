@@ -1191,6 +1191,41 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/BaseAPIResponse'
+  /api/v1/report:
+    post:
+      tags:
+        - Violation
+      description: |-
+        - Create a report.
+      summary: 'Create Report'
+      operationId: createReport
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+              properties:
+                type:
+                  type: string
+                target_id:
+                  type: string
+                reason:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
   /api/v1/upload-image:
     post:
       tags:
