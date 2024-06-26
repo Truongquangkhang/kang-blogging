@@ -109,6 +109,7 @@ message Report {
   int64 created_at = 5;
   bool is_closed = 6;
   UserInfoMetadata user = 7;
+  string reason = 8;
 }
 
 message Pagination {
