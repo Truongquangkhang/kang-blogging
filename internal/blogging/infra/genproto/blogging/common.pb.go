@@ -954,6 +954,101 @@ func (x *Violation) GetUser() *UserInfoMetadata {
 	return nil
 }
 
+type Report struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id          string                  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Type        string                  `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
+	TargetId    string                  `protobuf:"bytes,3,opt,name=target_id,json=targetId,proto3" json:"target_id,omitempty"`
+	Description *wrapperspb.StringValue `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt   int64                   `protobuf:"varint,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	IsClosed    bool                    `protobuf:"varint,6,opt,name=is_closed,json=isClosed,proto3" json:"is_closed,omitempty"`
+	User        *UserInfoMetadata       `protobuf:"bytes,7,opt,name=user,proto3" json:"user,omitempty"`
+}
+
+func (x *Report) Reset() {
+	*x = Report{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_blogging_common_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Report) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Report) ProtoMessage() {}
+
+func (x *Report) ProtoReflect() protoreflect.Message {
+	mi := &file_blogging_common_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Report.ProtoReflect.Descriptor instead.
+func (*Report) Descriptor() ([]byte, []int) {
+	return file_blogging_common_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *Report) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Report) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *Report) GetTargetId() string {
+	if x != nil {
+		return x.TargetId
+	}
+	return ""
+}
+
+func (x *Report) GetDescription() *wrapperspb.StringValue {
+	if x != nil {
+		return x.Description
+	}
+	return nil
+}
+
+func (x *Report) GetCreatedAt() int64 {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return 0
+}
+
+func (x *Report) GetIsClosed() bool {
+	if x != nil {
+		return x.IsClosed
+	}
+	return false
+}
+
+func (x *Report) GetUser() *UserInfoMetadata {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
 type Pagination struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -967,7 +1062,7 @@ type Pagination struct {
 func (x *Pagination) Reset() {
 	*x = Pagination{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_blogging_common_proto_msgTypes[11]
+		mi := &file_blogging_common_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -980,7 +1075,7 @@ func (x *Pagination) String() string {
 func (*Pagination) ProtoMessage() {}
 
 func (x *Pagination) ProtoReflect() protoreflect.Message {
-	mi := &file_blogging_common_proto_msgTypes[11]
+	mi := &file_blogging_common_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -993,7 +1088,7 @@ func (x *Pagination) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Pagination.ProtoReflect.Descriptor instead.
 func (*Pagination) Descriptor() ([]byte, []int) {
-	return file_blogging_common_proto_rawDescGZIP(), []int{11}
+	return file_blogging_common_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *Pagination) GetPage() int32 {
@@ -1178,14 +1273,29 @@ var file_blogging_common_proto_rawDesc = []byte{
 	0x61, 0x74, 0x65, 0x64, 0x41, 0x74, 0x12, 0x2e, 0x0a, 0x04, 0x75, 0x73, 0x65, 0x72, 0x18, 0x06,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e,
 	0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0x52, 0x04, 0x75, 0x73, 0x65, 0x72, 0x22, 0x53, 0x0a, 0x0a, 0x50, 0x61, 0x67, 0x69, 0x6e, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61, 0x67, 0x65,
-	0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x61, 0x67,
-	0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x42, 0x0c, 0x5a, 0x0a, 0x2e,
-	0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x52, 0x04, 0x75, 0x73, 0x65, 0x72, 0x22, 0xf5, 0x01, 0x0a, 0x06, 0x52, 0x65, 0x70, 0x6f, 0x72,
+	0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69,
+	0x64, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x74, 0x79, 0x70, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x5f,
+	0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74,
+	0x49, 0x64, 0x12, 0x3e, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f,
+	0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
+	0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69,
+	0x6f, 0x6e, 0x12, 0x1d, 0x0a, 0x0a, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x61, 0x74,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x41,
+	0x74, 0x12, 0x1b, 0x0a, 0x09, 0x69, 0x73, 0x5f, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x64, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x08, 0x69, 0x73, 0x43, 0x6c, 0x6f, 0x73, 0x65, 0x64, 0x12, 0x2e,
+	0x0a, 0x04, 0x75, 0x73, 0x65, 0x72, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x62,
+	0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f,
+	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x52, 0x04, 0x75, 0x73, 0x65, 0x72, 0x22, 0x53,
+	0x0a, 0x0a, 0x50, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04,
+	0x70, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65,
+	0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x14, 0x0a,
+	0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x74, 0x6f,
+	0x74, 0x61, 0x6c, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e,
+	0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1200,7 +1310,7 @@ func file_blogging_common_proto_rawDescGZIP() []byte {
 	return file_blogging_common_proto_rawDescData
 }
 
-var file_blogging_common_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_blogging_common_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_blogging_common_proto_goTypes = []interface{}{
 	(*UserInfo)(nil),               // 0: blogging.UserInfo
 	(*UserInfoMetadata)(nil),       // 1: blogging.UserInfoMetadata
@@ -1213,35 +1323,38 @@ var file_blogging_common_proto_goTypes = []interface{}{
 	(*CommentWithReplies)(nil),     // 8: blogging.CommentWithReplies
 	(*Policy)(nil),                 // 9: blogging.Policy
 	(*Violation)(nil),              // 10: blogging.Violation
-	(*Pagination)(nil),             // 11: blogging.Pagination
-	(*wrapperspb.BoolValue)(nil),   // 12: google.protobuf.BoolValue
-	(*wrapperspb.Int64Value)(nil),  // 13: google.protobuf.Int64Value
-	(*wrapperspb.StringValue)(nil), // 14: google.protobuf.StringValue
+	(*Report)(nil),                 // 11: blogging.Report
+	(*Pagination)(nil),             // 12: blogging.Pagination
+	(*wrapperspb.BoolValue)(nil),   // 13: google.protobuf.BoolValue
+	(*wrapperspb.Int64Value)(nil),  // 14: google.protobuf.Int64Value
+	(*wrapperspb.StringValue)(nil), // 15: google.protobuf.StringValue
 }
 var file_blogging_common_proto_depIdxs = []int32{
 	1,  // 0: blogging.UserInfo.user_info:type_name -> blogging.UserInfoMetadata
-	12, // 1: blogging.UserInfo.gender:type_name -> google.protobuf.BoolValue
-	13, // 2: blogging.UserInfo.date_of_birth:type_name -> google.protobuf.Int64Value
-	14, // 3: blogging.UserInfoMetadata.avatar:type_name -> google.protobuf.StringValue
-	14, // 4: blogging.UserInfoMetadata.description:type_name -> google.protobuf.StringValue
-	13, // 5: blogging.UserInfoMetadata.expire_warning_time:type_name -> google.protobuf.Int64Value
+	13, // 1: blogging.UserInfo.gender:type_name -> google.protobuf.BoolValue
+	14, // 2: blogging.UserInfo.date_of_birth:type_name -> google.protobuf.Int64Value
+	15, // 3: blogging.UserInfoMetadata.avatar:type_name -> google.protobuf.StringValue
+	15, // 4: blogging.UserInfoMetadata.description:type_name -> google.protobuf.StringValue
+	14, // 5: blogging.UserInfoMetadata.expire_warning_time:type_name -> google.protobuf.Int64Value
 	3,  // 6: blogging.BlogInfo.blog_info:type_name -> blogging.BlogMetadata
-	14, // 7: blogging.BlogInfo.content:type_name -> google.protobuf.StringValue
+	15, // 7: blogging.BlogInfo.content:type_name -> google.protobuf.StringValue
 	4,  // 8: blogging.BlogMetadata.categories:type_name -> blogging.Category
-	14, // 9: blogging.BlogMetadata.thumbnail:type_name -> google.protobuf.StringValue
+	15, // 9: blogging.BlogMetadata.thumbnail:type_name -> google.protobuf.StringValue
 	1,  // 10: blogging.BlogMetadata.author:type_name -> blogging.UserInfoMetadata
-	14, // 11: blogging.Category.description:type_name -> google.protobuf.StringValue
+	15, // 11: blogging.Category.description:type_name -> google.protobuf.StringValue
 	1,  // 12: blogging.Comment.user:type_name -> blogging.UserInfoMetadata
-	14, // 13: blogging.CommentMetadata.reply_comment_id:type_name -> google.protobuf.StringValue
+	15, // 13: blogging.CommentMetadata.reply_comment_id:type_name -> google.protobuf.StringValue
 	6,  // 14: blogging.CommentWithReplies.comment:type_name -> blogging.Comment
 	6,  // 15: blogging.CommentWithReplies.replies:type_name -> blogging.Comment
-	14, // 16: blogging.Violation.description:type_name -> google.protobuf.StringValue
+	15, // 16: blogging.Violation.description:type_name -> google.protobuf.StringValue
 	1,  // 17: blogging.Violation.user:type_name -> blogging.UserInfoMetadata
-	18, // [18:18] is the sub-list for method output_type
-	18, // [18:18] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	15, // 18: blogging.Report.description:type_name -> google.protobuf.StringValue
+	1,  // 19: blogging.Report.user:type_name -> blogging.UserInfoMetadata
+	20, // [20:20] is the sub-list for method output_type
+	20, // [20:20] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_blogging_common_proto_init() }
@@ -1383,6 +1496,18 @@ func file_blogging_common_proto_init() {
 			}
 		}
 		file_blogging_common_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Report); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_blogging_common_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Pagination); i {
 			case 0:
 				return &v.state
@@ -1401,7 +1526,7 @@ func file_blogging_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_blogging_common_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

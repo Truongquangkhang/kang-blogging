@@ -917,7 +917,6 @@ paths:
                                 $ref: '#/components/schemas/BlogMetadata'
                               reply_comment_id:
                                 type: string
-
                           pagination:
                               $ref: '#/components/schemas/Pagination'
   /api/v1/comment/{comment_id}:
@@ -1192,6 +1191,61 @@ paths:
                 allOf:
                   - $ref: '#/components/schemas/BaseAPIResponse'
   /api/v1/report:
+    get:
+      tags:
+        - Violation
+      description: |-
+        - get report by params
+      summary: 'Get Report By Params'
+      operationId: getReport
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+          description: Current page, for high performance try to use pagination.offset instead! (default 1)
+        - in: query
+          name: pageSize
+          required: true
+          description: Total item in a page (default is 10)
+          schema:
+            type: integer
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: |
+            - Enum (blog, comment)
+        - in: query
+          name: user_ids
+          schema:
+            type: string
+        - in: query
+          name: is_closed
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          comments:
+                            type: array
+                            items:
+                              - $ref: "#/components/schemas/Report"
+                          pagination:
+                            $ref: '#/components/schemas/Pagination'
     post:
       tags:
         - Violation
@@ -1521,6 +1575,19 @@ components:
           type: string
         created_at:
           type: integer
+        user:
+          $ref: "#/components/schemas/UserInfoMetadata"
+    Report:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        target_id:
+          type: string
+        description:
+          type: string
         user:
           $ref: "#/components/schemas/UserInfoMetadata"
     Pagination:

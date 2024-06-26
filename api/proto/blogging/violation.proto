@@ -21,6 +21,12 @@ service ViolationService {
       body: "*"
     };
   };
+
+  rpc GetReports(GetReportsRequest) returns (GetReportsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/report"
+    };
+  }
 }
 
 message GetViolationsRequest {
@@ -50,4 +56,24 @@ message CreateReportRequest {
 message CreateReportResponse {
   int32 code = 1;
   string message = 2;
+}
+
+message GetReportsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  google.protobuf.StringValue type = 3;
+  google.protobuf.StringValue user_ids = 4;
+  google.protobuf.BoolValue is_closed = 5;
+  google.protobuf.StringValue reason = 6;
+}
+
+message GetReportsResponse {
+  message Data {
+    repeated Report reports = 1;
+    Pagination pagination = 2;
+  }
+
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
 }
