@@ -26,6 +26,12 @@ service ViolationService {
     option (google.api.http) = {
       get: "/api/v1/report"
     };
+  };
+
+  rpc CloseReport(CloseReportRequest) returns (CloseReportResponse) {
+    option (google.api.http) = {
+      delete: "/api/v1/report/{report_id}"
+    };
   }
 }
 
@@ -76,4 +82,13 @@ message GetReportsResponse {
   int32 code = 1;
   string message = 2;
   Data data = 3;
+}
+
+message CloseReportRequest {
+  string report_id = 1;
+}
+
+message CloseReportResponse {
+  int32 code = 1;
+  string message = 2;
 }
