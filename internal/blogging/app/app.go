@@ -8,6 +8,7 @@ import (
 	"kang-blogging/internal/blogging/app/usecase/image"
 	"kang-blogging/internal/blogging/app/usecase/management"
 	"kang-blogging/internal/blogging/app/usecase/user"
+	"kang-blogging/internal/blogging/app/usecase/violation"
 )
 
 type Application struct {
@@ -18,6 +19,7 @@ type Application struct {
 	CommentUsecase    CommentUsecase
 	ImageUsecase      ImageUsecase
 	ManagementUsecase ManagementUsecase
+	ViolationUsecase  ViolationUsecase
 }
 
 type IAMUsecases struct {
@@ -69,4 +71,8 @@ type ManagementUsecase struct {
 	GetDashboard   management.GetDashboardHandler
 	GetPolicies    management.GetPoliciesHandler
 	UpdatePolicies management.UpdatePoliciesHandler
+}
+
+type ViolationUsecase struct {
+	GetViolations violation.GetViolationHandler
 }
