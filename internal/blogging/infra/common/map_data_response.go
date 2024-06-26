@@ -172,3 +172,22 @@ func MapToPoliciesResponse(policies []model.Policy) []*blogging.Policy {
 	}
 	return result
 }
+
+func MapViolationResponse(violation *model.Violation) *blogging.Violation {
+	return &blogging.Violation{
+		Id:          violation.ID,
+		Type:        violation.ViolationType,
+		TargetId:    violation.ViolationTargetID,
+		Description: utils.WrapperStringFromString(violation.Description),
+		CreatedAt:   violation.CreatedAt.Unix(),
+		User:        MapUserToUserInfoMetadataResponse(*violation.User),
+	}
+}
+
+func MapListViolationsResponse(violations []model.Violation) []*blogging.Violation {
+	var result []*blogging.Violation
+	for _, violation := range violations {
+		result = append(result, MapViolationResponse(&violation))
+	}
+	return result
+}

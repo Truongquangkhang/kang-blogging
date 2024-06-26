@@ -13,6 +13,7 @@ import (
 	"kang-blogging/internal/blogging/infra/image"
 	"kang-blogging/internal/blogging/infra/management"
 	"kang-blogging/internal/blogging/infra/user"
+	"kang-blogging/internal/blogging/infra/violation"
 	"kang-blogging/internal/blogging/service"
 	"kang-blogging/internal/common/logs"
 	"kang-blogging/internal/common/server"
@@ -45,6 +46,8 @@ func main() {
 			blogging.RegisterImageServiceServer(server, svcImage)
 			svcMangement := management.NewGrpcService(application.ManagementUsecase)
 			blogging.RegisterBloggingManagementServiceServer(server, svcMangement)
+			svcViolation := violation.NewGrpcService(application.ViolationUsecase)
+			blogging.RegisterViolationServiceServer(server, svcViolation)
 		},
 		func(mux *runtime.ServeMux, conn *grpc.ClientConn) {
 			err := blogging.RegisterIAMServiceHandler(ctx, mux, conn)
@@ -72,6 +75,10 @@ func main() {
 				logrus.Fatal(err)
 			}
 			err = blogging.RegisterBloggingManagementServiceHandler(ctx, mux, conn)
+			if err != nil {
+				logrus.Fatal(err)
+			}
+			err = blogging.RegisterViolationServiceHandler(ctx, mux, conn)
 			if err != nil {
 				logrus.Fatal(err)
 			}

@@ -1152,6 +1152,45 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/BaseAPIResponse'
+  /api/v1/violation:
+    get:
+      tags:
+        - Violation
+      description: |-
+        - get violations by params
+      summary: 'Get Violation By Params'
+      operationId: getViolations
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+          description: Current page, for high performance try to use pagination.offset instead! (default 1)
+        - in: query
+          name: pageSize
+          required: true
+          description: Total item in a page (default is 10)
+          schema:
+            type: integer
+        - in: query
+          name: type
+          schema:
+            type: string
+        - in: query
+          name: user_ids
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseAPIResponse'
   /api/v1/upload-image:
     post:
       tags:
@@ -1434,6 +1473,21 @@ components:
           type: string
         blogCount:
           type: integer
+    Violation:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        target_id:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: integer
+        user:
+          $ref: "#/components/schemas/UserInfoMetadata"
     Pagination:
       type: object
       properties:

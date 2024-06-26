@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package blogging;
+
+option go_package = "./blogging";
+
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "blogging/common.proto";
+
+service ViolationService {
+  rpc GetViolations(GetViolationsRequest) returns (GetViolationsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/violation"
+    };
+  }
+}
+
+message GetViolationsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  google.protobuf.StringValue type = 3;
+  google.protobuf.StringValue user_ids = 4;
+}
+
+message  GetViolationsResponse {
+  message Data {
+    repeated Violation violations = 1;
+    Pagination pagination = 2;
+  }
+  int32 code = 1;
+  string message = 2;
+  Data data = 3;
+}
+

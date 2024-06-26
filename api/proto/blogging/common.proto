@@ -92,6 +92,15 @@ message Policy {
   string value = 2;
 }
 
+message Violation {
+  string id = 1;
+  string type = 2;
+  string target_id = 3;
+  google.protobuf.StringValue description = 4;
+  int64 created_at = 5;
+  UserInfoMetadata user = 6;
+}
+
 message Pagination {
   int32 page = 1;
   int32 page_size = 2;
