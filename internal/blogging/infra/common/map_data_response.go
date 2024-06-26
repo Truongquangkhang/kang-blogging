@@ -201,6 +201,7 @@ func MapReportResponse(report *model.Report) *blogging.Report {
 		CreatedAt:   report.CreatedAt.Unix(),
 		IsClosed:    report.IsClosed,
 		User:        MapUserToUserInfoMetadataResponse(*report.User),
+		Reason:      report.Reason,
 	}
 }
 
