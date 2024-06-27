@@ -13,6 +13,7 @@ func (u AccountRepository) GetAccountById(
 ) (*model.Account, error) {
 	var account model.Account
 	err := u.gdb.DB().WithContext(ctx).Model(&model.Account{}).
+		Preload("User").
 		Where("id = ?", id).First(&account).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
