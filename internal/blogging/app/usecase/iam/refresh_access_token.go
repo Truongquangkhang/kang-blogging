@@ -28,11 +28,17 @@ type refreshAccessTokenHandler struct {
 }
 
 func NewRefreshAccessTokenHandler(
+	accountRepo account.Repository,
 	logger *logrus.Entry,
 	metricsClient decorator.MetricsClient,
 ) RefreshAccessTokenHandler {
+	if accountRepo == nil {
+		panic("accountRepo is nil")
+	}
 	return decorator.ApplyUsecaseDecorators[RefreshAccessTokenParams, RefreshAccessTokenResult](
-		refreshAccessTokenHandler{},
+		refreshAccessTokenHandler{
+			accountRepo: accountRepo,
+		},
 		logger,
 		metricsClient,
 	)
@@ -42,6 +48,17 @@ func (l refreshAccessTokenHandler) Handle(ctx context.Context, param RefreshAcce
 	err := param.Validate()
 	if err != nil {
 		return RefreshAccessTokenResult{}, err
+	}
+
+	acc, err := l.accountRepo.GetAccountById(ctx, param.UserID)
+	if err != nil {
+		return RefreshAccessTokenResult{}, err
+	}
+	if acc == nil {
+		return RefreshAccessTokenResult{}, errors.NewNotFoundError("account not found")
+	}
+	if !acc.User.IsActive {
+		return RefreshAccessTokenResult{}, errors.NewForbiddenError("your account is not active")
 	}
 
 	secretKey := os.Getenv("JWT_SECRET_KEY")

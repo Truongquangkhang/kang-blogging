@@ -92,7 +92,7 @@ func newService(ctx context.Context) app.Application {
 				accountRepository, logger, metricsClient,
 			),
 			RefreshAccessToken: iam.NewRefreshAccessTokenHandler(
-				logger, metricsClient,
+				accountRepository, logger, metricsClient,
 			),
 			ChangePassword: iam.NewChangePasswordHandler(
 				roleRepository, accountRepository, logger, metricsClient,

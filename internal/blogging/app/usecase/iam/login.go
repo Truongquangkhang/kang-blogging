@@ -60,6 +60,9 @@ func (l loginHandler) Handle(ctx context.Context, param LoginParams) (LoginResul
 	if acc == nil || !util_password.CheckPasswordHash(param.Password, acc.Password) {
 		return LoginResult{}, errors.NewBadRequestError("invalid username or password")
 	}
+	if !acc.User.IsActive {
+		return LoginResult{}, errors.NewForbiddenError("your account has been banned")
+	}
 
 	role, err := l.accountRepo.GetRoleUserByID(ctx, acc.ID)
 	if err != nil {
